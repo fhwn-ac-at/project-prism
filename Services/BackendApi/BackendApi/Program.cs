@@ -1,4 +1,5 @@
 using Keycloak.AuthServices.Authentication;
+using System.Security.Claims;
 
 internal class Program
 {
@@ -30,6 +31,12 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.MapGet("/", (ClaimsPrincipal user) =>
+        {
+            app.Logger.LogInformation(user.Identity.Name);
+            app.Logger.LogInformation(user.Identity.AuthenticationType);
+        }).RequireAuthorization();
 
         app.Run();
     }

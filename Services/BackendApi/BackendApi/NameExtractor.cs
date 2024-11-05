@@ -17,6 +17,11 @@
                 return name;
             }
 
+            if (identity == null)
+            {
+                return "No Name";
+            }
+
             return identity?.Name;
         }
     }

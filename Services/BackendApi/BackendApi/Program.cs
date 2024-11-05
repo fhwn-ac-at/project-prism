@@ -1,3 +1,5 @@
+using BackendApi.Logger;
+using BackendApi;
 using Keycloak.AuthServices.Authentication;
 using System.Security.Claims;
 
@@ -16,7 +18,18 @@ internal class Program
         builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
         builder.Services.AddSwaggerGen();
 
+
+        builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddColorConsoleLogger();
+        builder.Logging.AddFileLogger();
+
+        builder.Services.Configure<FileOpenerOptions>(builder.Configuration.GetSection("FileOptions"));
+        builder.Services.AddSingleton<FileOpener, FileOpener>();
+
         var app = builder.Build();
+        app.Logger.LogError("test");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -31,12 +44,6 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
-        app.MapGet("/", (ClaimsPrincipal user) =>
-        {
-            app.Logger.LogInformation(user.Identity.Name);
-            app.Logger.LogInformation(user.Identity.AuthenticationType);
-        }).RequireAuthorization();
 
         app.Run();
     }

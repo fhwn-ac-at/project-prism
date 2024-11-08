@@ -2,6 +2,7 @@ using BackendApi.Logger;
 using BackendApi;
 using Keycloak.AuthServices.Authentication;
 using System.Security.Claims;
+using BackendApi.AMQP;
 
 internal class Program
 {
@@ -26,7 +27,9 @@ internal class Program
         builder.Logging.AddFileLogger();
 
         builder.Services.Configure<FileOpenerOptions>(builder.Configuration.GetSection("FileOptions"));
+        builder.Services.Configure<RabbitMQOptions>(builder.Configuration.GetSection("AMQPOptions"));
         builder.Services.AddSingleton<FileOpener, FileOpener>();
+        builder.Services.AddSingleton<AMQPBroker, AMQPBroker>();
 
         var app = builder.Build();
         app.Logger.LogError("test");

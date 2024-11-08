@@ -1,7 +1,9 @@
 namespace BackendApi.Controllers
 {
+    using BackendApi.AMQP;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Text;
 
     [ApiController]
     [Route("[controller]")]
@@ -14,16 +16,21 @@ namespace BackendApi.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly AMQPBroker broker;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, AMQPBroker broker)
         {
             _logger=logger;
+            this.broker = broker;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
             _logger.LogInformation(this.User.ExtractDisplayName());
+
+            await broker.CreateQueueAsync("TestQueue");
+            await broker.SendMessageAsync("TestQueue", Encoding.UTF8.GetBytes("Hello World"), 100000000);
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

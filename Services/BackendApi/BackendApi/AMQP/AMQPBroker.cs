@@ -77,7 +77,6 @@
 
             await channel.QueueBindAsync(queue: "backend." + Name, exchange: "backendEx", routingKey: Name);
             await channel.QueueBindAsync(queue: "frontend." + Name, exchange: "frontendEx", routingKey: Name);
-           
         }
 
 

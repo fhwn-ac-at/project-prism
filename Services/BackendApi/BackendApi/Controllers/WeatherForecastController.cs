@@ -29,9 +29,6 @@ namespace BackendApi.Controllers
         {
             _logger.LogInformation(this.User.ExtractDisplayName());
 
-            await broker.CreateQueueAsync("TestQueue");
-            await broker.SendMessageAsync("TestQueue", Encoding.UTF8.GetBytes("Hello World"), 100000000);
-
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date=DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

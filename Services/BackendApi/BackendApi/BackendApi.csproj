@@ -13,9 +13,17 @@
     <PackageReference Include="Keycloak.AuthServices.Common" Version="2.5.3" />
     <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.5.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="NSwag.MSBuild" Version="14.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&lt;Target Name=&quot;PreBuild&quot; BeforeTargets=&quot;PreBuildEvent&quot;&gt;&#xD;&#xA;    &lt;Exec Command=&quot;$(NSwagExe) jsonschema2csclient /name:Manifest /namespace:ManifestCreator.Models /input:$(SolutionDir)..\..\messages\joined\userJoined.schema.json /output:$(ProjectDir)Models\ManifestSchema.cs&quot; /&gt;&#xD;&#xA;&lt;/Target&gt;" />
+  </Target>
 
 </Project>

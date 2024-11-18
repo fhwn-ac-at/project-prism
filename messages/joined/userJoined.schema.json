@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+
+    "type": "object",
+    "properties": {
+      "header": {
+        "allOf": [
+            {
+                "$ref": "../global.definitions.schema.json#definitions/messsageHeader"
+            },
+            {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "const": "userJoined"
+                    }
+                },
+                "additionalProperties": false
+            }
+        ]
+      },
+      "body" : {
+        "type": "object",
+        "properties": {
+            "user": {
+                "$ref": "../global.definitions.schema.json#definitions/user"
+            }
+        },
+        "required": [
+            "user"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+        "header", 
+        "body"
+    ],
+    "additionalProperties": false
+}

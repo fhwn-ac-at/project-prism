@@ -1,5 +1,6 @@
 ﻿namespace MessageLib
 {
+    using MessageLib.SharedObjects;
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
 

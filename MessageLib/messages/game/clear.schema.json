@@ -20,7 +20,8 @@
         ]
       },
       "body" : {
-        "type": "null"
+        "type": "object",
+        "additionalProperties": false
       }
     },
     "required": [

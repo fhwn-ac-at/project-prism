@@ -1,4 +1,4 @@
-﻿namespace MessageLib
+﻿namespace MessageLib.SharedObjects
 {
     public interface IMessageBody
     {

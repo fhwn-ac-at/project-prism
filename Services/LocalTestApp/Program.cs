@@ -1,4 +1,5 @@
 ﻿using MessageLib;
+using MessageLib.Game;
 using MessageLib.Lobby;
 
 internal class Program
@@ -6,6 +7,7 @@ internal class Program
     private static void Main(string[] args)
     {
         var test = new Validator();
+        var deserialzier = new Deserializer();
 
         var message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
 
@@ -27,12 +29,25 @@ internal class Program
 
         Console.WriteLine();
         Console.WriteLine(messageString);
+        Console.WriteLine("Has type");
+        Console.WriteLine(deserialzier.CheckMessageType(messageString));
+
         valid= test.Validate(messageString);
         Console.WriteLine(valid);
 
-        var parsedMessage = Deserializer.DeserializeTo<RoundDurationChangedMessage>(messageString);
+        var parsedMessage = deserialzier.DeserializeTo<RoundDurationChangedMessage>(messageString);
 
         Console.WriteLine();
         Console.WriteLine(parsedMessage);
+
+        Console.WriteLine(deserialzier.CheckMessageType("not json"));
+
+        Console.WriteLine();
+
+        var message2 = new ClearMessage().SerializeToJson();
+        Console.WriteLine(message2);
+        Console.WriteLine(test.Validate(message2));
+        var parsedClear = deserialzier.DeserializeTo<ClearMessage>(message2);
+        Console.WriteLine(parsedClear);
     }
 }

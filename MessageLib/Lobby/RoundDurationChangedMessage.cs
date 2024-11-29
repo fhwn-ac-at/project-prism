@@ -1,10 +1,12 @@
 ﻿namespace MessageLib.Lobby
 {
+    using MessageLib;
+    using MessageLib.SharedObjects;
     using Newtonsoft.Json;
 
     public class RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody) : Message<RoundDurationChangedMessageBody>
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.roundDurationChanged, DateTime.Now);
+        private readonly MessageHeader header = new MessageHeader(MessageType.roundDurationChanged);
 
         private readonly RoundDurationChangedMessageBody body = messageBody;
 

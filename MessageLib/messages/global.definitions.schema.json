@@ -4,21 +4,28 @@
         "messsageHeader": {
             "type": "object",
             "properties": {
-                "type": {
-                    "type":"string"
-                },
                 "timestamp": {
                     "type": "string",
                     "format": "DateTime"
                 }
             },
-            "required": [
-                "type"
-            ],
             "additionalProperties": false
         },
         "user": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "id"
+            ],
+            "additionalProperties": false
         },
         "relativePoint": {
             "type": "object",
@@ -41,8 +48,17 @@
             "additionalProperties": false
         },
         "hexColor": {
-            "type": "string",
-            "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            "type": "object",
+            "properties": {
+                "hexString": {
+                    "type": "string",
+                    "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                }
+            },
+            "required": [
+                "hexString"
+            ],
+            "additionalProperties": false
         }
     }
 }

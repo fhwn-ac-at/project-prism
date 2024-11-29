@@ -1,16 +1,23 @@
 ﻿namespace MessageLib
 {
+    using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
-    using System.Text.Json.Serialization;
 
-    public abstract class Message
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public abstract class Message<T> where T : IMessageBody
     {
-        [JsonPropertyName("header")]
+        [JsonProperty("header")]
         [Required]
-        public abstract MessageHeader MessageHeader { get; init; }
+        public abstract MessageHeader MessageHeader { get; }
 
-        [JsonPropertyName("body")]
+        [JsonProperty("body")]
         [Required]
-        public abstract IMessageBody MessageBody { get; init; }
+        public abstract T MessageBody { get; }
+
+        public string SerializeToJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

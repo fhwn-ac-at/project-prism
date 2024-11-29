@@ -1,13 +1,21 @@
 ﻿namespace MessageLib.Lobby
 {
-    using System.Text.Json.Serialization;
+    using Newtonsoft.Json;
 
-    public class RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody)
+    public class RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody) : Message<RoundDurationChangedMessageBody>
     {
-        [JsonPropertyName("header")]
-        public MessageHeader MessageHeader { get; init; } = new MessageHeader(MessageType.roundDurationChanged, DateTime.Now);
+        private readonly MessageHeader header = new MessageHeader(MessageType.roundDurationChanged, DateTime.Now);
 
-        [JsonPropertyName("body")]
-        public IMessageBody MessageBody { get; init; } = messageBody;
+        private readonly RoundDurationChangedMessageBody body = messageBody;
+
+        [JsonConstructor]
+        public RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody, MessageHeader messageHeader) : this(messageBody)
+        {
+            this.header = messageHeader;
+        }
+
+        public override MessageHeader MessageHeader { get => header; } 
+
+        public override RoundDurationChangedMessageBody MessageBody { get => body; }
     }
 }

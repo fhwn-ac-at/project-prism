@@ -1,16 +1,16 @@
 ﻿namespace MessageLib
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.Text.Json.Serialization;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class MessageHeader(MessageType type, DateTime timestamp)
     {
-        [JsonPropertyName("type")]
-        [Required]
+        [JsonProperty("type")]
+        [JsonConverter(typeof(StringEnumConverter))]
         MessageType Type { get; init; } = type;
 
-        [JsonPropertyName("timestamp")]
-        [Required]
+        [JsonProperty("timestamp")]
         DateTime Timestamp { get; init; } = timestamp;
     }
 }

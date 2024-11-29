@@ -1,12 +1,17 @@
 ﻿using MessageLib;
+using MessageLib.Lobby;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static void Main(string[] args)
     {
         var test = new Validator();
 
-        var valid = await test.Validate("""
+        var message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
+
+        var messageString = message.SerializeToJson();
+
+        var valid = test.Validate("""
         {
             header: {
                 type: "roundDurationChanged",
@@ -17,5 +22,17 @@ internal class Program
             }
         }
 """);
+
+        Console.WriteLine(valid);
+
+        Console.WriteLine();
+        Console.WriteLine(messageString);
+        valid= test.Validate(messageString);
+        Console.WriteLine(valid);
+
+        var parsedMessage = Deserializer.DeserializeTo<RoundDurationChangedMessage>(messageString);
+
+        Console.WriteLine();
+        Console.WriteLine(parsedMessage);
     }
 }

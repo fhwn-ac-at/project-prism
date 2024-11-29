@@ -5,24 +5,15 @@
     using Newtonsoft.Json;
     using System;
 
-    public class ClosePathMessage() : Message<EmptyMessageBody>
+    public class ClosePathMessage : Message<EmptyMessageBody>
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.closePath);
+        public ClosePathMessage() : base(new EmptyMessageBody(), new MessageHeader(MessageType.closePath))
+        {
+        }
 
         [JsonConstructor]
-        public ClosePathMessage(MessageHeader header) : this()
+        public ClosePathMessage(MessageHeader header) : base(new EmptyMessageBody(), header)
         {
-            this.header = header;
-        }
-
-        public override MessageHeader MessageHeader
-        {
-            get => header;
-        }
-
-        public override EmptyMessageBody MessageBody
-        {
-            get => new EmptyMessageBody();
         }
     }
 }

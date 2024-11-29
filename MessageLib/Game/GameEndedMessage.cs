@@ -5,24 +5,15 @@
     using Newtonsoft.Json;
     using System;
 
-    public class GameEndedMessage() : Message<EmptyMessageBody>
+    public class GameEndedMessage : Message<EmptyMessageBody>
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.gameEnded);
+        public GameEndedMessage() : base(new EmptyMessageBody(), new MessageHeader(MessageType.gameEnded))
+        {
+        }
 
         [JsonConstructor]
-        public GameEndedMessage(MessageHeader header) : this()
+        public GameEndedMessage(MessageHeader header) : base(new EmptyMessageBody(), header)
         {
-            this.header = header;
-        }
-
-        public override MessageHeader MessageHeader
-        {
-            get => header;
-        }
-
-        public override EmptyMessageBody MessageBody
-        {
-            get => new EmptyMessageBody();
         }
     }
 }

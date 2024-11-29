@@ -5,24 +5,15 @@
     using Newtonsoft.Json;
     using System;
 
-    public class ClearMessage() : Message<EmptyMessageBody>
+    public class ClearMessage : Message<EmptyMessageBody>
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.clear);
+        public ClearMessage() : base(new EmptyMessageBody(), new MessageHeader(MessageType.clear))
+        {
+        }
 
         [JsonConstructor]
-        public ClearMessage(MessageHeader header) : this()
+        public ClearMessage(MessageHeader header) : base(new EmptyMessageBody(), header)
         {
-            this.header = header;
-        }
-
-        public override MessageHeader MessageHeader
-        {
-            get => header;
-        }
-
-        public override EmptyMessageBody MessageBody
-        {
-            get => new EmptyMessageBody();
         }
     }
 }

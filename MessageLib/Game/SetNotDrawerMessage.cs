@@ -5,24 +5,15 @@
     using Newtonsoft.Json;
     using System;
 
-    public class SetNotDrawerMessage() : Message<EmptyMessageBody>
+    public class SetNotDrawerMessage : Message<EmptyMessageBody>
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.undo);
+        public SetNotDrawerMessage() : base(new EmptyMessageBody(), new MessageHeader(MessageType.setNotDrawer))
+        {
+        }
 
         [JsonConstructor]
-        public SetNotDrawerMessage(MessageHeader header) : this()
+        public SetNotDrawerMessage(MessageHeader header) : base(new EmptyMessageBody(), header)
         {
-            this.header = header;
-        }
-
-        public override MessageHeader MessageHeader
-        {
-            get => header;
-        }
-
-        public override EmptyMessageBody MessageBody
-        {
-            get => new EmptyMessageBody();
         }
     }
 }

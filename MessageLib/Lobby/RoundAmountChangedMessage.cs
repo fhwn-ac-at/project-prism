@@ -3,21 +3,25 @@
     using MessageLib;
     using MessageLib.SharedObjects;
     using Newtonsoft.Json;
+    using System.ComponentModel.DataAnnotations;
 
-    public class RoundAmountChangedMessage(RoundAmountChangedMessageBody messageBody) : Message<RoundAmountChangedMessageBody>
+    public class RoundAmountChangedMessage : Message<RoundAmountChangedMessageBody>
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.roundAmountChanged);
-
-        private readonly RoundAmountChangedMessageBody body = messageBody;
-
-        [JsonConstructor]
-        public RoundAmountChangedMessage(RoundAmountChangedMessageBody messageBody, MessageHeader messageHeader) : this(messageBody)
+        public RoundAmountChangedMessage(RoundAmountChangedMessageBody messageBody) : base(messageBody, new MessageHeader(MessageType.roundAmountChanged))
         {
-            this.header = messageHeader;
+            
         }
 
-        public override MessageHeader MessageHeader { get => header; } 
+        [JsonConstructor]
+        public RoundAmountChangedMessage(RoundAmountChangedMessageBody messageBody, MessageHeader messageHeader) : base(messageBody, messageHeader)
+        {}
+    }
 
-        public override RoundAmountChangedMessageBody MessageBody { get => body; }
+    public class RoundAmountChangedMessageBody(int rounds) : IMessageBody
+    {
+        [JsonProperty("rounds")]
+        [Range(0, 50)]
+        [Required]
+        public int Rounds { get; init; } = rounds;
     }
 }

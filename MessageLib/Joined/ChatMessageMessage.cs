@@ -2,21 +2,30 @@
 {
     using MessageLib;
     using MessageLib.SharedObjects;
+    using Newtonsoft.Json;
 
-    public class ChatMessageMessage(ChatMessageMessageBody body) : Message<ChatMessageMessageBody>
+    public class ChatMessageMessage : Message<ChatMessageMessageBody>
     {
-        private readonly ChatMessageMessageBody body = body;
-
-        private readonly MessageHeader header = new MessageHeader(MessageType.chatMessage);
-
-        public override MessageHeader MessageHeader
+        public ChatMessageMessage(ChatMessageMessageBody body) : base(body, new MessageHeader(MessageType.chatMessage))
         {
-            get => header;
+            
         }
 
-        public override ChatMessageMessageBody MessageBody
+        [JsonConstructor]
+        public ChatMessageMessage(ChatMessageMessageBody body, MessageHeader header) : base(body, header)
         {
-            get => body;
         }
+    }
+
+    public class ChatMessageMessageBody(User user, string text) : IMessageBody
+    {
+        private readonly User user = user;
+        private readonly string text = text;
+
+        [JsonProperty("user")]
+        public User User { get => user; }
+
+        [JsonProperty("text")]
+        public string Text { get => text; }
     }
 }

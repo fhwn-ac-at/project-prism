@@ -3,21 +3,25 @@
     using MessageLib;
     using MessageLib.SharedObjects;
     using Newtonsoft.Json;
+    using System.ComponentModel.DataAnnotations;
 
-    public class RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody) : Message<RoundDurationChangedMessageBody>
+    public class RoundDurationChangedMessage : Message<RoundDurationChangedMessageBody> 
     {
-        private readonly MessageHeader header = new MessageHeader(MessageType.roundDurationChanged);
-
-        private readonly RoundDurationChangedMessageBody body = messageBody;
-
-        [JsonConstructor]
-        public RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody, MessageHeader messageHeader) : this(messageBody)
+        public RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody) : base(messageBody, new MessageHeader(MessageType.roundDurationChanged))
         {
-            this.header = messageHeader;
+            
         }
 
-        public override MessageHeader MessageHeader { get => header; } 
+        [JsonConstructor]
+        public RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody, MessageHeader messageHeader) : base(messageBody, messageHeader)
+        { }
+    }
 
-        public override RoundDurationChangedMessageBody MessageBody { get => body; }
+    public class RoundDurationChangedMessageBody(int duration) : IMessageBody
+    {
+        [JsonProperty("duration")]
+        [Range(0, 500)]
+        [Required]
+        public int Duration { get; init; } = duration;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BackendApi.AMQP
+﻿namespace AMQPLib
 {
     public record RabbitMQOptions
     {

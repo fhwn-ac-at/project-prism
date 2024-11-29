@@ -1,6 +1,6 @@
 ﻿namespace BackendApi.Controllers
 {
-    using BackendApi.AMQP;
+    using AMQPLib;
     using Microsoft.AspNetCore.Mvc;
     using System.Text;
 

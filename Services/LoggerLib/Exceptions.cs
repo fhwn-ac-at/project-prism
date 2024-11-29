@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Ralf Kuehmayer</author>
 //-----------------------------------------------------------------------
-namespace BackendApi;
+namespace LoggerLib;
 using System;
 
 

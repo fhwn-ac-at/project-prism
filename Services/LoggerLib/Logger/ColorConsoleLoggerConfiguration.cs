@@ -5,7 +5,7 @@
 // <author>Ralf Kuehmayer</author>
 //-----------------------------------------------------------------------
 
-namespace BackendApi.Logger;
+namespace LoggerLib.Logger;
 
 using Microsoft.Extensions.Logging;
 

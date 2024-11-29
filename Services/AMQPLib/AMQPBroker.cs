@@ -1,9 +1,8 @@
-﻿namespace BackendApi.AMQP
+﻿namespace AMQPLib
 {
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using RabbitMQ.Client;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class AMQPBroker : IDisposable
@@ -26,7 +25,7 @@
             ArgumentNullException.ThrowIfNull(options);
 
             this.logger = logger;
-            this.factory = new ConnectionFactory
+            factory = new ConnectionFactory
             {
                 HostName = options.Value.Host,
                 UserName = options.Value.Username,
@@ -35,16 +34,17 @@
                 VirtualHost = options.Value.VirtualHost,
             };
 
-            this.connectionTask = async () => {
-                if (this.connection==null || this.channel==null)
+            connectionTask = async () =>
+            {
+                if (connection == null || channel == null)
                 {
                     await Task.Run(async () =>
                     {
-                        this.connection = await factory.CreateConnectionAsync();
-                        this.channel = await connection.CreateChannelAsync();
+                        connection = await factory.CreateConnectionAsync();
+                        channel = await connection.CreateChannelAsync();
 
 
-                        this.channel.CallbackExceptionAsync+=this.Channel_CallbackExceptionAsync;
+                        channel.CallbackExceptionAsync += this.Channel_CallbackExceptionAsync;
                     });
                 }
             };
@@ -54,24 +54,24 @@
         {
             return Task.Run(() =>
             {
-                this.logger?.LogDebug(@event.Exception.Message);
+                logger?.LogDebug(@event.Exception.Message);
             });
         }
 
         public async Task CreateQueueAsync(string Name)
         {
-            await this.connectionTask();
+            await connectionTask();
 
             lock (managedQueues)
             {
                 if (managedQueues.Contains(Name))
                 {
-                    this.logger?.LogError("A queue with the name {0} already exists", Name);
+                    logger?.LogError("A queue with the name {0} already exists", Name);
                     throw new ArgumentException($"A queue with the name {Name} already exists");
                 }
                 managedQueues.Add(Name);
             }
-                
+
             await channel!.QueueDeclareAsync(queue: "frontend." + Name, durable: false, exclusive: false, autoDelete: false, arguments: null);
             await channel.QueueDeclareAsync(queue: "backend." + Name, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
@@ -82,7 +82,7 @@
 
         public async Task RemoveQueueAsync(string Name)
         {
-            await this.connectionTask();
+            await connectionTask();
 
             lock (managedQueues)
             {
@@ -99,18 +99,18 @@
 
         public async Task SendMessageAsync(string Queue, ReadOnlyMemory<byte> bytes, uint ttl)
         {
-            if (!this.managedQueues.Contains(Queue))
+            if (!managedQueues.Contains(Queue))
             {
                 throw new InvalidOperationException();
             }
 
-            await this.connectionTask();
+            await connectionTask();
             await Task.Run(async () =>
             {
                 var properties = new BasicProperties();
-                properties.Expiration=ttl.ToString();
+                properties.Expiration = ttl.ToString();
 
-                await this.channel!.BasicPublishAsync("backendEx", Queue, true, properties, bytes);
+                await channel!.BasicPublishAsync("backendEx", Queue, true, properties, bytes);
             });
 
         }
@@ -127,9 +127,9 @@
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
 
-                this.channel?.Dispose();
-                this.connection?.Dispose();
-                disposedValue=true;
+                channel?.Dispose();
+                connection?.Dispose();
+                disposedValue = true;
             }
         }
 

@@ -5,7 +5,7 @@
 // <author>Ralf Kuehmayer</author>
 //-----------------------------------------------------------------------
 
-namespace BackendApi.Logger;
+namespace LoggerLib.Logger;
 
 /// <summary>
 /// A record for configuring a file logger.

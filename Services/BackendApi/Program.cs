@@ -1,8 +1,7 @@
-using BackendApi.Logger;
-using BackendApi;
 using Keycloak.AuthServices.Authentication;
-using System.Security.Claims;
-using BackendApi.AMQP;
+using AMQPLib;
+using LoggerLib;
+using LoggerLib.Logger;
 
 internal class Program
 {

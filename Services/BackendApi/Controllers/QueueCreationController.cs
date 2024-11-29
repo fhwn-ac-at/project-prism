@@ -1,6 +1,6 @@
 ﻿namespace BackendApi.Controllers
 {
-    using BackendApi.AMQP;
+    using AMQPLib;
     using Keycloak.AuthServices.Sdk;
     using Keycloak.AuthServices.Sdk.Admin;
     using Microsoft.AspNetCore.Authorization;

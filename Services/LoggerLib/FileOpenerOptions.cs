@@ -5,7 +5,7 @@
 // <author>Ralf Kuehmayer</author>
 //-----------------------------------------------------------------------
 
-namespace BackendApi;
+namespace LoggerLib;
 
 /// <summary>
 /// The configuration options for the <see cref="FileOpener"/>

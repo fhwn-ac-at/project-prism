@@ -1,0 +1,80 @@
+services:
+  postgres_db:
+    image: postgres:17
+    networks:
+      - database
+      - prismDevNetwork
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin123}
+      DEV_SCHEMA: ${DEV_SCHEMA:-dev}
+      DEV_USER: ${DEV_USER:-dev}
+      DEV_PASSWORD: ${DEV_PASSWORD:-dev123}
+      KC_DB_SCHEMA: ${KC_DB_SCHEMA:-iam}
+      KC_DB_USERNAME: ${KC_DB_USERNAME:-iam}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:-dev123}
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+      - ./db-init-scripts/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: pg_isready -U postgres
+
+  iam_keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    environment:
+      DB_VENDOR: POSTGRES
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres_db
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: ${KC_DB_SCHEMA:-iam}
+      KC_DB_SCHEMA: ${KC_DB_SCHEMA:-iam}
+      KC_DB_USERNAME: ${KC_DB_USERNAME:-iam}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:-dev123}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_HOSTNAME: ${KC_HOSTNAME:-http://localhost:8180}
+      KC_HTTP_ENABLED: "true"
+    networks:
+      - database
+      - prismDevNetwork
+    ports:
+      - 8180:8080
+    entrypoint: [ "/opt/keycloak/bin/kc.sh","start", "--import-realm" ]
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import/
+      - ./keycloak/login:/opt/keycloak/themes/prism/login
+      - ./keycloak/extensions:/opt/keycloak/providers
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+        
+  messagebus:
+    image: rabbitmq:4.0.3-management
+    environment:
+      RABBITMQ_ENABLED_PLUGINS_FILE: "/etc/rabbitmq/enabled_plugins"    
+    volumes:
+      - ./messagebus/data/:/var/lib/rabbitmq/
+      - ./messagebus/log/:/var/log/rabbitmq/
+      #- ./emb-config/:/etc/rabbitmq/
+    networks:
+      - prismDevNetwork
+      - messagebus
+    ports:
+      - 5671:5671
+      - 8883:8883
+      - 15671:15671
+      - 5672:5672
+      - 15672:15672
+
+networks:
+  prismDevNetwork:
+    driver: bridge
+    attachable: true
+  database:
+    driver: bridge
+  messagebus:
+    driver: bridge

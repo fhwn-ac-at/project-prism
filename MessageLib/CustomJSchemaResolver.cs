@@ -8,13 +8,24 @@ namespace MessageLib
     {
         private readonly ILogger<CustomJSchemaResolver>? logger = logger;
 
+        private string? globalSchema;
+
         public override Stream? GetSchemaResource(ResolveSchemaContext context, SchemaReference reference)
         {
             if (reference.BaseUri?.OriginalString == "../global.definitions.schema.json")
             {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages/global.definitions.schema.json");
-                var reader = new StreamReader(path);
-                return reader.BaseStream;
+                if (globalSchema == null) 
+                {
+                    var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages/global.definitions.schema.json");
+                    globalSchema=File.ReadAllText(path);
+                }
+
+                var stream = new MemoryStream();
+                var writer = new StreamWriter(stream);
+                writer.Write(globalSchema);
+                writer.Flush();
+                stream.Position=0;
+                return stream;
             }
 
             this.logger?.LogWarning("Schema not known to CustomJSchemaResolver");

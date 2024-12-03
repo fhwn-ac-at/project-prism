@@ -13,6 +13,9 @@
         private readonly ILoggerFactory? loggerFactory = loggerFactory;
         private readonly Deserializer deserializer = deserializer;
 
+        private readonly Dictionary<string, JSchema> knownSchemas = [];
+        private readonly CustomJSchemaResolver resolver = new CustomJSchemaResolver(loggerFactory?.CreateLogger<CustomJSchemaResolver>());
+
         public bool Validate(string json)
         {
             return this.Validate(json, out var _);
@@ -45,10 +48,16 @@
                     return false;
                 }
 
-                var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
-
-                var resolver = new CustomJSchemaResolver(this.loggerFactory?.CreateLogger<CustomJSchemaResolver>());
-                var schema = JSchema.Parse(File.ReadAllText(filePath), resolver);
+                JSchema schema;
+                if (this.knownSchemas.TryGetValue(schemaPath, out JSchema? value))
+                {
+                    schema = value;
+                }
+                else
+                {
+                    var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
+                    schema = JSchema.Parse(File.ReadAllText(filePath), this.resolver);
+                }
 
                 IList<ValidationError> errors;
                 bool valid = jsonObject.IsValid(schema, out errors);

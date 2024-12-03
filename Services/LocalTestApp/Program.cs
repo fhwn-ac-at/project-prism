@@ -6,8 +6,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        var test = new Validator();
         var deserialzier = new Deserializer();
+        var test = new Validator(deserialzier);
 
         var message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
 

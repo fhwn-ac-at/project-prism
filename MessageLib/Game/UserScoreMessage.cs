@@ -20,10 +20,21 @@
         }
     }
 
-    public class UserScoreMessageBody(User user, double score) : IMessageBody
+    public class UserScoreMessageBody : IMessageBody
     {
-        private readonly User user = user;
-        private readonly double score = score;
+        private readonly User user;
+        private readonly double score;
+
+        public UserScoreMessageBody(User user, double score)
+        {
+            if (score <0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(score));
+            }
+         
+            this.user = user;
+            this.score = score;
+        }
 
         [JsonProperty("user")]
         public User User { get => user; }

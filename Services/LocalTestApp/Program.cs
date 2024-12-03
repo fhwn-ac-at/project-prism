@@ -49,5 +49,12 @@ internal class Program
         Console.WriteLine(test.Validate(message2));
         var parsedClear = deserialzier.DeserializeTo<ClearMessage>(message2);
         Console.WriteLine(parsedClear);
+
+        Console.WriteLine();
+        var message3 = new SetDrawerMessage(new SetDrawerMessageBody([new SelectWordItem("0",0), new SelectWordItem("1", 1), new SelectWordItem("2", 2)])).SerializeToJson();
+        Console.WriteLine(message3);
+        Console.WriteLine(test.Validate(message3));
+        var parsedSetDrwaer = deserialzier.DeserializeTo<SetDrawerMessage>(message3);
+        Console.WriteLine(parsedSetDrwaer);
     }
 }

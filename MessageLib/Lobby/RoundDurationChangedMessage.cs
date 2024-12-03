@@ -17,11 +17,23 @@
         { }
     }
 
-    public class RoundDurationChangedMessageBody(int duration) : IMessageBody
+    public class RoundDurationChangedMessageBody: IMessageBody
     {
+        private readonly int duration;
+
+        public RoundDurationChangedMessageBody(int duration)
+        {
+            if (duration < 0 || duration > 500)
+            {
+                throw new ArgumentOutOfRangeException(nameof(duration));
+            }
+
+            this.duration = duration;
+        }
+
         [JsonProperty("duration")]
         [Range(0, 500)]
         [Required]
-        public int Duration { get; init; } = duration;
+        public int Duration { get => duration; }
     }
 }

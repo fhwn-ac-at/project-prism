@@ -29,10 +29,21 @@
         public IList<SelectWordItem> WordList { get => wordList; }
     }
 
-    public class SelectWordItem(string word, byte difficulty)
+    public class SelectWordItem
     {
-        private readonly string word = word;
-        private readonly byte difficulty = difficulty;
+        private readonly string word;
+        private readonly byte difficulty;
+
+        public SelectWordItem(string word, byte difficulty)
+        {
+            if (difficulty < 0 || difficulty > 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(difficulty));
+            }
+            
+            this.word = word;
+            this.difficulty = difficulty;
+        }
 
         [JsonProperty("word")]
         public string Word { get => word; }

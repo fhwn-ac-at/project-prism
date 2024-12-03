@@ -17,11 +17,23 @@
         {}
     }
 
-    public class RoundAmountChangedMessageBody(int rounds) : IMessageBody
+    public class RoundAmountChangedMessageBody : IMessageBody
     {
+        private readonly int rounds;
+
+        public RoundAmountChangedMessageBody(int rounds)
+        {
+            if (rounds < 0 || rounds > 50)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rounds));
+            }
+
+            this.rounds = rounds;
+        }
+
         [JsonProperty("rounds")]
         [Range(0, 50)]
         [Required]
-        public int Rounds { get; init; } = rounds;
+        public int Rounds { get => this.rounds; }
     }
 }

@@ -20,9 +20,19 @@
         }
     }
 
-    public class DrawingSizeChangedMessageBody(double size) : IMessageBody
+    public class DrawingSizeChangedMessageBody : IMessageBody
     {
-        private readonly double size = size;
+        private readonly double size;
+
+        public DrawingSizeChangedMessageBody(double size)
+        {
+            if (size < 0 || size > 100)
+            {
+                throw new ArgumentOutOfRangeException(nameof(size));
+            }
+
+            this.size = size;
+        }
 
         [JsonProperty("size")]
         [Range(0, 100)]

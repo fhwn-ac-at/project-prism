@@ -19,11 +19,23 @@
         }
     }
 
-    public class PointMessageBody(RelativePoint point, HexColor color, double size) : IMessageBody
+    public class PointMessageBody : IMessageBody
     {
-        private readonly RelativePoint point = point;
-        private readonly HexColor color = color;
-        private readonly double size = size;
+        private readonly RelativePoint point;
+        private readonly HexColor color;
+        private readonly double size;
+
+        public PointMessageBody(RelativePoint point, HexColor color, double size)
+        {
+            if (size < 0 || size > 100)
+            {
+                throw new ArgumentOutOfRangeException(nameof(size));
+            }
+
+            this.point = point;
+            this.color = color;
+            this.size = size;
+        }
 
         [JsonProperty("point")]
         public RelativePoint Point { get => point; }

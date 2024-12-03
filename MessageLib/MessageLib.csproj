@@ -64,7 +64,13 @@
     <None Update="messages\game\selectWord.schem.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="messages\game\selectWord.schema.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="messages\game\setDrawer.schem.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="messages\game\setDrawer.schema.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="messages\game\setNotDrawer.schema.json">

@@ -5,11 +5,11 @@
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
 
-    public class RoundDurationChangedMessage : Message<RoundDurationChangedMessageBody> 
+    public class RoundDurationChangedMessage : Message<RoundDurationChangedMessageBody>
     {
         public RoundDurationChangedMessage(RoundDurationChangedMessageBody messageBody) : base(messageBody, new MessageHeader(MessageType.roundDurationChanged))
         {
-            
+
         }
 
         [JsonConstructor]
@@ -17,23 +17,29 @@
         { }
     }
 
-    public class RoundDurationChangedMessageBody: IMessageBody
+    public class RoundDurationChangedMessageBody : IMessageBody
     {
         private readonly int duration;
 
         public RoundDurationChangedMessageBody(int duration)
         {
-            if (duration < 0 || duration > 500)
+            if (duration<0||duration>500)
             {
                 throw new ArgumentOutOfRangeException(nameof(duration));
             }
 
-            this.duration = duration;
+            this.duration=duration;
         }
 
         [JsonProperty("duration")]
         [Range(0, 500)]
         [Required]
-        public int Duration { get => duration; }
+        public int Duration
+        {
+            get
+            {
+                return this.duration;
+            }
+        }
     }
 }

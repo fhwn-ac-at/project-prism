@@ -8,7 +8,7 @@
     {
         public ChatMessageMessage(ChatMessageMessageBody body) : base(body, new MessageHeader(MessageType.chatMessage))
         {
-            
+
         }
 
         [JsonConstructor]
@@ -23,9 +23,21 @@
         private readonly string text = text;
 
         [JsonProperty("user")]
-        public User User { get => user; }
+        public User User
+        {
+            get
+            {
+                return this.user;
+            }
+        }
 
         [JsonProperty("text")]
-        public string Text { get => text; }
+        public string Text
+        {
+            get
+            {
+                return this.text;
+            }
+        }
     }
 }

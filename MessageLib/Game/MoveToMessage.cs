@@ -8,13 +8,13 @@
     {
         public MoveToMessage(MoveToMessageBody body) : base(body, new MessageHeader(MessageType.moveTo))
         {
-            
+
         }
 
         [JsonConstructor]
         public MoveToMessage(MoveToMessageBody body, MessageHeader header) : base(body, header)
         {
-            
+
         }
     }
 
@@ -23,6 +23,12 @@
         private readonly RelativePoint point = point;
 
         [JsonProperty("point")]
-        public RelativePoint Point { get => point; }
+        public RelativePoint Point
+        {
+            get
+            {
+                return this.point;
+            }
+        }
     }
 }

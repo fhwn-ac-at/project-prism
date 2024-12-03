@@ -3,7 +3,6 @@
     using MessageLib;
     using MessageLib.SharedObjects;
     using Newtonsoft.Json;
-    using System;
 
     public class GameEndedMessage : Message<EmptyMessageBody>
     {

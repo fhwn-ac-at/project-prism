@@ -4,19 +4,18 @@
     using MessageLib.SharedObjects;
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
-    using static System.Formats.Asn1.AsnWriter;
 
     public class UserScoreMessage : Message<UserScoreMessageBody>
     {
         public UserScoreMessage(UserScoreMessageBody body) : base(body, new MessageHeader(MessageType.userScore))
         {
-            
+
         }
 
         [JsonConstructor]
         public UserScoreMessage(UserScoreMessageBody body, MessageHeader header) : base(body, header)
         {
-            
+
         }
     }
 
@@ -27,20 +26,32 @@
 
         public UserScoreMessageBody(User user, double score)
         {
-            if (score <0)
+            if (score<0)
             {
                 throw new ArgumentOutOfRangeException(nameof(score));
             }
-         
-            this.user = user;
-            this.score = score;
+
+            this.user=user;
+            this.score=score;
         }
 
         [JsonProperty("user")]
-        public User User { get => user; }
+        public User User
+        {
+            get
+            {
+                return this.user;
+            }
+        }
 
         [JsonProperty("score")]
         [Range(0, double.MaxValue)]
-        public double Score { get => score; }
+        public double Score
+        {
+            get
+            {
+                return this.score;
+            }
+        }
     }
 }

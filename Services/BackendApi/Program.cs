@@ -1,5 +1,5 @@
-using Keycloak.AuthServices.Authentication;
 using AMQPLib;
+using Keycloak.AuthServices.Authentication;
 using LoggerLib;
 using LoggerLib.Logger;
 
@@ -7,7 +7,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
 
@@ -17,7 +17,6 @@ internal class Program
 
         builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
         builder.Services.AddSwaggerGen();
-
 
         builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 
@@ -30,7 +29,7 @@ internal class Program
         builder.Services.AddSingleton<FileOpener, FileOpener>();
         builder.Services.AddSingleton<AMQPBroker, AMQPBroker>();
 
-        var app = builder.Build();
+        WebApplication app = builder.Build();
         app.Logger.LogError("test");
 
         // Configure the HTTP request pipeline.

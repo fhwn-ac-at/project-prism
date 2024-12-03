@@ -11,14 +11,20 @@
         [JsonConstructor]
         public MessageHeader(MessageType type, DateTime timestamp) : this(type)
         {
-            this.timestamp = timestamp;
+            this.timestamp=timestamp;
         }
 
         [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
-        MessageType Type { get; init; } = type;
+        private MessageType Type { get; init; } = type;
 
         [JsonProperty("timestamp")]
-        DateTime Timestamp { get => timestamp; }
+        private DateTime Timestamp
+        {
+            get
+            {
+                return this.timestamp;
+            }
+        }
     }
 }

@@ -8,21 +8,11 @@
 
         public static string? ExtractDisplayName(this ClaimsPrincipal claim)
         {
-            var identity = claim.Identity;
+            IIdentity? identity = claim.Identity;
 
             string? name = claim.Claims.Where(c => c.Type=="displayname").Select(c => c.Value).FirstOrDefault();
 
-            if (!string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
-
-            if (identity == null)
-            {
-                return "No Name";
-            }
-
-            return identity?.Name;
+            return !string.IsNullOrEmpty(name) ? name : identity==null ? "No Name" : (identity?.Name);
         }
     }
 }

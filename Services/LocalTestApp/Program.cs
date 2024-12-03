@@ -6,14 +6,14 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        var deserialzier = new Deserializer();
-        var test = new Validator(deserialzier);
+        Deserializer deserialzier = new Deserializer();
+        Validator test = new Validator(deserialzier);
 
-        var message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
+        RoundDurationChangedMessage message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
 
-        var messageString = message.SerializeToJson();
+        string messageString = message.SerializeToJson();
 
-        var valid = test.Validate("""
+        bool valid = test.Validate("""
         {
             header: {
                 type: "roundDurationChanged",
@@ -32,10 +32,10 @@ internal class Program
         Console.WriteLine("Has type");
         Console.WriteLine(deserialzier.CheckMessageType(messageString));
 
-        valid= test.Validate(messageString);
+        valid=test.Validate(messageString);
         Console.WriteLine(valid);
 
-        var parsedMessage = deserialzier.DeserializeTo<RoundDurationChangedMessage>(messageString);
+        RoundDurationChangedMessage? parsedMessage = deserialzier.DeserializeTo<RoundDurationChangedMessage>(messageString);
 
         Console.WriteLine();
         Console.WriteLine(parsedMessage);
@@ -44,17 +44,17 @@ internal class Program
 
         Console.WriteLine();
 
-        var message2 = new ClearMessage().SerializeToJson();
+        string message2 = new ClearMessage().SerializeToJson();
         Console.WriteLine(message2);
         Console.WriteLine(test.Validate(message2));
-        var parsedClear = deserialzier.DeserializeTo<ClearMessage>(message2);
+        ClearMessage? parsedClear = deserialzier.DeserializeTo<ClearMessage>(message2);
         Console.WriteLine(parsedClear);
 
         Console.WriteLine();
-        var message3 = new SetDrawerMessage(new SetDrawerMessageBody([new SelectWordItem("0",0), new SelectWordItem("1", 1), new SelectWordItem("2", 2)])).SerializeToJson();
+        string message3 = new SetDrawerMessage(new SetDrawerMessageBody([new SelectWordItem("0", 0), new SelectWordItem("1", 1), new SelectWordItem("2", 2)])).SerializeToJson();
         Console.WriteLine(message3);
         Console.WriteLine(test.Validate(message3));
-        var parsedSetDrwaer = deserialzier.DeserializeTo<SetDrawerMessage>(message3);
+        SetDrawerMessage? parsedSetDrwaer = deserialzier.DeserializeTo<SetDrawerMessage>(message3);
         Console.WriteLine(parsedSetDrwaer);
     }
 }

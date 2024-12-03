@@ -15,7 +15,7 @@ public record FileLoggerOptions
     /// <summary>
     /// Gets the path of the logfile.
     /// </summary>
-    public string? Path { get; init; } = Directory.GetCurrentDirectory() + "log.log";
+    public string? Path { get; init; } = Directory.GetCurrentDirectory()+"log.log";
 
     /// <summary>
     /// Gets a value indicating whether the logger should be used.

@@ -8,7 +8,7 @@
     {
         public UserDisconnectedMessage(UserDisconnectedMessageBody body) : base(body, new MessageHeader(MessageType.userDisconnected))
         {
-            
+
         }
 
         [JsonConstructor]
@@ -22,6 +22,12 @@
         private readonly User user = user;
 
         [JsonProperty("user")]
-        public User User { get => user; }
+        public User User
+        {
+            get
+            {
+                return this.user;
+            }
+        }
     }
 }

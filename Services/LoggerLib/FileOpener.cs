@@ -52,7 +52,7 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// </exception>
     public async Task<FileStream> OpenRead(string path)
     {
-        return path == null
+        return path==null
             ? throw new ArgumentNullException(nameof(path), "The parameter must not be null.")
             : await this.Open(path, FileMode.Open, FileAccess.Read);
     }
@@ -71,7 +71,7 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// </exception>
     public async Task<FileStream> OpenWrite(string path, FileMode mode)
     {
-        return path == null
+        return path==null
             ? throw new ArgumentNullException(nameof(path), "The parameter must not be null.")
             : await this.Open(path, mode, FileAccess.Write);
     }
@@ -89,7 +89,7 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// </exception>
     public async Task<FileStream> OpenReadWrite(string path)
     {
-        return path == null
+        return path==null
             ? throw new ArgumentNullException(nameof(path), "The parameter must not be null.")
             : await this.Open(path, FileMode.Open, FileAccess.ReadWrite);
     }
@@ -106,10 +106,10 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// </exception>
     private async Task<FileStream> Open(string path, FileMode mode, FileAccess access)
     {
-        path = Path.GetFullPath(path);
+        path=Path.GetFullPath(path);
 
         this.logger?.Log(LogLevel.Debug, "Opening file {path} with FileMode {mode} and FileAccess {access}", path, mode, access);
-        for (int i = 0; i < this.retires; i++)
+        for (int i = 0; i<this.retires; i++)
         {
             try
             {
@@ -119,9 +119,9 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
             {
                 this.logger?.Log(LogLevel.Debug, "{exception}", exception);
 
-                this.logger?.Log(LogLevel.Information, "The file {path} could not be opened. Attempt {amount} of {retires}", path, i + 1, this.retires);
+                this.logger?.Log(LogLevel.Information, "The file {path} could not be opened. Attempt {amount} of {retires}", path, i+1, this.retires);
 
-                if (i < this.retires - 1)
+                if (i<this.retires-1)
                 {
                     this.logger?.Log(LogLevel.Information, "Wait {waitTime}ms before the next attempt", this.waitTime);
                 }

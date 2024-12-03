@@ -38,48 +38,48 @@ public class CustomFileLoggerProvider : ILoggerProvider
     /// <param name="fileOpenerOptions">The configuration of the logger.</param>
     public CustomFileLoggerProvider(IOptionsMonitor<FileLoggerOptions> config, IOptions<FileOpenerOptions> fileOpenerOptions)
     {
-        currentConfig = config.CurrentValue;
-        onChangeToken = config.OnChange(updatedConfig => currentConfig = updatedConfig);
+        this.currentConfig=config.CurrentValue;
+        this.onChangeToken=config.OnChange(updatedConfig => this.currentConfig=updatedConfig);
 
         FileOpener fileOpener = new FileOpener(fileOpenerOptions, null);
 
-        if (currentConfig.Path != null)
+        if (this.currentConfig.Path!=null)
         {
-            Task<FileStream> fileStreamTask = fileOpener.OpenWrite(currentConfig.Path, currentConfig.Append ? FileMode.Append : FileMode.Create);
+            Task<FileStream> fileStreamTask = fileOpener.OpenWrite(this.currentConfig.Path, this.currentConfig.Append ? FileMode.Append : FileMode.Create);
             fileStreamTask.Wait();
 
             FileStream fileStream = fileStreamTask.Result;
 
-            if (fileStream == null)
+            if (fileStream==null)
             {
                 throw new ArgumentException(nameof(config));
             }
 
-            this.fileStream = new StreamWriter(fileStream);
+            this.fileStream=new StreamWriter(fileStream);
         }
         else
         {
-            fileStream = new StreamWriter(new MemoryStream());
+            this.fileStream=new StreamWriter(new MemoryStream());
         }
     }
 
     /// <inheritdoc/>
     public ILogger CreateLogger(string categoryName)
     {
-        return loggers.GetOrAdd(categoryName, name => new CustomFileLogger(categoryName, GetCurrentConfig, fileStream));
+        return this.loggers.GetOrAdd(categoryName, name => new CustomFileLogger(categoryName, this.GetCurrentConfig, this.fileStream));
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        loggers.Clear();
-        onChangeToken?.Dispose();
-        fileStream?.Dispose();
+        this.loggers.Clear();
+        this.onChangeToken?.Dispose();
+        this.fileStream?.Dispose();
     }
 
     private FileLoggerOptions GetCurrentConfig()
     {
-        return currentConfig;
+        return this.currentConfig;
     }
 }
 
@@ -102,9 +102,9 @@ public class CustomFileLogger : ILogger
     /// <param name="fileStream">The file stream to write to.</param>
     public CustomFileLogger(string categoryName, Func<FileLoggerOptions> getCurrentConfig, StreamWriter fileStream)
     {
-        this.categoryName = categoryName;
-        logFileWriter = fileStream;
-        this.getCurrentConfig = getCurrentConfig;
+        this.categoryName=categoryName;
+        this.logFileWriter=fileStream;
+        this.getCurrentConfig=getCurrentConfig;
     }
 
     /// <inheritdoc/>
@@ -117,14 +117,14 @@ public class CustomFileLogger : ILogger
     /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel)
     {
-        return getCurrentConfig().Use;
+        return this.getCurrentConfig().Use;
     }
 
     /// <inheritdoc/>
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
         // Ensure that only information level and higher logs are recorded
-        if (!IsEnabled(logLevel))
+        if (!this.IsEnabled(logLevel))
         {
             return;
         }
@@ -132,8 +132,8 @@ public class CustomFileLogger : ILogger
         string message = formatter(state, exception);
 
         // Write log messages to text file
-        logFileWriter.WriteLine($"[{logLevel}] [{categoryName}] [{DateTime.Now.ToString("yyyy-MM-dd'T'hh:mm:ss.fff zzz")}] {message}");
-        logFileWriter.Flush();
+        this.logFileWriter.WriteLine($"[{logLevel}] [{this.categoryName}] [{DateTime.Now:yyyy-MM-dd'T'hh:mm:ss.fff zzz}] {message}");
+        this.logFileWriter.Flush();
     }
 }
 

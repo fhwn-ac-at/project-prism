@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-
-namespace MessageLib
+﻿namespace MessageLib
 {
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json.Linq;
+    using Newtonsoft.Json.Schema;
+
     internal class CustomJSchemaResolver(ILogger<CustomJSchemaResolver>? logger = null) : JSchemaResolver
     {
         private readonly ILogger<CustomJSchemaResolver>? logger = logger;
@@ -12,17 +12,17 @@ namespace MessageLib
 
         public override Stream? GetSchemaResource(ResolveSchemaContext context, SchemaReference reference)
         {
-            if (reference.BaseUri?.OriginalString == "../global.definitions.schema.json")
+            if (reference.BaseUri?.OriginalString=="../global.definitions.schema.json")
             {
-                if (globalSchema == null) 
+                if (this.globalSchema==null)
                 {
-                    var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages/global.definitions.schema.json");
-                    globalSchema=File.ReadAllText(path);
+                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages/global.definitions.schema.json");
+                    this.globalSchema=File.ReadAllText(path);
                 }
 
-                var stream = new MemoryStream();
-                var writer = new StreamWriter(stream);
-                writer.Write(globalSchema);
+                MemoryStream stream = new MemoryStream();
+                StreamWriter writer = new StreamWriter(stream);
+                writer.Write(this.globalSchema);
                 writer.Flush();
                 stream.Position=0;
                 return stream;
@@ -34,34 +34,36 @@ namespace MessageLib
 
         public override JSchema? GetSubschema(SchemaReference reference, JSchema rootSchema)
         {
-            if (reference.SubschemaId == null || !reference.SubschemaId.OriginalString.StartsWith("#")) {
-                this.logger?.LogWarning("Invalid subschema id");
-                return null;
-            }
-
-            var pathPices = reference.SubschemaId.OriginalString.Substring(1).Split("/");
-
-            if (pathPices.Length < 1)
+            if (reference.SubschemaId==null||!reference.SubschemaId.OriginalString.StartsWith("#"))
             {
                 this.logger?.LogWarning("Invalid subschema id");
                 return null;
             }
 
-            if (!rootSchema.ExtensionData.TryGetValue(pathPices[0], out JToken? node) || node ==null)
-            { 
+            string[] pathPices = reference.SubschemaId.OriginalString[1..].Split("/");
+
+            if (pathPices.Length<1)
+            {
+                this.logger?.LogWarning("Invalid subschema id");
+                return null;
+            }
+
+            if (!rootSchema.ExtensionData.TryGetValue(pathPices[0], out JToken? node)||node==null)
+            {
                 this.logger?.LogWarning("Subschema {} not in schema {}", pathPices[0], rootSchema.ToString());
                 return null;
             }
 
-            for (int i = 1; i < pathPices.Length; i++)
+            for (int i = 1; i<pathPices.Length; i++)
             {
-                var newNode = node.SelectToken(pathPices[i]);
-                if (newNode == null)
+                JToken? newNode = node.SelectToken(pathPices[i]);
+                if (newNode==null)
                 {
                     this.logger?.LogWarning("Subschema {} not in schema {}", pathPices[i], node.ToString());
                     return null;
                 }
-                node = newNode;
+
+                node=newNode;
             }
 
             return JSchema.Parse(node.ToString());

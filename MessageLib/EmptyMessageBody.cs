@@ -1,7 +1,7 @@
-﻿using MessageLib.SharedObjects;
-
-namespace MessageLib
+﻿namespace MessageLib
 {
+    using MessageLib.SharedObjects;
+
     public class EmptyMessageBody : IMessageBody
     {
     }

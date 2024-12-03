@@ -12,12 +12,7 @@
 
         public T? DeserializeTo<T>(string? json) where T : class
         {
-            if (json==null)
-            {
-                return null;
-            }
-
-            return JsonConvert.DeserializeObject<T>(json);
+            return json==null ? null : JsonConvert.DeserializeObject<T>(json);
         }
 
         public MessageType? CheckMessageType(string? json)

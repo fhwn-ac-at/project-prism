@@ -9,13 +9,13 @@
     {
         public PointMessage(PointMessageBody body) : base(body, new MessageHeader(MessageType.point))
         {
-            
+
         }
 
         [JsonConstructor]
         public PointMessage(PointMessageBody body, MessageHeader header) : base(body, header)
         {
-            
+
         }
     }
 
@@ -27,24 +27,42 @@
 
         public PointMessageBody(RelativePoint point, HexColor color, double size)
         {
-            if (size < 0 || size > 100)
+            if (size<0||size>100)
             {
                 throw new ArgumentOutOfRangeException(nameof(size));
             }
 
-            this.point = point;
-            this.color = color;
-            this.size = size;
+            this.point=point;
+            this.color=color;
+            this.size=size;
         }
 
         [JsonProperty("point")]
-        public RelativePoint Point { get => point; }
+        public RelativePoint Point
+        {
+            get
+            {
+                return this.point;
+            }
+        }
 
         [JsonProperty("color")]
-        public HexColor Color { get => color; }
+        public HexColor Color
+        {
+            get
+            {
+                return this.color;
+            }
+        }
 
         [JsonProperty("size")]
         [Range(0, 100)]
-        public double Size { get => size; }
+        public double Size
+        {
+            get
+            {
+                return this.size;
+            }
+        }
     }
 }

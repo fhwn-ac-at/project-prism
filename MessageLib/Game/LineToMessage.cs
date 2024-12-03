@@ -8,13 +8,13 @@
     {
         public LineToMessage(LineToMessageBody body) : base(body, new MessageHeader(MessageType.lineTo))
         {
-            
+
         }
 
         [JsonConstructor]
         public LineToMessage(LineToMessageBody body, MessageHeader header) : base(body, header)
         {
-            
+
         }
     }
 
@@ -24,9 +24,21 @@
         private readonly HexColor color = color;
 
         [JsonProperty("point")]
-        public RelativePoint Point { get => point; }
+        public RelativePoint Point
+        {
+            get
+            {
+                return this.point;
+            }
+        }
 
         [JsonProperty("color")]
-        public HexColor Color { get => color; }
+        public HexColor Color
+        {
+            get
+            {
+                return this.color;
+            }
+        }
     }
 }

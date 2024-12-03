@@ -10,13 +10,13 @@
     {
         public DrawingSizeChangedMessage(DrawingSizeChangedMessageBody body) : base(body, new MessageHeader(MessageType.drawingSizeChanged))
         {
-            
+
         }
 
         [JsonConstructor]
         public DrawingSizeChangedMessage(DrawingSizeChangedMessageBody body, MessageHeader header) : base(body, header)
         {
-            
+
         }
     }
 
@@ -26,16 +26,22 @@
 
         public DrawingSizeChangedMessageBody(double size)
         {
-            if (size < 0 || size > 100)
+            if (size<0||size>100)
             {
                 throw new ArgumentOutOfRangeException(nameof(size));
             }
 
-            this.size = size;
+            this.size=size;
         }
 
         [JsonProperty("size")]
         [Range(0, 100)]
-        public double Size { get => size; }
+        public double Size
+        {
+            get
+            {
+                return this.size;
+            }
+        }
     }
 }

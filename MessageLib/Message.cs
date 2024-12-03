@@ -1,10 +1,8 @@
 ﻿namespace MessageLib
 {
-    using MessageLib.Game;
     using MessageLib.SharedObjects;
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
-
 
     [JsonObject(MemberSerialization.OptIn)]
     public abstract class Message<T>(T body, MessageHeader header) where T : IMessageBody
@@ -14,11 +12,23 @@
 
         [JsonProperty("header")]
         [Required]
-        public MessageHeader MessageHeader { get => this.header; }
+        public MessageHeader MessageHeader
+        {
+            get
+            {
+                return this.header;
+            }
+        }
 
         [JsonProperty("body")]
         [Required]
-        public T MessageBody { get => this.body; }
+        public T MessageBody
+        {
+            get
+            {
+                return this.body;
+            }
+        }
 
         public string SerializeToJson()
         {

@@ -5,15 +5,13 @@
     using Newtonsoft.Json;
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Drawing;
 
     public class SetDrawerMessage : Message<SetDrawerMessageBody>
     {
         public SetDrawerMessage(SetDrawerMessageBody body) : base(body, new MessageHeader(MessageType.setDrawer))
         {
-            
-        }
 
+        }
 
         [JsonConstructor]
         public SetDrawerMessage(SetDrawerMessageBody body, MessageHeader header) : base(body, header)
@@ -26,7 +24,13 @@
         private readonly IList<SelectWordItem> wordList = wordList;
 
         [JsonProperty("words")]
-        public IList<SelectWordItem> WordList { get => wordList; }
+        public IList<SelectWordItem> WordList
+        {
+            get
+            {
+                return this.wordList;
+            }
+        }
     }
 
     public class SelectWordItem
@@ -36,20 +40,32 @@
 
         public SelectWordItem(string word, byte difficulty)
         {
-            if (difficulty < 0 || difficulty > 2)
+            if (difficulty<0||difficulty>2)
             {
                 throw new ArgumentOutOfRangeException(nameof(difficulty));
             }
-            
-            this.word = word;
-            this.difficulty = difficulty;
+
+            this.word=word;
+            this.difficulty=difficulty;
         }
 
         [JsonProperty("word")]
-        public string Word { get => word; }
+        public string Word
+        {
+            get
+            {
+                return this.word;
+            }
+        }
 
         [JsonProperty("difficulty")]
         [Range(0, 2)]
-        public byte Difficulty { get => difficulty; }
+        public byte Difficulty
+        {
+            get
+            {
+                return this.difficulty;
+            }
+        }
     }
 }

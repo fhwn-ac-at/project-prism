@@ -13,7 +13,7 @@
 
         private IConnection? connection;
         private IChannel? channel;
-        private Func<Task> connectionTask;
+        private readonly Func<Task> connectionTask;
 
         private readonly HashSet<string> managedQueues = [];
 
@@ -24,27 +24,26 @@
         {
             ArgumentNullException.ThrowIfNull(options);
 
-            this.logger = logger;
-            factory = new ConnectionFactory
+            this.logger=logger;
+            this.factory=new ConnectionFactory
             {
-                HostName = options.Value.Host,
-                UserName = options.Value.Username,
-                Password = options.Value.Password,
-                Port = options.Value.Port,
-                VirtualHost = options.Value.VirtualHost,
+                HostName=options.Value.Host,
+                UserName=options.Value.Username,
+                Password=options.Value.Password,
+                Port=options.Value.Port,
+                VirtualHost=options.Value.VirtualHost,
             };
 
-            connectionTask = async () =>
+            this.connectionTask=async () =>
             {
-                if (connection == null || channel == null)
+                if (this.connection==null||this.channel==null)
                 {
                     await Task.Run(async () =>
                     {
-                        connection = await factory.CreateConnectionAsync();
-                        channel = await connection.CreateChannelAsync();
+                        this.connection=await this.factory.CreateConnectionAsync();
+                        this.channel=await this.connection.CreateChannelAsync();
 
-
-                        channel.CallbackExceptionAsync += this.Channel_CallbackExceptionAsync;
+                        this.channel.CallbackExceptionAsync+=this.Channel_CallbackExceptionAsync;
                     });
                 }
             };
@@ -54,70 +53,73 @@
         {
             return Task.Run(() =>
             {
-                logger?.LogDebug(@event.Exception.Message);
+                this.logger?.LogDebug(@event.Exception.Message);
             });
         }
 
         public async Task CreateQueueAsync(string Name)
         {
-            await connectionTask();
+            await this.connectionTask();
 
-            lock (managedQueues)
+            lock (this.managedQueues)
             {
-                if (managedQueues.Contains(Name))
+                if (this.managedQueues.Contains(Name))
                 {
-                    logger?.LogError("A queue with the name {0} already exists", Name);
+                    this.logger?.LogError("A queue with the name {0} already exists", Name);
                     throw new ArgumentException($"A queue with the name {Name} already exists");
                 }
-                managedQueues.Add(Name);
+
+                this.managedQueues.Add(Name);
             }
 
-            await channel!.QueueDeclareAsync(queue: "frontend." + Name, durable: false, exclusive: false, autoDelete: false, arguments: null);
-            await channel.QueueDeclareAsync(queue: "backend." + Name, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            await this.channel!.QueueDeclareAsync(queue: "frontend."+Name, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            await this.channel.QueueDeclareAsync(queue: "backend."+Name, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-            await channel.QueueBindAsync(queue: "backend." + Name, exchange: "backendEx", routingKey: Name);
-            await channel.QueueBindAsync(queue: "frontend." + Name, exchange: "frontendEx", routingKey: Name);
+            await this.channel.QueueBindAsync(queue: "backend."+Name, exchange: "backendEx", routingKey: Name);
+            await this.channel.QueueBindAsync(queue: "frontend."+Name, exchange: "frontendEx", routingKey: Name);
         }
-
 
         public async Task RemoveQueueAsync(string Name)
         {
-            await connectionTask();
+            await this.connectionTask();
 
-            lock (managedQueues)
+            lock (this.managedQueues)
             {
-                if (!managedQueues.Contains(Name))
+                if (!this.managedQueues.Contains(Name))
                 {
                     return;
                 }
-                managedQueues.Remove(Name);
+
+                this.managedQueues.Remove(Name);
             }
 
-            await channel!.QueueDeleteAsync(queue: "frontend." + Name, false, false);
-            await channel.QueueDeleteAsync(queue: "backend." + Name, false, false);
+            await this.channel!.QueueDeleteAsync(queue: "frontend."+Name, false, false);
+            await this.channel.QueueDeleteAsync(queue: "backend."+Name, false, false);
         }
 
         public async Task SendMessageAsync(string Queue, ReadOnlyMemory<byte> bytes, uint ttl)
         {
-            if (!managedQueues.Contains(Queue))
+            if (!this.managedQueues.Contains(Queue))
             {
                 throw new InvalidOperationException();
             }
 
-            await connectionTask();
+            await this.connectionTask();
             await Task.Run(async () =>
             {
-                var properties = new BasicProperties();
-                properties.Expiration = ttl.ToString();
+                BasicProperties properties = new BasicProperties
+                {
+                    Expiration=ttl.ToString()
+                };
 
-                await channel!.BasicPublishAsync("backendEx", Queue, true, properties, bytes);
+                await this.channel!.BasicPublishAsync("backendEx", Queue, true, properties, bytes);
             });
 
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!this.disposedValue)
             {
                 if (disposing)
                 {
@@ -127,9 +129,9 @@
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
 
-                channel?.Dispose();
-                connection?.Dispose();
-                disposedValue = true;
+                this.channel?.Dispose();
+                this.connection?.Dispose();
+                this.disposedValue=true;
             }
         }
 
@@ -137,13 +139,13 @@
         ~AMQPBroker()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: false);
+            this.Dispose(disposing: false);
         }
 
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
+            this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
     }

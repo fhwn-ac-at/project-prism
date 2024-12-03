@@ -32,8 +32,8 @@ public sealed class ColorConsoleLogger : ILogger
     /// <param name="getCurrentConfig">The configuration of the logger.</param>
     public ColorConsoleLogger(string name, Func<ColorConsoleLoggerConfiguration> getCurrentConfig)
     {
-        this.name = name;
-        this.getCurrentConfig = getCurrentConfig;
+        this.name=name;
+        this.getCurrentConfig=getCurrentConfig;
     }
 
     /// <inheritdoc/>
@@ -46,7 +46,7 @@ public sealed class ColorConsoleLogger : ILogger
     /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel)
     {
-        return getCurrentConfig().Use && getCurrentConfig().LogLevelToColorMap.ContainsKey(logLevel);
+        return this.getCurrentConfig().Use&&this.getCurrentConfig().LogLevelToColorMap.ContainsKey(logLevel);
     }
 
     /// <inheritdoc/>
@@ -57,20 +57,20 @@ public sealed class ColorConsoleLogger : ILogger
         Exception? exception,
         Func<TState, Exception?, string> formatter)
     {
-        if (!IsEnabled(logLevel))
+        if (!this.IsEnabled(logLevel))
         {
             return;
         }
 
-        ColorConsoleLoggerConfiguration config = getCurrentConfig();
-        if (config.EventId == 0 || config.EventId == eventId.Id)
+        ColorConsoleLoggerConfiguration config = this.getCurrentConfig();
+        if (config.EventId==0||config.EventId==eventId.Id)
         {
             ConsoleColor originalColor = Console.ForegroundColor;
 
-            Console.ForegroundColor = config.LogLevelToColorMap[logLevel];
-            Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12} - {name}]");
+            Console.ForegroundColor=config.LogLevelToColorMap[logLevel];
+            Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12} - {this.name}]");
 
-            Console.ForegroundColor = originalColor;
+            Console.ForegroundColor=originalColor;
             Console.Write($"{formatter(state, exception)}");
             Console.WriteLine();
         }
@@ -97,26 +97,26 @@ public sealed class ColorConsoleLoggerProvider : ILoggerProvider
     public ColorConsoleLoggerProvider(
         IOptionsMonitor<ColorConsoleLoggerConfiguration> config)
     {
-        currentConfig = config.CurrentValue;
-        onChangeToken = config.OnChange(updatedConfig => currentConfig = updatedConfig);
+        this.currentConfig=config.CurrentValue;
+        this.onChangeToken=config.OnChange(updatedConfig => this.currentConfig=updatedConfig);
     }
 
     /// <inheritdoc>/>.
     public ILogger CreateLogger(string categoryName)
     {
-        return loggers.GetOrAdd(categoryName, name => new ColorConsoleLogger(name, GetCurrentConfig));
+        return this.loggers.GetOrAdd(categoryName, name => new ColorConsoleLogger(name, this.GetCurrentConfig));
     }
 
     /// <inheritdoc>/>.
     public void Dispose()
     {
-        loggers.Clear();
-        onChangeToken?.Dispose();
+        this.loggers.Clear();
+        this.onChangeToken?.Dispose();
     }
 
     private ColorConsoleLoggerConfiguration GetCurrentConfig()
     {
-        return currentConfig;
+        return this.currentConfig;
     }
 }
 

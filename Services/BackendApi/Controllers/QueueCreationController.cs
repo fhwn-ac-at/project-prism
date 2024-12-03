@@ -4,7 +4,6 @@
     using Keycloak.AuthServices.Sdk;
     using Keycloak.AuthServices.Sdk.Admin;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
@@ -17,8 +16,8 @@
 
         public QueueCreationController(ILogger<QueueCreationController> logger, AMQPBroker broker)
         {
-            this.logger = logger;
-            this.broker = broker;
+            this.logger=logger;
+            this.broker=broker;
         }
 
         [HttpGet]
@@ -26,7 +25,7 @@
         {
             this.logger.LogInformation(this.User.ExtractDisplayName());
 
-            var services = new ServiceCollection();
+            ServiceCollection services = new ServiceCollection();
             services.AddKeycloakAdminHttpClient(new KeycloakAdminClientOptions
             {
                 AuthServerUrl="http://localhost:8180/",
@@ -34,10 +33,10 @@
                 Resource="admin-cli",
             });
 
-            var sp = services.BuildServiceProvider();
-            var client = sp.GetRequiredService<IKeycloakRealmClient>();
+            ServiceProvider sp = services.BuildServiceProvider();
+            IKeycloakRealmClient client = sp.GetRequiredService<IKeycloakRealmClient>();
 
-            var realm = await client.GetRealmAsync("prism");
+            Keycloak.AuthServices.Sdk.Admin.Models.RealmRepresentation realm = await client.GetRealmAsync("prism");
 
             return this.User.ExtractDisplayName();
         }

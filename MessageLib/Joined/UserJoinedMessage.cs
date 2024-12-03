@@ -7,7 +7,7 @@
     public class UserJoinedMessage : Message<UserJoinedMessageBody>
     {
         public UserJoinedMessage(UserJoinedMessageBody body) : base(body, new MessageHeader(MessageType.userJoined))
-        {}
+        { }
 
         [JsonConstructor]
         public UserJoinedMessage(UserJoinedMessageBody body, MessageHeader header) : base(body, header)
@@ -19,6 +19,12 @@
         private readonly User user = user;
 
         [JsonProperty("user")]
-        public User User { get => user; }
+        public User User
+        {
+            get
+            {
+                return this.user;
+            }
+        }
     }
 }

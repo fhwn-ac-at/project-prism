@@ -14,12 +14,12 @@
 
         public AMQPTestController(ILogger<AMQPTestController> logger, AMQPBroker broker)
         {
-            _logger=logger;
+            this._logger=logger;
             this.broker=broker;
         }
 
         [HttpPut(Name = "CreateQueue")]
-        public async Task<string> CreateQueue(string name) 
+        public async Task<string> CreateQueue(string name)
         {
             await this.broker.CreateQueueAsync(name);
             return name;

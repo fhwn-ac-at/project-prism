@@ -26,6 +26,6 @@ public sealed record ColorConsoleLoggerConfiguration
     /// </summary>
     public Dictionary<LogLevel, ConsoleColor> LogLevelToColorMap { get; set; } = new()
     {
-        [LogLevel.Information] = ConsoleColor.Green,
+        [LogLevel.Information]=ConsoleColor.Green,
     };
 }

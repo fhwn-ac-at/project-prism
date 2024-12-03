@@ -10,10 +10,22 @@
 
         [JsonProperty("name")]
         [Required]
-        public string Name { get => name;  }
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
 
         [JsonProperty("id")]
         [Required]
-        public string Id { get => id; }
+        public string Id
+        {
+            get
+            {
+                return this.id;
+            }
+        }
     }
 }

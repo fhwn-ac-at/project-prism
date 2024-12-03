@@ -9,8 +9,8 @@
         [Test]
         public void RoundDurationChanged()
         {
-            var message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
-            var serializedMessage = JsonSerializer.Serialize(message);
+            RoundDurationChangedMessage message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
+            string serializedMessage = JsonSerializer.Serialize(message);
         }
     }
 }

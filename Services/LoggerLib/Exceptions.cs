@@ -7,8 +7,6 @@
 namespace LoggerLib;
 using System;
 
-
-
 /// <summary>
 /// A exception if the file could not be opened.
 /// </summary>

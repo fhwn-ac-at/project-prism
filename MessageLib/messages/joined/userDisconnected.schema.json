@@ -14,8 +14,7 @@
                     "type": {
                         "const": "userDisconnected"
                     }
-                },
-                "additionalProperties": false
+                }
             }
         ]
       },

@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageLib", "..\MessageLib\MessageLib.csproj", "{F28DFC61-BB19-45B8-AE87-CD3E7F709186}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMQPLib", "AMQPLib\AMQPLib.csproj", "{534FDFF8-F67E-4301-8397-3BFEBC76571A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F28DFC61-BB19-45B8-AE87-CD3E7F709186} = {F28DFC61-BB19-45B8-AE87-CD3E7F709186}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerLib", "LoggerLib\LoggerLib.csproj", "{1B6D4D76-BD11-41C6-B4BA-7F9D90250AAC}"
 EndProject
@@ -15,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameService", "GameService\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{0B150AA0-9EE6-4B7F-9C00-6545C04E07D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalTestApp", "LocalTestApp\LocalTestApp.csproj", "{6E7EBD2A-0A4B-44E6-9B70-924EFD1DF4B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalTestApp", "LocalTestApp\LocalTestApp.csproj", "{6E7EBD2A-0A4B-44E6-9B70-924EFD1DF4B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

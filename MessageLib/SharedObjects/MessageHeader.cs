@@ -7,6 +7,7 @@
     public class MessageHeader(MessageType type)
     {
         private readonly DateTime timestamp = DateTime.Now;
+        private readonly MessageType type = type;
 
         [JsonConstructor]
         public MessageHeader(MessageType type, DateTime timestamp) : this(type)
@@ -16,10 +17,10 @@
 
         [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
-        private MessageType Type { get; init; } = type;
+        public MessageType Type { get => type; }
 
         [JsonProperty("timestamp")]
-        private DateTime Timestamp
+        public DateTime Timestamp
         {
             get
             {

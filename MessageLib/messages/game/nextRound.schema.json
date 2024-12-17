@@ -14,8 +14,7 @@
                     "type": {
                         "const": "nextRound"
                     }
-                },
-                "additionalProperties": false
+                }
             }
         ]
       },

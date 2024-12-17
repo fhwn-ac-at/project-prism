@@ -14,8 +14,7 @@
                     "type": {
                         "const": "drawingSizeChanged"
                     }
-                },
-                "additionalProperties": false
+                }
             }
         ]
       },

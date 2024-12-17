@@ -14,8 +14,7 @@
                     "type": {
                         "const": "clear"
                     }
-                },
-                "additionalProperties": false
+                }
             }
         ]
       },

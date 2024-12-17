@@ -14,8 +14,7 @@
                     "type": {
                         "const": "gameEnded"
                     }
-                },
-                "additionalProperties": false
+                }
             }
         ]
       },

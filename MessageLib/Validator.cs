@@ -1,12 +1,16 @@
 ﻿namespace MessageLib
 {
+    using FrenziedMarmot.DependencyInjection;
     using MessageLib.SharedObjects;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Newtonsoft.Json.Schema;
     using System;
 
+    // TODO add this to every 
+    [Injectable(Lifetime = ServiceLifetime.Singleton)]
     public class Validator(Deserializer deserializer, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
     {
         private readonly ILogger<Validator>? logger = logger;

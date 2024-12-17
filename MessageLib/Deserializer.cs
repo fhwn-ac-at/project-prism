@@ -4,6 +4,7 @@
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using System.Text.Json.Nodes;
 
     // just here so I don't have to import Newtonsoft.Json anywhere and could change the implementation
     public class Deserializer(ILogger<Deserializer>? logger = null)
@@ -15,6 +16,32 @@
             return json==null ? null : JsonConvert.DeserializeObject<T>(json);
         }
 
+        public MessageHeader? DeserializeHeader(string? json)
+        {
+            JObject jsonObject;
+            try
+            {
+                jsonObject = JObject.Parse(json);
+            }
+            catch (JsonReaderException ex)
+            {
+                this.logger?.LogError(ex.Message);
+                return null;
+            }
+
+            if (jsonObject==null
+                    ||!jsonObject.HasValues
+                    ||!jsonObject.ContainsKey("header")
+                    ||!jsonObject.GetValue("header")!.HasValues
+                    )
+            {
+                this.logger?.LogInformation("No header found in : {}", jsonObject?.ToString());
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<MessageHeader>(jsonObject.GetValue("header")!.ToString());
+        }
+
         public MessageType? CheckMessageType(string? json)
         {
             if (json==null)
@@ -24,7 +51,7 @@
 
             try
             {
-                this.CheckMessageType(JObject.Parse(json));
+                return this.CheckMessageType(JObject.Parse(json));
             }
             catch (JsonReaderException ex)
             {

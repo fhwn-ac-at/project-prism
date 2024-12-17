@@ -4,11 +4,17 @@
         "messsageHeader": {
             "type": "object",
             "properties": {
+                "type": {
+                    "type": "string"
+                },
                 "timestamp": {
                     "type": "string",
                     "format": "DateTime"
                 }
             },
+            "required": [
+                "type"
+            ],
             "additionalProperties": false
         },
         "user": {

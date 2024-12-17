@@ -13,11 +13,7 @@
                     "type": {
                         "const": "roundAmountChanged"
                     }
-                },
-                "required": [
-                    "type"
-                ],
-                "additionalProperties": false
+                }
             }
         ]
       },

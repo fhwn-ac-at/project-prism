@@ -14,7 +14,7 @@
             "limits": {}
         },
         {
-            "name": "frontend",
+            "name": "game",
             "password_hash": "ybpd8/D5VnMM6QAUjp64RDaTfOtAmqUkJMMG76jBSrMwavWZ",
             "hashing_algorithm": "rabbit_password_hashing_sha256",
             "tags": [],
@@ -66,18 +66,18 @@
             "read": ".*"
         },
         {
-            "user": "frontend",
+            "user": "game",
             "vhost": "external",
             "configure": "^$",
-            "write": "^frontendEx$",
+            "write": "^gameEx$",
             "read": "^backend\\..+$"
         },
         {
             "user": "backend",
             "vhost": "external",
-            "configure": "^(frontend|backend)\\..+$",
-            "write": "^(backendEx|(backend|frontend)\\..+)$",
-            "read": "^(frontend\\..+|(backend|frontend)Ex)$"
+            "configure": "^(game|backend)\\..+$",
+            "write": "^(backendEx|(backend|game)\\..+)$",
+            "read": "^(game\\..+|(backend|game)Ex)$"
         }
     ],
     "topic_permissions": [],
@@ -102,7 +102,7 @@
     ],
     "queues": [
         {
-            "name": "frontend.Test",
+            "name": "game.Test",
             "vhost": "external",
             "durable": false,
             "auto_delete": false,
@@ -122,7 +122,7 @@
     ],
     "exchanges": [
         {
-            "name": "frontendEx",
+            "name": "gameEx",
             "vhost": "external",
             "type": "direct",
             "durable": true,
@@ -150,9 +150,9 @@
             "arguments": {}
         },
         {
-            "source": "frontendEx",
+            "source": "gameEx",
             "vhost": "external",
-            "destination": "frontend.Test",
+            "destination": "game.Test",
             "destination_type": "queue",
             "routing_key": "Test",
             "arguments": {}

@@ -1,7 +1,6 @@
 ﻿namespace GameService.Controllers
 {
     using MessageLib.SharedObjects;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
@@ -11,7 +10,9 @@
         [HttpPost(Name = "ConnectUserToLobby")]
         public void ConnectUserToLobby(User user, string lobbyId)
         {
+            // TODO check if lobby exists if not create new lobby
 
+            // TODO create lobby object, when all user leave delete it
         }
     }
 }

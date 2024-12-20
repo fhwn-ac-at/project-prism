@@ -100,11 +100,11 @@
 
             await this.connectionTask();
 
-            await this.channel!.QueueDeclareAsync(queue: "frontend."+name, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            await this.channel!.QueueDeclareAsync(queue: "game."+name, durable: false, exclusive: false, autoDelete: false, arguments: null);
             await this.channel.QueueDeclareAsync(queue: "backend."+name, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
             await this.channel.QueueBindAsync(queue: "backend."+name, exchange: "backendEx", routingKey: name);
-            await this.channel.QueueBindAsync(queue: "frontend."+name, exchange: "frontendEx", routingKey: name);
+            await this.channel.QueueBindAsync(queue: "game."+name, exchange: "gameEx", routingKey: name);
         }
 
         public async Task RemoveQueueAsync(string Name)
@@ -121,7 +121,7 @@
 
             await this.connectionTask();
 
-            var frontendDeletionTask = this.channel!.QueueDeleteAsync(queue: "frontend."+Name, false, false);
+            var gameDeletionTask = this.channel!.QueueDeleteAsync(queue: "game."+Name, false, false);
             var backendDeletionTask = this.channel.QueueDeleteAsync(queue: "backend."+Name, false, false);
 
             string? consumerTag;
@@ -134,7 +134,7 @@
             }
 
             await this.channel!.BasicCancelAsync(consumerTag);
-            await frontendDeletionTask;
+            await gameDeletionTask;
             await backendDeletionTask;
         }
 

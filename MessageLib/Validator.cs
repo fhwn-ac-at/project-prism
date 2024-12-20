@@ -9,7 +9,6 @@
     using Newtonsoft.Json.Schema;
     using System;
 
-    // TODO add this to every 
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
     public class Validator(Deserializer deserializer, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
     {
@@ -70,8 +69,6 @@
                     this.logger?.LogInformation("Message not valid! Message: {}", json);
                     foreach (ValidationError error in errors)
                     {
-                        // TODO remove writelines
-                        Console.WriteLine(error.Message);
                         this.logger?.LogInformation(error.Message);
                     }
                 }

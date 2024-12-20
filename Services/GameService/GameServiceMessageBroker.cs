@@ -1,4 +1,4 @@
-﻿namespace BackendApi
+﻿namespace GameService
 {
     using AMQPLib;
     using FrenziedMarmot.DependencyInjection;
@@ -7,26 +7,26 @@
     using System.Threading.Tasks;
 
     [Injectable(Lifetime = ServiceLifetime.Transient, TargetType = typeof(IAMQPBroker))]
-    public class BackendApiMessageBroker : IAMQPBroker
+    public class GameServiceMessageBroker : IAMQPBroker
     {
         private readonly AMQPBroker broker;
-        private readonly ILogger<BackendApiMessageBroker>? logger;
+        private readonly ILogger<GameServiceMessageBroker>? logger;
 
-        public BackendApiMessageBroker(AMQPBroker broker, ILogger<BackendApiMessageBroker>? logger = null)
+        public GameServiceMessageBroker(AMQPBroker broker, ILogger<GameServiceMessageBroker>? logger = null)
         {
-            this.broker = broker;
-            this.logger = logger;
+            this.broker=broker;
+            this.logger=logger;
         }
 
         public Task ConnectToQueueAsync(string name, IMessageDistributor messageDistributor)
         {
             // TODO povide exchanges via enum from AMQP service
-            return this.broker.ConnectToQueueAsync("game", name, messageDistributor);
+            return this.broker.ConnectToQueueAsync("backend", name, messageDistributor);
         }
 
         public Task SendMessageAsync(string queue, ReadOnlyMemory<byte> bytes, uint ttl)
         {
-            return this.broker.SendMessageAsync("backendEx", queue, bytes, ttl);
+            return this.broker.SendMessageAsync("gameEx", queue, bytes, ttl);
         }
     }
 }

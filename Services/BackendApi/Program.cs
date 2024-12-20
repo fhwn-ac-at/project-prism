@@ -1,8 +1,9 @@
-using AMQPLib;
+using BackendApi;
+using FrenziedMarmot.DependencyInjection;
 using Keycloak.AuthServices.Authentication;
-using LoggerLib;
 using LoggerLib.Logger;
-
+using MessageLib.Joined;
+using Microsoft.Extensions.DependencyInjection;
 internal class Program
 {
     private static void Main(string[] args)
@@ -11,9 +12,11 @@ internal class Program
 
         // Add services to the container.
 
+        //builder.Services.AddOpenApi();
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSignalR();
 
         builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
         builder.Services.AddSwaggerGen();
@@ -24,10 +27,15 @@ internal class Program
         builder.Logging.AddColorConsoleLogger();
         builder.Logging.AddFileLogger();
 
-        builder.Services.Configure<FileOpenerOptions>(builder.Configuration.GetSection("FileOptions"));
-        builder.Services.Configure<RabbitMQOptions>(builder.Configuration.GetSection("AMQPOptions"));
-        builder.Services.AddSingleton<FileOpener, FileOpener>();
-        builder.Services.AddSingleton<AMQPBroker, AMQPBroker>();
+        var assemblies = System.Reflection.Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+        var loadedAssemblies = assemblies
+            .Select(name => System.Reflection.Assembly.Load(name.ToString()))
+            .Append(System.Reflection.Assembly.GetExecutingAssembly())
+            .ToArray();
+
+        builder.Services.ScanForAttributeInjection(loadedAssemblies);
+        builder.Services.ScanForOptionAttributeInjection(builder.Configuration, loadedAssemblies);
+
 
         WebApplication app = builder.Build();
         app.Logger.LogError("test");
@@ -45,6 +53,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        app.MapHub<AMQPBridgeHub>("ws/{client-id}");
 
         app.Run();
     }

@@ -1,5 +1,8 @@
 ﻿namespace AMQPLib
 {
+    using FrenziedMarmot.DependencyInjection;
+
+    [InjectableOptions("AMQPOptions")]
     public record RabbitMQOptions
     {
         public string Host { get; init; } = "localhost";

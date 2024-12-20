@@ -13,7 +13,8 @@
                 }
             },
             "required": [
-                "type"
+                "type",
+                "timestamp"
             ],
             "additionalProperties": false
         },

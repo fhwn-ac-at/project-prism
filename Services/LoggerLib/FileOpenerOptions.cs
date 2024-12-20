@@ -7,9 +7,12 @@
 
 namespace LoggerLib;
 
+using FrenziedMarmot.DependencyInjection;
+
 /// <summary>
 /// The configuration options for the <see cref="FileOpener"/>
 /// </summary>
+[InjectableOptions("FileOptions")]
 public record FileOpenerOptions
 {
     /// <summary>

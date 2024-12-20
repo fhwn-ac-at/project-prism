@@ -1,0 +1,47 @@
+﻿namespace BackendApi
+{
+    using AMQPLib;
+    using MessageLib;
+    using Microsoft.AspNetCore.SignalR;
+
+    public class WebsocketToAMQPConnector
+    {
+        private readonly IClientProxy clientProxy;
+        private readonly IAMQPBroker broker;
+        private readonly string userId;
+        private readonly Validator validator;
+        private readonly ILogger<WebsocketToAMQPConnector>? logger;
+
+        public WebsocketToAMQPConnector(IClientProxy clientProxy, string userId, IAMQPBroker broker, PlainMessageDistributor messageDistributor, Validator validator, ILogger<WebsocketToAMQPConnector>? logger = null)
+        {
+            this.clientProxy=clientProxy;
+            this.broker=broker;
+            this.userId=userId;
+            this.validator=validator;
+            this.logger=logger;
+            this.broker.ConnectToQueueAsync(userId, messageDistributor);
+            messageDistributor.ValidMessageReceived+=this.ValidMessageReceived;
+        }
+
+        public async Task SendAsync(string message)
+        {
+            if (!this.validator.Validate(message, out _))
+            {
+                this.logger?.LogInformation("Message not valid! Message: {}", message);
+                return;
+            }
+
+            await this.broker.SendMessageAsync(this.userId, System.Text.Encoding.UTF8.GetBytes(message), Convert.ToUInt32(TimeSpan.FromMinutes(10).TotalMilliseconds));
+        }
+
+
+        private void ValidMessageReceived(object? sender, string message)
+        {
+            Task.Run(async () =>
+            {
+                // TODO maby error handeling
+                await this.clientProxy.SendAsync(message);
+            });
+        }
+    }
+}

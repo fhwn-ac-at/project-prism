@@ -7,6 +7,8 @@
 
 namespace LoggerLib;
 
+using FrenziedMarmot.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -22,6 +24,8 @@ using System;
 /// <exception cref="ArgumentNullException">
 /// Is thrown if the presenter is null.
 /// </exception>
+/// 
+[Injectable(Lifetime = ServiceLifetime.Singleton)]
 public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>? logger)
 {
     /// <summary>

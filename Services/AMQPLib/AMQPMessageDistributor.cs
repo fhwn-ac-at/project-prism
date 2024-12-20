@@ -1,15 +1,18 @@
 namespace AMQPLib
 {
+    using FrenziedMarmot.DependencyInjection;
     using MessageLib;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using RabbitMQ.Client.Events;
 
-    public class AMQPMessageDistributor(MessageDistributor distributor, ILogger<AMQPMessageDistributor>? logger = null)
+    [Injectable(Lifetime = ServiceLifetime.Transient)]
+    public class AMQPMessageDistributor(IMessageDistributor distributor, ILogger<AMQPMessageDistributor>? logger = null)
     {
         private readonly ILogger<AMQPMessageDistributor>? logger = logger;
-        private readonly MessageDistributor distributor = distributor;
+        private readonly IMessageDistributor distributor = distributor;
 
-        public MessageDistributor Distributor { get { return distributor; } }
+        public IMessageDistributor Distributor { get { return distributor; } }
 
         public async Task HandleReceivedAsync(object Sender, BasicDeliverEventArgs args)
         {

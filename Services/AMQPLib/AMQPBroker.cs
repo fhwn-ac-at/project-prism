@@ -1,5 +1,6 @@
 ﻿namespace AMQPLib
 {
+    using FrenziedMarmot.DependencyInjection;
     using MessageLib;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -8,7 +9,10 @@
     using RabbitMQ.Client.Events;
     using System.Threading.Tasks;
 
-    public class AMQPBroker : IDisposable
+
+    [Injectable(Lifetime = ServiceLifetime.Singleton, TargetType = typeof(IAMQPQueueManager))]
+    [Injectable(Lifetime = ServiceLifetime.Singleton, TargetType = typeof(AMQPBroker))]
+    public class AMQPBroker : IDisposable, IAMQPQueueManager
     {
         private readonly ILogger<AMQPBroker>? logger;
         private readonly IServiceProvider serviceProvider;
@@ -81,10 +85,8 @@
         }
 
         // TODO error handling remove consumer tag on error
-        public async Task<MessageDistributor> CreateQueueAsync(string name)
+        public async Task CreateQueueAsync(string name)
         {
-            await this.connectionTask();
-
             lock (this.managedQueues)
             {
                 if (this.managedQueues.Contains(name))
@@ -96,36 +98,17 @@
                 this.managedQueues.Add(name);
             }
 
+            await this.connectionTask();
+
             await this.channel!.QueueDeclareAsync(queue: "frontend."+name, durable: false, exclusive: false, autoDelete: false, arguments: null);
             await this.channel.QueueDeclareAsync(queue: "backend."+name, durable: false, exclusive: false, autoDelete: false, arguments: null);
 
             await this.channel.QueueBindAsync(queue: "backend."+name, exchange: "backendEx", routingKey: name);
             await this.channel.QueueBindAsync(queue: "frontend."+name, exchange: "frontendEx", routingKey: name);
-
-            var consumer = new AsyncEventingBasicConsumer(this.channel);
-            var distributor = this.serviceProvider.GetRequiredService<AMQPMessageDistributor>();
-            consumer.ReceivedAsync+=distributor.HandleReceivedAsync;
-            // this consumer tag identifies the subscription
-            // when it has to be cancelled
-            string consumerTag = await this.channel.BasicConsumeAsync("frontend."+name, true, consumer);
-
-            lock (this.consumerTags)
-            {
-                this.consumerTags.Add(name, consumerTag);
-            }
-
-            return distributor.Distributor;
-
-            // TODO connect to frontend channel for events maybe vallback? weil events kann ich nicht auf eine einzelne queue hängen
-            // TODO ich könnte einen verteiler machen welcher zurück geliefert wird und die events wirft
-            // Der kann gleich die messages validieren und auf unterschiedliche events aufteilen 
-            // Der Game state bekommt dann einen dieser verteiler und reagiert mit seinem state nur auf die nachrichten und sendet vielleicht neue
         }
 
         public async Task RemoveQueueAsync(string Name)
         {
-            await this.connectionTask();
-
             lock (this.managedQueues)
             {
                 if (!this.managedQueues.Contains(Name))
@@ -136,6 +119,7 @@
                 this.managedQueues.Remove(Name);
             }
 
+            await this.connectionTask();
 
             var frontendDeletionTask = this.channel!.QueueDeleteAsync(queue: "frontend."+Name, false, false);
             var backendDeletionTask = this.channel.QueueDeleteAsync(queue: "backend."+Name, false, false);
@@ -154,11 +138,42 @@
             await backendDeletionTask;
         }
 
-        public async Task SendMessageAsync(string Queue, ReadOnlyMemory<byte> bytes, uint ttl)
+        public async Task ConnectToQueueAsync(string name, string prefix, IMessageDistributor messageDistributor)
         {
-            if (!this.managedQueues.Contains(Queue))
+            lock (this.managedQueues)
             {
-                throw new InvalidOperationException();
+                if (!this.managedQueues.Contains(name))
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+            await this.connectionTask();
+
+            var consumer = new AsyncEventingBasicConsumer(this.channel!);
+            var distributor = new AMQPMessageDistributor(messageDistributor, this.serviceProvider.GetRequiredService<ILogger<AMQPMessageDistributor>>());
+            consumer.ReceivedAsync+=async (object sender, BasicDeliverEventArgs args) =>
+            {
+                await distributor.HandleReceivedAsync(sender, args);
+                await channel!.BasicAckAsync(deliveryTag: args.DeliveryTag, multiple: false);
+            };
+            // this consumer tag identifies the subscription
+            // when it has to be cancelled
+            string consumerTag = await this.channel!.BasicConsumeAsync(prefix+"."+name, false, consumer);
+
+            lock (this.consumerTags)
+            {
+                this.consumerTags.Add(name, consumerTag);
+            }
+        }
+
+        public async Task SendMessageAsync(string exchange, string queue, ReadOnlyMemory<byte> bytes, uint ttl)
+        {
+            lock (this.managedQueues)
+            {
+                if (!this.managedQueues.Contains(queue))
+                {
+                    throw new InvalidOperationException();
+                }
             }
 
             await this.connectionTask();
@@ -169,9 +184,8 @@
                     Expiration=ttl.ToString()
                 };
 
-                await this.channel!.BasicPublishAsync("backendEx", Queue, true, properties, bytes);
+                await this.channel!.BasicPublishAsync(exchange, queue, true, properties, bytes);
             });
-
         }
 
         protected virtual void Dispose(bool disposing)

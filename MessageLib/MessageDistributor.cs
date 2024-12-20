@@ -1,13 +1,16 @@
 ﻿
 namespace MessageLib
 {
+    using FrenziedMarmot.DependencyInjection;
     using MessageLib.Game;
     using MessageLib.Joined;
     using MessageLib.Lobby;
     using MessageLib.SharedObjects;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    public class MessageDistributor(Validator validator, Deserializer deserializer, ILogger<MessageDistributor>? logger = null)
+    [Injectable(Lifetime = ServiceLifetime.Transient)]
+    public class MessageDistributor(Validator validator, Deserializer deserializer, ILogger<MessageDistributor>? logger = null): IMessageDistributor
     {
         private readonly ILogger<MessageDistributor>? logger = logger;
         private readonly Deserializer deserializer = deserializer;
@@ -43,7 +46,7 @@ namespace MessageLib
         /// <returns>True if this handler distributed the message otherwise false</returns>
         public bool HandleMessage(string message)
         {
-            if (this.validator.Validate(message, out MessageType? messageType))
+            if (!this.validator.Validate(message, out MessageType? messageType))
             {
                 this.logger?.LogInformation("Message not valid! Message: {}", message);
                 return false;

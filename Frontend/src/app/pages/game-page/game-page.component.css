@@ -1,0 +1,21 @@
+.pageRoot
+{
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+}
+
+.player-canvas-chat
+{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    margin: 2%;
+    max-height: 75vh;
+}
+
+.chat
+{
+    width: 20vw;
+}

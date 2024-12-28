@@ -1,0 +1,30 @@
+<mat-card  class="CanvasOptions-Container">
+    <div class="ColorPicker-Container">
+        <label >Pick a Color</label>
+        <input 
+            class="ColorPicker"
+            [(colorPicker)]="Color" 
+            [style.background]="Color"
+            (colorPickerChange)="OnColorChanged($event)"
+        />
+    </div>
+
+    <mat-divider class="Divider" [vertical]="true"></mat-divider>
+
+
+    <div class="SizeSlider-Container">
+        <label >Select stroke width</label>
+
+        <mat-slider class="SizeSlider" min="0" max="0.1" step="0.005">
+            <input matSliderThumb [(value)]="StrokeSize" (valueChange)="OnSizeValueChanged($event)">
+        </mat-slider>
+    </div>
+
+    <mat-divider class="Divider" [vertical]="true"></mat-divider>
+
+    <div class="Options-Container">
+        <label>Reset Canvas</label>
+
+        <button mat-raised-button (click)="OnCanvasResetClicked($event)">Reset</button>
+    </div>
+</mat-card>

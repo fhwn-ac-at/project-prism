@@ -1,0 +1,28 @@
+<mat-card class="chat-root">
+
+    <mat-list class="chat-message-list">
+        @for (item of ChatMessages; track item)
+        {
+            <mat-list-item  class="chat-message">
+                <span  class="username">
+                    {{item.Username}}
+                </span>
+
+                <span class="colon">:</span>
+
+                <span class="message">{{item.Message}}</span>
+            </mat-list-item>
+        }
+
+    </mat-list>
+       
+
+    <mat-form-field class="example-form-field">
+        
+        <mat-label>Enter your message:</mat-label>
+
+        <input matInput type="text" [(ngModel)]="ChatMessageInputModel" (keydown.enter)="OnKeyPressed($event)" >
+
+    </mat-form-field>
+           
+</mat-card>

@@ -1,54 +1,56 @@
 ﻿namespace GameService
 {
     using FrenziedMarmot.DependencyInjection;
+    using GameLib;
     using MessageLib;
     using MessageLib.Game;
     using MessageLib.Joined;
     using MessageLib.Lobby;
     using MessageLib.SharedObjects;
+    using System.Reflection;
 
     [Injectable(Lifetime = ServiceLifetime.Transient)]
-    public class GameService : IDisposable
+    public class GameLobby : IDisposable
     {
-        private readonly HashSet<string> users = [];
-        // Users that where connected once
-        private readonly HashSet<string> zombieUsers = [];
-
-        private MessageDistributor messageDistributor;
+        private readonly Lobby lobby;
+        private Game? game;
+        private readonly MessageDistributor messageDistributor;
         private readonly GameServiceMessageBroker messageBroker;
-        private readonly string Id;
 
-        private readonly List<Message<IMessageBody>> currentDrawing = [];
-
-        private string? drawerId;
-        private bool isGameRunning;
-        private DateTime? drawingStartTime;
-        private TimeSpan? drawingDuration;
-
-        private readonly ILogger<GameService>? logger;
+        private readonly ILogger<GameLobby>? logger;
         private bool disposedValue;
 
-        public GameService(string Id, GameServiceMessageBroker messageBroker, MessageDistributor messageDistributor, ILogger<GameService>? logger = null)
+        public GameLobby(string id, GameServiceMessageBroker messageBroker, MessageDistributor messageDistributor, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
         {
-            this.Id = Id;
-            this.messageBroker = messageBroker;
-            this.messageDistributor = messageDistributor;
-            this.logger = logger;
+            this.messageBroker=messageBroker;
+            this.messageDistributor=messageDistributor;
+            this.logger=logger;
+            this.lobby=new(id);
         }
 
-        public int UserCount => this.users.Count;
+        public int UserCount => this.lobby.UserCount;
 
-        public bool AddUser(string key)
+        public void AddUser(User user)
         {
-            this.zombieUsers.Remove(key);
-            this.messageBroker.ConnectToQueueAsync(this.Id, this.ConnectMessageDistributor(key));
-            return this.users.Add(key);
+            this.messageBroker.ConnectToQueueAsync(user.Id, this.ConnectMessageDistributor(user.Id));
+            this.game?.AddUser(user.Id);
+            this.lobby.AddUser(user.Id);
+            this.DistributeMessage(user.Id, new UserJoinedMessage(new UserJoinedMessageBody(user)));
         }
 
-        public bool RemoveUser(string key)
+        public void RemoveUser(User user)
         {
-            this.zombieUsers.Add(key);
-            return this.users.Remove(key);
+            this.game?.RemoveUser(user.Id);
+            this.lobby.RemoveUser(user.Id);
+            this.DistributeMessage(user.Id, new UserDisconnectedMessage(new UserDisconnectedMessageBody(user)));
+        }
+
+        public void StartGame()
+        {
+            if (this.UserCount>1)
+            {
+                this.game = this.lobby.StartGame();
+            }
         }
 
         private IMessageDistributor ConnectMessageDistributor(string key)
@@ -81,121 +83,188 @@
 
         private void ReceivedPointMessage(string key, PointMessageBody message)
         {
-            throw new NotImplementedException();
+            this.SaveAndDistributeMessage(key, new PointMessage(message));
         }
 
         private void ReceivedMoveToMessage(string key, MoveToMessageBody message)
         {
-            throw new NotImplementedException();
+            this.SaveAndDistributeMessage(key, new MoveToMessage(message));
         }
 
         private void ReceivedLineToMessage(string key, LineToMessageBody message)
         {
-            throw new NotImplementedException();
+            this.SaveAndDistributeMessage(key, new LineToMessage(message));
         }
 
         private void ReceivedDrawingSizeChangedMessage(string key, DrawingSizeChangedMessageBody message)
         {
-            throw new NotImplementedException();
+            this.SaveAndDistributeMessage(key, new DrawingSizeChangedMessage(message));
         }
 
         private void ReceivedClosePathMessage(string key, EmptyMessageBody message)
         {
-            throw new NotImplementedException();
+            this.SaveAndDistributeMessage(key, new ClosePathMessage());
         }
 
         private void ReceivedBackgroundColorMessage(string key, BackgroundColorMessageBody message)
         {
-            throw new NotImplementedException();
+            this.SaveAndDistributeMessage(key, new BackgroundColorMessage(message));
         }
 
         private void ReceivedClearMessage(string key, EmptyMessageBody message)
         {
-            this.currentDrawing.Clear();
+            if (this.game==null)
+            {
+                this.logger?.LogError("Game not started! sender: {}", key);
+                return;
+            }
+            this.game.ClearDrawing();
             this.DistributeMessage(key, new ClearMessage());
         }
 
         private void ReceivedUndoMessage(string key, EmptyMessageBody message)
         {
-            this.currentDrawing.RemoveAt(this.currentDrawing.Count-1);
+            if (this.game==null)
+            {
+                this.logger?.LogError("Game not started! sender: {}", key);
+                return;
+            }
+            this.game.Undo();
             this.DistributeMessage(key, new UndoMessage());
         }
 
         private void ReceivedUserScoreMessage(string key, UserScoreMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedUserJoinedMessage(string key, UserJoinedMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedUserDisconnectedMessage(string key, UserDisconnectedMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedSetNotDrawerMessage(string key, EmptyMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedSetDrawerMessage(string key, SetDrawerMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedSelectWordMessage(string key, SelectWordMessageBody message)
         {
-            throw new NotImplementedException();
+            if (game==null)
+            {
+                this.logger?.LogError("Game not started! sender: {}", key);
+                return;
+            }
+
+            if (!this.game.SelectWord(message.Word))
+            {
+                this.logger?.LogError("Selected word that didn't exist. Word: {}", message.Word);
+                return;
+            }
+
+            this.DistributeMessage(key, new SelectWordMessage(message));
         }
 
         private void ReceivedRoundDurationChangedMessage(string key, RoundDurationChangedMessageBody message)
         {
-            throw new NotImplementedException();
+            if (this.game != null)
+            {
+                this.logger?.LogWarning("Received round duration message during game. sender: {}", key);
+            }
+
+            if (message.Duration<=0)
+            {
+                this.logger?.LogError("Received round duration smaller than 0. duration: {}", message.Duration);
+                return;
+            }
+
+            this.lobby.RoundDuration=message.Duration;
+            this.DistributeMessage(key, new RoundDurationChangedMessage(message));
         }
 
         private void ReceivedRoundAmountChangedMessage(string key, RoundAmountChangedMessageBody message)
         {
-            throw new NotImplementedException();
+            if (this.game!=null)
+            {
+                this.logger?.LogError("Received round amount message during game. sender: {}", key);
+                return;
+            }
+
+            if (message.Rounds<=0)
+            {
+                this.logger?.LogError("Received round amount smaller than 0. amount: {}", message.Rounds);
+                return;
+            }
+
+            this.lobby.RoundAmount=message.Rounds;
+            this.DistributeMessage(key, new RoundAmountChangedMessage(message));
         }
 
         private void ReceivedGameEndedMessage(string key, EmptyMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedSearchedWordMessage(string key, SearchedWordMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedNextRoundMessage(string key, EmptyMessageBody message)
         {
+            // should not get it
             throw new NotImplementedException();
         }
 
         private void ReceivedChatMessageMessage(string key, ChatMessageMessageBody message)
         {
-            throw new NotImplementedException();
-        }
-
-        private void SaveAndDistributeMessage<T>(string sender, Message<T> e) where T: IMessageBody
-        {
-            if (sender != this.drawerId)
+            if (this.game != null && this.game.GuessWord(message.Text))
             {
-                this.logger?.LogError("Drawing message sent not by drawer: {} sender: {}", drawerId, sender);
+                this.logger?.LogDebug("User: {} has correctly guessed the word", key);
                 return;
             }
 
-            if (!this.isGameRunning)
+            this.DistributeMessage(key, new ChatMessageMessage(message));
+        }
+
+        private void SaveAndDistributeMessage<T>(string sender, Message<T> e) where T : IMessageBody
+        {
+            if (game == null)
+            {
+                this.logger?.LogError("Game not started! sender: {}", sender);
+                return;
+            }
+
+            if (sender!= this.game.DrawerId)
+            {
+                this.logger?.LogError("Drawing message sent not by drawer: {} sender: {}", this.game.DrawerId, sender);
+                return;
+            }
+
+            if (!this.game.Running)
             {
                 this.logger?.LogError("Game not running but drawing message sent. sender: {}", sender);
                 return;
             }
 
-            this.currentDrawing.Add(e);
+            this.game.AddToDrawing(e);
             this.DistributeMessage(sender, e);
         }
 
@@ -204,30 +273,25 @@
             var message = System.Text.Encoding.UTF8.GetBytes(e.SerializeToJson());
 
             double ttl;
-            if (!isGameRunning || drawingDuration == null || this.drawingStartTime == null)
+            if (this.game == null||this.game.RoundStartTime==null)
             {
                 // brauch ich das überhaupt? kann ich die queue als speicher verwenden? weil dann fehlt ja der erste teil der zeichnung...
                 ttl=TimeSpan.FromMinutes(5).TotalMilliseconds;
             }
             else
             {
-                ttl = this.drawingDuration.Value.Subtract(DateTime.Now.Subtract(this.drawingStartTime.Value)).TotalMilliseconds;
+                ttl=DateTime.Now.Subtract(this.game.RoundStartTime.Value).Subtract(TimeSpan.FromSeconds(this.game.RoundDuration)).TotalMilliseconds;
             }
 
             var uintTTl = Convert.ToUInt32(ttl);
 
-            foreach (var id in this.users)
+            foreach (var id in this.lobby.Users)
             {
-                if (id == sender)
+                if (id==sender)
                 {
                     continue;
                 }
 
-                this.messageBroker.SendMessageAsync(id, message, uintTTl);
-            }
-
-            foreach (var id in this.zombieUsers)
-            {
                 this.messageBroker.SendMessageAsync(id, message, uintTTl);
             }
         }
@@ -248,7 +312,7 @@
         }
 
         // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        ~GameService()
+        ~GameLobby()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);

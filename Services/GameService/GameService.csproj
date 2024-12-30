@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\MessageLib\MessageLib.csproj" />
     <ProjectReference Include="..\AMQPLib\AMQPLib.csproj" />
     <ProjectReference Include="..\LoggerLib\LoggerLib.csproj" />
+	<ProjectReference Include="..\GameLib\GameLib.csproj" />
   </ItemGroup>
 
 </Project>

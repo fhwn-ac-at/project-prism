@@ -24,6 +24,13 @@
             this.lobbyManager.ConnectUserToLobby(lobbyId, user);
         }
 
+        [HttpPost(Name = "StartGame")]
+        public void StartGame(string lobbyId)
+        {
+            this.logger?.LogDebug("Start game for lobby: {}", lobbyId);
+            this.lobbyManager.StartGame(lobbyId);
+        }
+
         [HttpDelete(Name = "DisconnectUserFromLobby")]
         public void DisconnectUserFromLobby(User user, string lobbyId)
         {

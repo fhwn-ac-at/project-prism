@@ -7,7 +7,6 @@
     using MessageLib.Joined;
     using MessageLib.Lobby;
     using MessageLib.SharedObjects;
-    using System.Reflection;
 
     [Injectable(Lifetime = ServiceLifetime.Transient)]
     public class GameLobby : IDisposable
@@ -235,7 +234,7 @@
 
         private void ReceivedChatMessageMessage(string key, ChatMessageMessageBody message)
         {
-            if (this.game != null && this.game.GuessWord(message.Text))
+            if (this.game != null && this.game.GuessWord(message.Text, key))
             {
                 this.logger?.LogDebug("User: {} has correctly guessed the word", key);
                 return;

@@ -10,4 +10,10 @@
     <ProjectReference Include="..\..\MessageLib\MessageLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="wordlist.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

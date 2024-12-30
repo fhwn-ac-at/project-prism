@@ -1,6 +1,8 @@
-﻿using MessageLib;
+﻿using GameLib;
+using MessageLib;
 using MessageLib.Game;
 using MessageLib.Lobby;
+using Microsoft.Extensions.Options;
 
 internal class Program
 {
@@ -56,5 +58,9 @@ internal class Program
         Console.WriteLine(test.Validate(message3));
         SetDrawerMessage? parsedSetDrwaer = deserialzier.DeserializeTo<SetDrawerMessage>(message3);
         Console.WriteLine(parsedSetDrwaer);
+
+        WordList list = new WordList(Options.Create(new WordListOptions("./wordlist.json")), deserialzier);
+
+        Console.WriteLine(list);
     }
 }

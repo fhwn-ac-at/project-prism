@@ -9,15 +9,16 @@
     [Injectable(Lifetime = ServiceLifetime.Transient)]
     public class Game
     {
-        private readonly HashSet<string> users;
+        private readonly Dictionary<string, UserGameState> users;
         // Users that where connected once
-        private readonly HashSet<string> zombieUsers = [];
+        private readonly Dictionary<string, UserGameState> zombieUsers = [];
 
         private readonly LinkedList<Message<IMessageBody>> drawing = [];
         private string? selectedWord;
 
         private readonly int roundDuration;
         private int roundAmount;
+        private uint guessedCounter;
 
         public bool Running { get; internal set; } = false;
         public string? DrawerId { get; internal set; }
@@ -25,23 +26,34 @@
 
         public int RoundDuration => roundDuration;
         
-        public Game(HashSet<string> users, int roundAmount, int roundDuration)
+        internal Game(HashSet<string> users, int roundAmount, int roundDuration)
         {
-            this.users = users;
+            this.users = users.ToDictionary((key) => key, (_) => new UserGameState());
             this.roundAmount = roundAmount;
             this.roundDuration = roundDuration;
         }
 
-        public bool AddUser(string key)
+        public void AddUser(string key)
         {
+            if (!this.zombieUsers.TryGetValue(key, out var user))
+            {
+                this.users.Add(key, new());
+                return;
+            }
+
             this.zombieUsers.Remove(key);
-            return users.Add(key);   
+            this.users.Add(key, new(user.Score));   
         }
 
-        public bool RemoveUser(string key)
+        public void RemoveUser(string key)
         {
-            this.zombieUsers.Add(key);
-            return users.Remove(key);
+            if (!this.users.TryGetValue(key, out var user))
+            {
+                return;
+            }
+            
+            this.zombieUsers.Add(key, new(user.Score));
+            this.users.Remove(key);
         }
 
         public void AddToDrawing<T>(Message<T> e) where T : IMessageBody
@@ -54,9 +66,22 @@
             this.drawing.Clear();
         }
 
-        public bool GuessWord(string text)
+        public bool GuessWord(string text, string key)
         {
-            return this.selectedWord != null && text==this.selectedWord;
+            var guessed = this.selectedWord != null && text==this.selectedWord;
+
+            if (guessed)
+            {
+                if (!this.users.TryGetValue(key, out var user))
+                {
+                    return false;
+                }
+
+                user.Guessed=true;
+                this.guessedCounter++;
+            }
+
+            return guessed;
         }
 
         public bool SelectWord(string word)
@@ -67,6 +92,15 @@
         public void Undo()
         {
             this.drawing.RemoveLast();
+        }
+
+        private void RoundEnded()
+        {
+
+            this.guessedCounter=0;
+            this.selectedWord=null;
+            this.roundAmount--;
+            this.ClearDrawing();
         }
     }
 }

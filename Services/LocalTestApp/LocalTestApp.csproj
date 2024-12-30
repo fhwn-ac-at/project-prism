@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MessageLib\MessageLib.csproj" />
     <ProjectReference Include="..\AMQPLib\AMQPLib.csproj" />
+    <ProjectReference Include="..\GameLib\GameLib.csproj" />
     <ProjectReference Include="..\LoggerLib\LoggerLib.csproj" />
   </ItemGroup>
 

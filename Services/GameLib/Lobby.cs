@@ -1,5 +1,7 @@
 ﻿namespace GameLib
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
     using System.Collections.Generic;
 
     public class Lobby
@@ -8,9 +10,12 @@
 
         private readonly string id;
 
-        public Lobby(string id)
+        private readonly IServiceProvider serviceProvider;
+
+        public Lobby(string id, IServiceProvider serviceProvider)
         {
             this.id = id;
+            this.serviceProvider = serviceProvider;
         }
 
         public int UserCount => users.Count;
@@ -33,7 +38,13 @@
 
         public Game StartGame()
         {
-            return new Game(this.users, this.RoundAmount, this.RoundDuration);
+            return new Game(
+                this.users, 
+                this.RoundAmount,
+                this.RoundDuration, 
+                this.serviceProvider.GetRequiredService<WordList>(),
+                this.serviceProvider.GetRequiredService<IOptions<GameOptions>>()
+            );
         }
     }
 }

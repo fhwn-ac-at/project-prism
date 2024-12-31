@@ -17,21 +17,24 @@
             this.logger=logger;
         }
 
-        [HttpPost(Name = "ConnectUserToLobby")]
+        [HttpPost("connectUserToLobby")]
         public void ConnectUserToLobby(User user, string lobbyId)
         {
             this.logger?.LogDebug("User: {} connected to lobby: {}", user, lobbyId);
             this.lobbyManager.ConnectUserToLobby(lobbyId, user);
         }
 
-        [HttpPost(Name = "StartGame")]
+        [HttpPost("startGame")]
         public void StartGame(string lobbyId)
         {
             this.logger?.LogDebug("Start game for lobby: {}", lobbyId);
-            this.lobbyManager.StartGame(lobbyId);
+            if (!this.lobbyManager.StartGame(lobbyId))
+            {
+                throw new BadHttpRequestException("Not enough player");
+            }
         }
 
-        [HttpDelete(Name = "DisconnectUserFromLobby")]
+        [HttpDelete("disconnectUserFromLobby")]
         public void DisconnectUserFromLobby(User user, string lobbyId)
         {
             this.logger?.LogDebug("User: {} disconnected from lobby: {}", user, lobbyId);

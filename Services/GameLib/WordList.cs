@@ -1,13 +1,16 @@
 ﻿namespace GameLib
 {
+    using FrenziedMarmot.DependencyInjection;
     using MessageLib;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
 
+    [Injectable(Lifetime = ServiceLifetime.Singleton)]
     public class WordList
     {
-        private WordListItem[] words;
+        private readonly WordListItem[] words;
 
         public WordList(IOptions<WordListOptions> options, Deserializer deserializer)
         {
@@ -35,6 +38,7 @@
             this.words=jsonWords.Words;
         }
 
+        public WordListItem[] Words => this.words;
     }
 
     public class WordListOptions(string location)
@@ -49,7 +53,7 @@
         public WordListItem[] Words { get; init; } = words;
     }
 
-    internal class WordListItem(string word, byte difficulty)
+    public class WordListItem(string word, byte difficulty)
     {
         [JsonProperty("word")]
         [Required]
@@ -57,6 +61,7 @@
 
         [JsonProperty("difficulty")]
         [Required]
+        [Range(0, 2)]
         public byte Difficulty { get; init; } = difficulty;
     }
 }

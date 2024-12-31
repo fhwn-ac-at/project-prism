@@ -2,6 +2,7 @@
 {
     using AMQPLib;
     using FrenziedMarmot.DependencyInjection;
+    using MessageLib;
     using MessageLib.SharedObjects;
     using System;
 
@@ -27,7 +28,16 @@
 
             if (!this.lobbies.ContainsKey(lobbyId))
             {
-                this.lobbies.Add(lobbyId, this.serviceProvider.GetRequiredService<GameLobby>());
+                this.lobbies.Add(
+                    lobbyId,
+                    new GameLobby(
+                        lobbyId,
+                        this.serviceProvider.GetRequiredService<IAMQPBroker>(),
+                        this.serviceProvider.GetRequiredService<MessageDistributor>(),
+                        this.serviceProvider,
+                        this.serviceProvider.GetRequiredService<ILogger<GameLobby>>()
+                        )
+                    );
             }
 
             this.users.Add(user.Id);
@@ -54,7 +64,7 @@
             }
         }
 
-        public void StartGame(string lobbyId)
+        public bool StartGame(string lobbyId)
         {
             ArgumentNullException.ThrowIfNull(lobbyId);
 
@@ -63,7 +73,7 @@
                 throw new ArgumentException(lobbyId);
             }
 
-            value.StartGame();
+            return value.StartGame();
         }
     }
 }

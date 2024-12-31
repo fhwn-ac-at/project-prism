@@ -1,3 +1,5 @@
+using FrenziedMarmot.DependencyInjection;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -10,6 +12,15 @@ internal class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        var assemblies = System.Reflection.Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+        var loadedAssemblies = assemblies
+            .Select(name => System.Reflection.Assembly.Load(name.ToString()))
+            .Append(System.Reflection.Assembly.GetExecutingAssembly())
+            .ToArray();
+
+        builder.Services.ScanForAttributeInjection(loadedAssemblies);
+        builder.Services.ScanForOptionAttributeInjection(builder.Configuration, loadedAssemblies);
 
         WebApplication app = builder.Build();
 

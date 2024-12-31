@@ -9,7 +9,7 @@ namespace MessageLib
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    [Injectable(Lifetime = ServiceLifetime.Transient)]
+    [Injectable(Lifetime = ServiceLifetime.Transient, TargetType = typeof(IMessageDistributor))]
     public class MessageDistributor(Validator validator, Deserializer deserializer, ILogger<MessageDistributor>? logger = null): IMessageDistributor
     {
         private readonly ILogger<MessageDistributor>? logger = logger;

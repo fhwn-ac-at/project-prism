@@ -22,9 +22,9 @@
     public class UserScoreMessageBody : IMessageBody
     {
         private readonly User user;
-        private readonly double score;
+        private readonly uint score;
 
-        public UserScoreMessageBody(User user, double score)
+        public UserScoreMessageBody(User user, uint score)
         {
             if (score<0)
             {
@@ -45,8 +45,8 @@
         }
 
         [JsonProperty("score")]
-        [Range(0, double.MaxValue)]
-        public double Score
+        [Range(0, uint.MaxValue)]
+        public uint Score
         {
             get
             {

@@ -1,5 +1,6 @@
 ﻿namespace GameService
 {
+    using AMQPLib;
     using FrenziedMarmot.DependencyInjection;
     using GameLib;
     using MessageLib;
@@ -8,48 +9,118 @@
     using MessageLib.Lobby;
     using MessageLib.SharedObjects;
 
-    [Injectable(Lifetime = ServiceLifetime.Transient)]
     public class GameLobby : IDisposable
     {
         private readonly Lobby lobby;
+        private Dictionary<string, User> users = [];
         private Game? game;
         private readonly MessageDistributor messageDistributor;
-        private readonly GameServiceMessageBroker messageBroker;
+        private readonly IAMQPBroker messageBroker;
 
         private readonly ILogger<GameLobby>? logger;
         private bool disposedValue;
 
-        public GameLobby(string id, GameServiceMessageBroker messageBroker, MessageDistributor messageDistributor, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
+        public GameLobby(string id, IAMQPBroker messageBroker, MessageDistributor messageDistributor, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
         {
             this.messageBroker=messageBroker;
             this.messageDistributor=messageDistributor;
             this.logger=logger;
-            this.lobby=new(id);
+            this.lobby=new(id, serviceProvider);
         }
 
         public int UserCount => this.lobby.UserCount;
 
         public void AddUser(User user)
         {
-            this.messageBroker.ConnectToQueueAsync(user.Id, this.ConnectMessageDistributor(user.Id));
-            this.game?.AddUser(user.Id);
-            this.lobby.AddUser(user.Id);
-            this.DistributeMessage(user.Id, new UserJoinedMessage(new UserJoinedMessageBody(user)));
+            lock(this.users)
+            {
+                if (this.users.ContainsKey(user.Id))
+                {
+                    return;
+                }
+
+                this.messageBroker.ConnectToQueueAsync(user.Id, this.ConnectMessageDistributor(user.Id));
+                this.users.Add(user.Id, user);
+                this.game?.AddUser(user.Id);
+                this.lobby.AddUser(user.Id);
+                this.DistributeMessage(user.Id, new UserJoinedMessage(new UserJoinedMessageBody(user)));
+            }            
         }
 
         public void RemoveUser(User user)
         {
-            this.game?.RemoveUser(user.Id);
-            this.lobby.RemoveUser(user.Id);
-            this.DistributeMessage(user.Id, new UserDisconnectedMessage(new UserDisconnectedMessageBody(user)));
+            lock (this.users)
+            {
+                if (!this.users.ContainsKey(user.Id))
+                {
+                    return;
+                }
+
+                this.game?.RemoveUser(user.Id);
+                this.lobby.RemoveUser(user.Id);
+                this.users.Remove(user.Id);
+                this.DistributeMessage(user.Id, new UserDisconnectedMessage(new UserDisconnectedMessageBody(user)));
+            }
         }
 
-        public void StartGame()
+        public bool StartGame()
         {
-            if (this.UserCount>1)
+            if (this.UserCount<2)
             {
-                this.game = this.lobby.StartGame();
+                return false;
             }
+
+            this.StartGameAndConnectEvents();
+            return true;
+        }
+
+        private void StartGameAndConnectEvents()
+        {
+            this.game=this.lobby.StartGame();
+
+            this.game.WordSelection+=this.ReceivedWordSelectionEvent;
+            this.game.SelectedWord+=this.ReceivedSelectedWordEvent;
+            this.game.DrawingEnded+=this.ReceivedDrawingEndedEvent;
+            this.game.GameEnded+=this.ReceivedGameEndedEvent;
+            this.game.UserScored+=this.ReceivedUserScoredEvent;
+        }
+
+        private void ReceivedUserScoredEvent(object? sender, UserScoredEventArgs e)
+        {
+            User? user;
+            lock (this.users)
+            {
+                if (!this.users.TryGetValue(e.UserId, out user))
+                {
+                    this.logger?.LogError("Unknown User scored. Íd: {}", e.UserId);
+                    return;
+                }
+            }
+
+            this.DistributeMessage(null, new UserScoreMessage(new UserScoreMessageBody(user, e.Score)));
+        }
+
+        private void ReceivedGameEndedEvent(object? sender, Dictionary<string, uint> e)
+        {
+            // TODO do ew want to send end result
+            this.DistributeMessage(null, new GameEndedMessage());
+        }
+
+        private void ReceivedDrawingEndedEvent(object? sender, DrawingEndedEventArgs e)
+        {
+            // TODO do we want to send intermediate result / ist this even the right message
+            this.DistributeMessage(null, new NextRoundMessage());
+        }
+
+        private void ReceivedSelectedWordEvent(object? sender, WordListItem e)
+        {
+            this.DistributeMessage(null, new SearchedWordMessage(new SearchedWordMessageBody(e.Word)));
+        }
+
+        private void ReceivedWordSelectionEvent(object? sender, WordSelectionEventArgs e)
+        {
+            this.SendMessage(e.Drawer, new SetDrawerMessage(new SetDrawerMessageBody(e.WordListItems.Select(item => new SelectWordItem(item.Word, item.Difficulty)).ToList())));
+            this.DistributeMessage(e.Drawer, new SetNotDrawerMessage());
         }
 
         private IMessageDistributor ConnectMessageDistributor(string key)
@@ -135,7 +206,7 @@
         private void ReceivedUserScoreMessage(string key, UserScoreMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got User Score Message from sender: {}", key);
         }
 
         private void ReceivedUserJoinedMessage(string key, UserJoinedMessageBody message)
@@ -251,39 +322,17 @@
                 return;
             }
 
-            if (sender!= this.game.DrawerId)
+            if (!this.game.AddToDrawing(sender, e))
             {
-                this.logger?.LogError("Drawing message sent not by drawer: {} sender: {}", this.game.DrawerId, sender);
+                this.logger?.LogError("Drawing message sent not by sender: {}", sender);
                 return;
             }
 
-            if (!this.game.Running)
-            {
-                this.logger?.LogError("Game not running but drawing message sent. sender: {}", sender);
-                return;
-            }
-
-            this.game.AddToDrawing(e);
             this.DistributeMessage(sender, e);
         }
 
-        private void DistributeMessage<T>(string sender, Message<T> e) where T : IMessageBody
+        private void DistributeMessage<T>(string? sender, Message<T> message) where T : IMessageBody
         {
-            var message = System.Text.Encoding.UTF8.GetBytes(e.SerializeToJson());
-
-            double ttl;
-            if (this.game == null||this.game.RoundStartTime==null)
-            {
-                // brauch ich das überhaupt? kann ich die queue als speicher verwenden? weil dann fehlt ja der erste teil der zeichnung...
-                ttl=TimeSpan.FromMinutes(5).TotalMilliseconds;
-            }
-            else
-            {
-                ttl=DateTime.Now.Subtract(this.game.RoundStartTime.Value).Subtract(TimeSpan.FromSeconds(this.game.RoundDuration)).TotalMilliseconds;
-            }
-
-            var uintTTl = Convert.ToUInt32(ttl);
-
             foreach (var id in this.lobby.Users)
             {
                 if (id==sender)
@@ -291,8 +340,27 @@
                     continue;
                 }
 
-                this.messageBroker.SendMessageAsync(id, message, uintTTl);
+                this.SendMessage(id, message);
             }
+        }
+
+        private void SendMessage<T>(string receiver, Message<T> message) where T : IMessageBody
+        {
+            var byteMessage = System.Text.Encoding.UTF8.GetBytes(message.SerializeToJson());
+
+            double ttl;
+            if (this.game==null||this.game.RoundStartTime==null)
+            {
+                // brauch ich das überhaupt? kann ich die queue als speicher verwenden? weil dann fehlt ja der erste teil der zeichnung...
+                ttl=TimeSpan.FromMinutes(5).TotalMilliseconds;
+            }
+            else
+            {
+                ttl=DateTime.Now.Subtract(this.game.RoundStartTime.Value).Subtract(TimeSpan.FromSeconds(this.game.DrawingDuration)).TotalMilliseconds;
+            }
+
+            var uintTTl = Convert.ToUInt32(ttl);
+            this.messageBroker.SendMessageAsync(receiver, byteMessage, uintTTl);
         }
 
         protected virtual void Dispose(bool disposing)

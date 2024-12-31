@@ -6,12 +6,12 @@
         {   
         }
 
-        public UserGameState(int score)
+        public UserGameState(uint score)
         {
             this.Score = score;
         }
 
-        public int Score { get; set; }
+        public uint Score { get; set; }
 
         public bool Guessed { get; set; }
     }

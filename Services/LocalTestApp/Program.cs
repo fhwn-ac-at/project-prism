@@ -2,6 +2,7 @@
 using MessageLib;
 using MessageLib.Game;
 using MessageLib.Lobby;
+using MessageLib.SharedObjects;
 using Microsoft.Extensions.Options;
 
 internal class Program

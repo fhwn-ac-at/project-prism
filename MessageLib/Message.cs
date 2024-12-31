@@ -4,10 +4,11 @@
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
 
+
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class Message<T>(T body, MessageHeader header) where T : IMessageBody
+    public class Message<T>(T body, MessageHeader header) where T : IMessageBody 
     {
-        private readonly MessageHeader header = header;
+        private MessageHeader header = header;
         private readonly T body = body;
 
         [JsonProperty("header")]
@@ -33,6 +34,11 @@
         public string SerializeToJson()
         {
             return JsonConvert.SerializeObject(this);
+        }
+
+        public void UpdateHeaderTimestamp()
+        {
+            this.header = new MessageHeader(this.header.Type);
         }
     }
 }

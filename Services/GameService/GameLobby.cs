@@ -14,18 +14,18 @@
         private readonly Lobby lobby;
         private Dictionary<string, User> users = [];
         private Game? game;
-        private readonly MessageDistributor messageDistributor;
         private readonly IAMQPBroker messageBroker;
+        private readonly IServiceProvider serviceProvider;
 
         private readonly ILogger<GameLobby>? logger;
         private bool disposedValue;
 
-        public GameLobby(string id, IAMQPBroker messageBroker, MessageDistributor messageDistributor, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
+        public GameLobby(string id, IAMQPBroker messageBroker, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
         {
             this.messageBroker=messageBroker;
-            this.messageDistributor=messageDistributor;
             this.logger=logger;
             this.lobby=new(id, serviceProvider);
+            this.serviceProvider=serviceProvider;
         }
 
         public int UserCount => this.lobby.UserCount;
@@ -44,6 +44,16 @@
                 this.game?.AddUser(user.Id);
                 this.lobby.AddUser(user.Id);
                 this.DistributeMessage(user.Id, new UserJoinedMessage(new UserJoinedMessageBody(user)));
+                this.SendMessage(user.Id, new ClearMessage());
+                this.SendMessage(user.Id, new BackgroundColorMessage(new BackgroundColorMessageBody(new HexColor("#FFF"))));
+
+                if (this.game != null)
+                {
+                    foreach (var message in this.game.CurrentDrawing)
+                    {
+                        this.SendMessage(user.Id, message);
+                    }
+                }
             }            
         }
 
@@ -125,30 +135,32 @@
 
         private IMessageDistributor ConnectMessageDistributor(string key)
         {
-            this.messageDistributor.ReceivedChatMessageMessage+=(_, message) => this.ReceivedChatMessageMessage(key, message);
-            this.messageDistributor.ReceivedNextRoundMessage+=(_, message) => this.ReceivedNextRoundMessage(key, message);
-            this.messageDistributor.ReceivedSearchedWordMessage+=(_, message) => this.ReceivedSearchedWordMessage(key, message);
-            this.messageDistributor.ReceivedGameEndedMessage+=(_, message) => this.ReceivedGameEndedMessage(key, message);
-            this.messageDistributor.ReceivedRoundAmountChangedMessage+=(_, message) => this.ReceivedRoundAmountChangedMessage(key, message);
-            this.messageDistributor.ReceivedRoundDurationChangedMessage+=(_, message) => this.ReceivedRoundDurationChangedMessage(key, message);
-            this.messageDistributor.ReceivedSelectWordMessage+=(_, message) => this.ReceivedSelectWordMessage(key, message);
-            this.messageDistributor.ReceivedSetDrawerMessage+=(_, message) => this.ReceivedSetDrawerMessage(key, message);
-            this.messageDistributor.ReceivedSetNotDrawerMessage+=(_, message) => this.ReceivedSetNotDrawerMessage(key, message);
-            this.messageDistributor.ReceivedUserDisconnectedMessage+=(_, message) => this.ReceivedUserDisconnectedMessage(key, message);
-            this.messageDistributor.ReceivedUserJoinedMessage+=(_, message) => this.ReceivedUserJoinedMessage(key, message);
-            this.messageDistributor.ReceivedUserScoreMessage+=(_, message) => this.ReceivedUserScoreMessage(key, message);
-            this.messageDistributor.ReceivedUndoMessage+=(_, message) => this.ReceivedUndoMessage(key, message);
-            this.messageDistributor.ReceivedClearMessage+=(_, message) => this.ReceivedClearMessage(key, message);
+            var messageDistributor = this.serviceProvider.GetRequiredService<MessageDistributor>();
+
+            messageDistributor.ReceivedChatMessageMessage+=(_, message) => this.ReceivedChatMessageMessage(key, message);
+            messageDistributor.ReceivedNextRoundMessage+=(_, message) => this.ReceivedNextRoundMessage(key, message);
+            messageDistributor.ReceivedSearchedWordMessage+=(_, message) => this.ReceivedSearchedWordMessage(key, message);
+            messageDistributor.ReceivedGameEndedMessage+=(_, message) => this.ReceivedGameEndedMessage(key, message);
+            messageDistributor.ReceivedRoundAmountChangedMessage+=(_, message) => this.ReceivedRoundAmountChangedMessage(key, message);
+            messageDistributor.ReceivedRoundDurationChangedMessage+=(_, message) => this.ReceivedRoundDurationChangedMessage(key, message);
+            messageDistributor.ReceivedSelectWordMessage+=(_, message) => this.ReceivedSelectWordMessage(key, message);
+            messageDistributor.ReceivedSetDrawerMessage+=(_, message) => this.ReceivedSetDrawerMessage(key, message);
+            messageDistributor.ReceivedSetNotDrawerMessage+=(_, message) => this.ReceivedSetNotDrawerMessage(key, message);
+            messageDistributor.ReceivedUserDisconnectedMessage+=(_, message) => this.ReceivedUserDisconnectedMessage(key, message);
+            messageDistributor.ReceivedUserJoinedMessage+=(_, message) => this.ReceivedUserJoinedMessage(key, message);
+            messageDistributor.ReceivedUserScoreMessage+=(_, message) => this.ReceivedUserScoreMessage(key, message);
+            messageDistributor.ReceivedUndoMessage+=(_, message) => this.ReceivedUndoMessage(key, message);
+            messageDistributor.ReceivedClearMessage+=(_, message) => this.ReceivedClearMessage(key, message);
 
 
-            this.messageDistributor.ReceivedBackgroundColorMessage+=(_, message) => this.ReceivedBackgroundColorMessage(key, message);
-            this.messageDistributor.ReceivedClosePathMessage+=(_, message) => this.ReceivedClosePathMessage(key, message);
-            this.messageDistributor.ReceivedDrawingSizeChangedMessage+=(_, message) => this.ReceivedDrawingSizeChangedMessage(key, message);
-            this.messageDistributor.ReceivedLineToMessage+=(_, message) => this.ReceivedLineToMessage(key, message);
-            this.messageDistributor.ReceivedMoveToMessage+=(_, message) => this.ReceivedMoveToMessage(key, message);
-            this.messageDistributor.ReceivedPointMessage+=(_, message) => this.ReceivedPointMessage(key, message);
+            messageDistributor.ReceivedBackgroundColorMessage+=(_, message) => this.ReceivedBackgroundColorMessage(key, message);
+            messageDistributor.ReceivedClosePathMessage+=(_, message) => this.ReceivedClosePathMessage(key, message);
+            messageDistributor.ReceivedDrawingSizeChangedMessage+=(_, message) => this.ReceivedDrawingSizeChangedMessage(key, message);
+            messageDistributor.ReceivedLineToMessage+=(_, message) => this.ReceivedLineToMessage(key, message);
+            messageDistributor.ReceivedMoveToMessage+=(_, message) => this.ReceivedMoveToMessage(key, message);
+            messageDistributor.ReceivedPointMessage+=(_, message) => this.ReceivedPointMessage(key, message);
 
-            return this.messageDistributor;
+            return messageDistributor;
         }
 
         private void ReceivedPointMessage(string key, PointMessageBody message)
@@ -194,6 +206,8 @@
 
         private void ReceivedUndoMessage(string key, EmptyMessageBody message)
         {
+
+            // TODO could we solve this different
             if (this.game==null)
             {
                 this.logger?.LogError("Game not started! sender: {}", key);
@@ -201,6 +215,14 @@
             }
             this.game.Undo();
             this.DistributeMessage(key, new UndoMessage());
+
+            if (this.game!=null)
+            {
+                foreach (var gameMessage in this.game.CurrentDrawing)
+                {
+                    this.DistributeMessage(null, gameMessage);
+                }
+            }
         }
 
         private void ReceivedUserScoreMessage(string key, UserScoreMessageBody message)
@@ -212,25 +234,25 @@
         private void ReceivedUserJoinedMessage(string key, UserJoinedMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got User Joined Message from sender: {}", key);
         }
 
         private void ReceivedUserDisconnectedMessage(string key, UserDisconnectedMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got User Disconnected Message from sender: {}", key);
         }
 
         private void ReceivedSetNotDrawerMessage(string key, EmptyMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got Set Not Drawer Message from sender: {}", key);
         }
 
         private void ReceivedSetDrawerMessage(string key, SetDrawerMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got Set Drawer Message from sender: {}", key);
         }
 
         private void ReceivedSelectWordMessage(string key, SelectWordMessageBody message)
@@ -288,19 +310,19 @@
         private void ReceivedGameEndedMessage(string key, EmptyMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got Game Ended Message from sender: {}", key);
         }
 
         private void ReceivedSearchedWordMessage(string key, SearchedWordMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got Searched Word Message from sender: {}", key);
         }
 
         private void ReceivedNextRoundMessage(string key, EmptyMessageBody message)
         {
             // should not get it
-            throw new NotImplementedException();
+            this.logger?.LogWarning("Got Next Round Message from sender: {}", key);
         }
 
         private void ReceivedChatMessageMessage(string key, ChatMessageMessageBody message)

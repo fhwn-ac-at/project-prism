@@ -83,6 +83,8 @@
         public DateTime? RoundStartTime { get; internal set; }
         public int DrawingDuration => this.drawingDuration;
 
+        public IEnumerable<Message<IMessageBody>> CurrentDrawing => this.drawing;
+
         public void Start()
         {
             lock (this.startedLock)
@@ -138,7 +140,7 @@
                 return false;
             }
 
-            //this.drawing.AddLast(e);
+            this.drawing.AddLast(new LinkedListNode<Message<IMessageBody>>(new Message<IMessageBody>(e.MessageBody, e.MessageHeader)));
             return true;
         }
 

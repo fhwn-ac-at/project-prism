@@ -1,6 +1,7 @@
 ﻿namespace UnitTests.MessageLib
 {
     using global::MessageLib.Lobby;
+    using global::MessageLib.SharedObjects;
     using System.Text.Json;
 
     [TestFixture]
@@ -9,7 +10,9 @@
         [Test]
         public void RoundDurationChanged()
         {
-            RoundDurationChangedMessage message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
+            DateTime dateTime = DateTime.Now;
+
+            RoundDurationChangedMessage message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60), new MessageHeader(MessageType.roundDurationChanged , dateTime));
             string serializedMessage = JsonSerializer.Serialize(message);
         }
     }

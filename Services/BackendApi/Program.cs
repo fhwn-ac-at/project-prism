@@ -1,8 +1,10 @@
 using BackendApi;
+using BackendApi.ApiClients;
 using FrenziedMarmot.DependencyInjection;
 using Keycloak.AuthServices.Authentication;
 using LoggerLib.Logger;
 using MessageLib.Joined;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 internal class Program
 {
@@ -35,6 +37,7 @@ internal class Program
 
         builder.Services.ScanForAttributeInjection(loadedAssemblies);
         builder.Services.ScanForOptionAttributeInjection(builder.Configuration, loadedAssemblies);
+        builder.Services.AddTransient<GeneratedGameClient>();
 
 
         WebApplication app = builder.Build();

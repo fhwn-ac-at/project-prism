@@ -22,4 +22,18 @@
     <ProjectReference Include="..\LoggerLib\LoggerLib.csproj" />
   </ItemGroup>
 
+	<Target Name="GenerateApiClient" AfterTargets="Build">
+		<!-- Needs before dotnet tool install __global NSwag.ConsoleCore-->
+		<!-- Ensure the output directory exists for the generated file -->
+		<MakeDir Directories="$(ProjectDir)\Generated" />
+		<MakeDir Directories="$(ProjectDir)..\..\generatedTsClient\" />
+
+		<!-- Run NSwag to generate the API client -->
+		<Exec Command="nswag openapi2csclient /input:$(ProjectDir)../GameService/openapi.json /output:$(ProjectDir)Generated\GeneratedGameClient.cs /namespace:BackendApi.ApiClients /classname:GeneratedGameClient" />
+		
+		<Exec Command="swagger tofile --output $(ProjectDir)openapi.json $(TargetPath) v1" EnvironmentVariables="DOTNET_ROLL_FORWARD=LatestMajor" />
+		
+		<Exec Command="nswag openapi2tsclient /input:$(ProjectDir)\openapi.json /output:$(ProjectDir)..\..\generatedTsClient\GeneratedApiClient.ts" />
+	</Target>
+	
 </Project>

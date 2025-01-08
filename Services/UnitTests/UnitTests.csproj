@@ -19,10 +19,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MessageLib\MessageLib.csproj" />
+    <ProjectReference Include="..\GameLib\GameLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GameLib\" />
   </ItemGroup>
 
 </Project>

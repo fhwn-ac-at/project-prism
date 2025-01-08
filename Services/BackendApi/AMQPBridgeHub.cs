@@ -1,6 +1,7 @@
 ﻿namespace BackendApi;
 
 using AMQPLib;
+using BackendApi.ApiClients;
 using MessageLib;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -14,6 +15,7 @@ public class AMQPBridgeHub : Hub
     private readonly IServiceProvider serviceProvider;
     private readonly Dictionary<string, WebsocketToAMQPConnector> connectors = [];
     private readonly KnownClientStore clientStore;
+    private readonly GeneratedGameClient generatedGameClient;
 
     public AMQPBridgeHub(IServiceProvider serviceProvider, KnownClientStore clientStore)
     {
@@ -31,7 +33,7 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("Missing client id");
         }
 
-        if (!this.clientStore.Contains(clientId))
+        if (!this.clientStore.ContainsKey(clientId))
         {
             this.logger?.LogError("Websocket connected on unknown client id: {}", clientId);
             throw new BadHttpRequestException("Unknown client id");
@@ -85,7 +87,7 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("Missing client id");
         }
 
-        if (!this.clientStore.Contains(clientId))
+        if (!this.clientStore.TryGetValue(clientId, out string? lobbyId))
         {
             this.logger?.LogError("Websocket connected on unknown client id: {} Exception: {}", clientId, exception);
             throw new BadHttpRequestException("Unknown client id");
@@ -111,8 +113,10 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("Invalid client id");
         }
 
-        // TODO maybe notify game service about disconnect 
-        // Queue aber nicht löschen da es als fehler und nicht gewollt klassifiziert wird.
+        var user = new User();
+        user.Id = identifier;
+        user.Name=this.Context.User?.ExtractDisplayName();
+        await this.generatedGameClient.DisconnectUserFromLobbyAsync(lobbyId, user);
 
         this.connectors.Remove(this.Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);

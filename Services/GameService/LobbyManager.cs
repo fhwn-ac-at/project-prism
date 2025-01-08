@@ -33,7 +33,6 @@
                     new GameLobby(
                         lobbyId,
                         this.serviceProvider.GetRequiredService<IAMQPBroker>(),
-                        this.serviceProvider.GetRequiredService<MessageDistributor>(),
                         this.serviceProvider,
                         this.serviceProvider.GetRequiredService<ILogger<GameLobby>>()
                         )

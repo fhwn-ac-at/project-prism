@@ -3,7 +3,7 @@
     using FrenziedMarmot.DependencyInjection;
 
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
-    public class KnownClientStore : HashSet<string>
+    public class KnownClientStore : Dictionary<string, string>
     {
     }
 }

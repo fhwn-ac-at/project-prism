@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendApi", "BackendApi\BackendApi.csproj", "{99BC7F45-8910-436E-A6A9-31EFDC828257}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7FC824A-DEFC-49CE-9A6A-9BB5E45E6093} = {C7FC824A-DEFC-49CE-9A6A-9BB5E45E6093}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageLib", "..\MessageLib\MessageLib.csproj", "{F28DFC61-BB19-45B8-AE87-CD3E7F709186}"
 EndProject

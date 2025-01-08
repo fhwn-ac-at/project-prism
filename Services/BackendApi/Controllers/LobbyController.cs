@@ -1,8 +1,11 @@
 ﻿namespace BackendApi.Controllers
 {
     using AMQPLib;
+    using BackendApi.ApiClients;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Net.Http;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -12,12 +15,14 @@
         private readonly ILogger<LobbyController> logger;
         private readonly KnownClientStore clientStore;
         private readonly IAMQPQueueManager manager;
+        private readonly GeneratedGameClient gameServiceClient;
 
-        public LobbyController(ILogger<LobbyController> logger, KnownClientStore clientStore, IAMQPQueueManager manager)
+        public LobbyController(ILogger<LobbyController> logger, KnownClientStore clientStore, IAMQPQueueManager manager, GeneratedGameClient gameServiceClient)
         {
             this.logger=logger;
             this.clientStore=clientStore;
             this.manager=manager;
+            this.gameServiceClient=gameServiceClient;
         }
 
         [HttpGet("connect")]
@@ -33,6 +38,12 @@
                 identifier = Guid.NewGuid().ToString();
             }
 
+            if (this.clientStore.TryGetValue(identifier, out string? connectedLobbyId) && connectedLobbyId == lobbyId)
+            {
+                this.logger?.LogInformation("Already connected to lobby. lobby: {} user: {}", lobbyId, identifier);
+                return identifier;
+            }
+
             try
             {
                 await this.manager.CreateQueueAsync(identifier);
@@ -42,12 +53,23 @@
                 this.logger?.LogInformation("Connected to existing queue id: {}", identifier);
             }
 
+            var user = new User();
+            user.Id=identifier;
+            user.Name=this.User.ExtractDisplayName();
+            await this.gameServiceClient.ConnectUserToLobbyAsync(lobbyId, user);
+
             // send information to game client
 
-            this.clientStore.Add(identifier);
+            this.clientStore.Add(identifier, lobbyId);
             return identifier;
         }
 
         // TODO wir brauchen irgend ein disconnect welches bevor dem schließen gesendet wird oder wir machen alles über timeouts....
+
+        [HttpGet("startGame")]
+        public async Task StartGame(string lobbyId)
+        {
+            await this.gameServiceClient.StartGameAsync(lobbyId);
+        }
     }
 }

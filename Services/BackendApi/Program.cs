@@ -23,11 +23,12 @@ internal class Program
         builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
         builder.Services.AddSwaggerGen();
 
-        builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 
         builder.Logging.ClearProviders();
         builder.Logging.AddColorConsoleLogger();
         builder.Logging.AddFileLogger();
+
+        builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 
         var assemblies = System.Reflection.Assembly.GetExecutingAssembly().GetReferencedAssemblies();
         var loadedAssemblies = assemblies
@@ -37,11 +38,17 @@ internal class Program
 
         builder.Services.ScanForAttributeInjection(loadedAssemblies);
         builder.Services.ScanForOptionAttributeInjection(builder.Configuration, loadedAssemblies);
-        builder.Services.AddTransient<GeneratedGameClient>();
+        builder.Services.AddHttpClient();
+        builder.Services.AddTransient<GeneratedGameClientFactory>();
 
 
         WebApplication app = builder.Build();
-        app.Logger.LogError("test");
+        app.Logger.LogCritical("critical");
+        app.Logger.LogError("error");
+        app.Logger.LogWarning("warning");
+        app.Logger.LogInformation("information");
+        app.Logger.LogDebug("debug");
+        app.Logger.LogTrace("trace");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

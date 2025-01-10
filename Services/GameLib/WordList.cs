@@ -41,9 +41,9 @@
         public WordListItem[] Words => this.words;
     }
 
-    public class WordListOptions(string location)
+    public class WordListOptions
     {
-        public string Location { get; init; } = location;
+        public string? Location { get; init; }
     }
 
     internal class JSONWordList(WordListItem[] words)

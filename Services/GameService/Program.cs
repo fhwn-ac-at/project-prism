@@ -1,4 +1,5 @@
 using FrenziedMarmot.DependencyInjection;
+using LoggerLib.Logger;
 
 internal class Program
 {
@@ -13,6 +14,12 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddColorConsoleLogger();
+        builder.Logging.AddFileLogger();
+        builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+
         var assemblies = System.Reflection.Assembly.GetExecutingAssembly().GetReferencedAssemblies();
         var loadedAssemblies = assemblies
             .Select(name => System.Reflection.Assembly.Load(name.ToString()))
@@ -23,6 +30,12 @@ internal class Program
         builder.Services.ScanForOptionAttributeInjection(builder.Configuration, loadedAssemblies);
 
         WebApplication app = builder.Build();
+        app.Logger.LogCritical("critical");
+        app.Logger.LogError("error");
+        app.Logger.LogWarning("warning");
+        app.Logger.LogInformation("information");
+        app.Logger.LogDebug("debug");
+        app.Logger.LogTrace("trace");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

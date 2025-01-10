@@ -1,4 +1,4 @@
-﻿namespace BackendApi
+﻿namespace BackendApi.MessageDistributing
 {
     using FrenziedMarmot.DependencyInjection;
     using MessageLib;

@@ -44,11 +44,11 @@
                 this.game?.AddUser(user.Id);
                 this.lobby.AddUser(user.Id);
                 this.DistributeMessage(user.Id, new UserJoinedMessage(new UserJoinedMessageBody(user)));
-                this.SendMessage(user.Id, new ClearMessage());
-                this.SendMessage(user.Id, new BackgroundColorMessage(new BackgroundColorMessageBody(new HexColor("#FFF"))));
 
                 if (this.game != null)
                 {
+                    this.SendMessage(user.Id, new ClearMessage());
+                    this.SendMessage(user.Id, new BackgroundColorMessage(new BackgroundColorMessageBody(new HexColor("#FFF"))));
                     foreach (var message in this.game.CurrentDrawing)
                     {
                         this.SendMessage(user.Id, message);

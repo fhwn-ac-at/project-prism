@@ -144,7 +144,15 @@
             {
                 if (!this.managedQueues.Contains(name))
                 {
-                    throw new InvalidOperationException();
+                    try
+                    {
+                        // check if queue exists
+                        this.channel?.QueueDeclarePassiveAsync(name);
+                        this.managedQueues.Add(name);
+                    } catch (RabbitMQ.Client.Exceptions.OperationInterruptedException)
+                    {
+                        throw new InvalidOperationException();
+                    }
                 }
             }
             await this.connectionTask();

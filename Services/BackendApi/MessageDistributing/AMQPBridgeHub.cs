@@ -17,10 +17,11 @@ public class AMQPBridgeHub : Hub
     private readonly KnownClientStore clientStore;
     private readonly GeneratedGameClient generatedGameClient;
 
-    public AMQPBridgeHub(IServiceProvider serviceProvider, KnownClientStore clientStore)
+    public AMQPBridgeHub(IServiceProvider serviceProvider, KnownClientStore clientStore, GeneratedGameClientFactory generatedGameClient)
     {
         this.serviceProvider=serviceProvider;
         this.clientStore=clientStore;
+        this.generatedGameClient=generatedGameClient.Generate();
     }
 
     public override async Task OnConnectedAsync()

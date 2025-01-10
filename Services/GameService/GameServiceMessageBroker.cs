@@ -21,7 +21,7 @@
         public Task ConnectToQueueAsync(string name, IMessageDistributor messageDistributor)
         {
             // TODO povide exchanges via enum from AMQP service
-            return this.broker.ConnectToQueueAsync("backend", name, messageDistributor);
+            return this.broker.ConnectToQueueAsync(name, "backend", messageDistributor);
         }
 
         public Task SendMessageAsync(string queue, ReadOnlyMemory<byte> bytes, uint ttl)

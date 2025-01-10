@@ -17,12 +17,12 @@
         private readonly IAMQPQueueManager manager;
         private readonly GeneratedGameClient gameServiceClient;
 
-        public LobbyController(ILogger<LobbyController> logger, KnownClientStore clientStore, IAMQPQueueManager manager, GeneratedGameClient gameServiceClient)
+        public LobbyController(ILogger<LobbyController> logger, KnownClientStore clientStore, IAMQPQueueManager manager, GeneratedGameClientFactory gameServiceClient)
         {
             this.logger=logger;
             this.clientStore=clientStore;
             this.manager=manager;
-            this.gameServiceClient=gameServiceClient;
+            this.gameServiceClient=gameServiceClient.Generate();
         }
 
         [HttpGet("connect")]

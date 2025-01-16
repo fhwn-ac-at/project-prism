@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0e7ca0d3-7285-4947-822f-b63572e9a791</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MessageLib\MessageLib.csproj" />
+    <ProjectReference Include="..\AMQPLib\AMQPLib.csproj" />
+    <ProjectReference Include="..\LoggerLib\LoggerLib.csproj" />
+	<ProjectReference Include="..\GameLib\GameLib.csproj" />
+  </ItemGroup>
+
+	<Target Name="GenerateOpenApiSpec" AfterTargets="PostBuildEvent">
+		<!-- dotnet tool install __global Swashbuckle.AspNetCore.Cli needs to be executed before build -->
+		<Exec Command="swagger tofile --output $(ProjectDir)openapi.json $(TargetPath) v1" EnvironmentVariables="DOTNET_ROLL_FORWARD=LatestMajor" />
+	</Target>
+
+</Project>

@@ -59,14 +59,11 @@ services:
     volumes:
       - ./messagebus/data/:/var/lib/rabbitmq/
       - ./messagebus/log/:/var/log/rabbitmq/
-      #- ./emb-config/:/etc/rabbitmq/
+      - ./mb-config/:/etc/rabbitmq/
     networks:
       - prismDevNetwork
       - messagebus
     ports:
-      - 5671:5671
-      - 8883:8883
-      - 15671:15671
       - 5672:5672
       - 15672:15672
 

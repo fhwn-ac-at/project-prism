@@ -1,0 +1,5324 @@
+{
+  "list": [
+    {
+      "word": "Abflug",
+      "difficulty": 2
+    },
+    {
+      "word": "Absender",
+      "difficulty": 2
+    },
+    {
+      "word": "Abend",
+      "difficulty": 2
+    },
+    {
+      "word": "Affe",
+      "difficulty": 0
+    },
+    {
+      "word": "Aggentur",
+      "difficulty": 2
+    },
+    {
+      "word": "Alkohol",
+      "difficulty": 2
+    },
+    {
+      "word": "Ampel",
+      "difficulty": 1
+    },
+    {
+      "word": "Anruf",
+      "difficulty": 1
+    },
+    {
+      "word": "Apfel",
+      "difficulty": 0
+    },
+    {
+      "word": "Apotheke",
+      "difficulty": 1
+    },
+    {
+      "word": "Arbeit",
+      "difficulty": 1
+    },
+    {
+      "word": "Arzt",
+      "difficulty": 0
+    },
+    {
+      "word": "Aufzug",
+      "difficulty": 1
+    },
+    {
+      "word": "Auge",
+      "difficulty": 0
+    },
+    {
+      "word": "Auto",
+      "difficulty": 0
+    },
+    {
+      "word": "Baby",
+      "difficulty": 0
+    },
+    {
+      "word": "Backofen",
+      "difficulty": 1
+    },
+    {
+      "word": "Bäckerei",
+      "difficulty": 1
+    },
+    {
+      "word": "Bahnhof",
+      "difficulty": 1
+    },
+    {
+      "word": "Ball",
+      "difficulty": 0
+    },
+    {
+      "word": "Balkon",
+      "difficulty": 2
+    },
+    {
+      "word": "Bank",
+      "difficulty": 1
+    },
+    {
+      "word": "Batterie",
+      "difficulty": 2
+    },
+    {
+      "word": "Bauer",
+      "difficulty": 1
+    },
+    {
+      "word": "Baum",
+      "difficulty": 0
+    },
+    {
+      "word": "Berg",
+      "difficulty": 0
+    },
+    {
+      "word": "Bett",
+      "difficulty": 0
+    },
+    {
+      "word": "Bier",
+      "difficulty": 1
+    },
+    {
+      "word": "Bild",
+      "difficulty": 0
+    },
+    {
+      "word": "Bildschirm",
+      "difficulty": 1
+    },
+    {
+      "word": "Billiard",
+      "difficulty": 1
+    },
+    {
+      "word": "Birne",
+      "difficulty": 0
+    },
+    {
+      "word": "Blatt",
+      "difficulty": 0
+    },
+    {
+      "word": "Blume",
+      "difficulty": 0
+    },
+    {
+      "word": "Boden",
+      "difficulty": 0
+    },
+    {
+      "word": "Bogen",
+      "difficulty": 0
+    },
+    {
+      "word": "Brief",
+      "difficulty": 0
+    },
+    {
+      "word": "Briefkasten",
+      "difficulty": 1
+    },
+    {
+      "word": "Briefmarke",
+      "difficulty": 1
+    },
+    {
+      "word": "Brille",
+      "difficulty": 0
+    },
+    {
+      "word": "Brot",
+      "difficulty": 0
+    },
+    {
+      "word": "Brücke",
+      "difficulty": 0
+    },
+    {
+      "word": "Buch",
+      "difficulty": 0
+    },
+    {
+      "word": "Büro",
+      "difficulty": 2
+    },
+    {
+      "word": "Bus",
+      "difficulty": 0
+    },
+    {
+      "word": "Butter",
+      "difficulty": 0
+    },
+    {
+      "word": "Computer",
+      "difficulty": 0
+    },
+    {
+      "word": "Dach",
+      "difficulty": 0
+    },
+    {
+      "word": "Datum",
+      "difficulty": 1
+    },
+    {
+      "word": "Disco",
+      "difficulty": 1
+    },
+    {
+      "word": "Dorf",
+      "difficulty": 0
+    },
+    {
+      "word": "Drucker",
+      "difficulty": 1
+    },
+    {
+      "word": "Dusche",
+      "difficulty": 0
+    },
+    {
+      "word": "Ei",
+      "difficulty": 0
+    },
+    {
+      "word": "Eingang",
+      "difficulty": 2
+    },
+    {
+      "word": "Eltern",
+      "difficulty": 2
+    },
+    {
+      "word": "Elefant",
+      "difficulty": 0
+    },
+    {
+      "word": "essen",
+      "difficulty": 2
+    },
+    {
+      "word": "Fabrik",
+      "difficulty": 2
+    },
+    {
+      "word": "Fahrrad",
+      "difficulty": 1
+    },
+    {
+      "word": "Familie",
+      "difficulty": 1
+    },
+    {
+      "word": "Fenster",
+      "difficulty": 0
+    },
+    {
+      "word": "Fehrnseher",
+      "difficulty": 1
+    },
+    {
+      "word": "Feuerwehr",
+      "difficulty": 0
+    },
+    {
+      "word": "Feuerzeug",
+      "difficulty": 1
+    },
+    {
+      "word": "Film",
+      "difficulty": 1
+    },
+    {
+      "word": "Finger",
+      "difficulty": 0
+    },
+    {
+      "word": "Firma",
+      "difficulty": 2
+    },
+    {
+      "word": "Fisch",
+      "difficulty": 0
+    },
+    {
+      "word": "Flasche",
+      "difficulty": 0
+    },
+    {
+      "word": "Fleisch",
+      "difficulty": 0
+    },
+    {
+      "word": "Flughafen",
+      "difficulty": 1
+    },
+    {
+      "word": "Flugzeug",
+      "difficulty": 1
+    },
+    {
+      "word": "Fluss",
+      "difficulty": 0
+    },
+    {
+      "word": "Foto",
+      "difficulty": 0
+    },
+    {
+      "word": "Frankreich",
+      "difficulty": 1
+    },
+    {
+      "word": "Frühling",
+      "difficulty": 1
+    },
+    {
+      "word": "Frühstück",
+      "difficulty": 1
+    },
+    {
+      "word": "Fußball",
+      "difficulty": 0
+    },
+    {
+      "word": "Gabel",
+      "difficulty": 0
+    },
+    {
+      "word": "Garage",
+      "difficulty": 1
+    },
+    {
+      "word": "Garten",
+      "difficulty": 0
+    },
+    {
+      "word": "Geburtstag",
+      "difficulty": 1
+    },
+    {
+      "word": "Geld",
+      "difficulty": 0
+    },
+    {
+      "word": "Geldbörse",
+      "difficulty": 2
+    },
+    {
+      "word": "Gemüse",
+      "difficulty": 1
+    },
+    {
+      "word": "Gepäck",
+      "difficulty": 1
+    },
+    {
+      "word": "Geschenk",
+      "difficulty": 0
+    },
+    {
+      "word": "Geschirr",
+      "difficulty": 0
+    },
+    {
+      "word": "Geschichte",
+      "difficulty": 2
+    },
+    {
+      "word": "Gesicht",
+      "difficulty": 0
+    },
+    {
+      "word": "Getränk",
+      "difficulty": 1
+    },
+    {
+      "word": "Gewicht",
+      "difficulty": 1
+    },
+    {
+      "word": "Gewitter",
+      "difficulty": 0
+    },
+    {
+      "word": "Glas",
+      "difficulty": 0
+    },
+    {
+      "word": "Gleise",
+      "difficulty": 0
+    },
+    {
+      "word": "Gott",
+      "difficulty": 0
+    },
+    {
+      "word": "Grillen",
+      "difficulty": 1
+    },
+    {
+      "word": "Grippe",
+      "difficulty": 1
+    },
+    {
+      "word": "Gruppe",
+      "difficulty": 1
+    },
+    {
+      "word": "Haare",
+      "difficulty": 0
+    },
+    {
+      "word": "Halle",
+      "difficulty": 1
+    },
+    {
+      "word": "Hals",
+      "difficulty": 0
+    },
+    {
+      "word": "Haltestelle",
+      "difficulty": 1
+    },
+    {
+      "word": "Hand",
+      "difficulty": 0
+    },
+    {
+      "word": "Handtuch",
+      "difficulty": 0
+    },
+    {
+      "word": "Handy",
+      "difficulty": 0
+    },
+    {
+      "word": "Hase",
+      "difficulty": 0
+    },
+    {
+      "word": "Haus",
+      "difficulty": 0
+    },
+    {
+      "word": "Heizung",
+      "difficulty": 1
+    },
+    {
+      "word": "Hemd",
+      "difficulty": 0
+    },
+    {
+      "word": "Herbst",
+      "difficulty": 0
+    },
+    {
+      "word": "Herd",
+      "difficulty": 1
+    },
+    {
+      "word": "Herz",
+      "difficulty": 0
+    },
+    {
+      "word": "Holz",
+      "difficulty": 0
+    },
+    {
+      "word": "Höhle",
+      "difficulty": 0
+    },
+    {
+      "word": "Hölle",
+      "difficulty": 1
+    },
+    {
+      "word": "Hund",
+      "difficulty": 0
+    },
+    {
+      "word": "Idee",
+      "difficulty": 1
+    },
+    {
+      "word": "Insel",
+      "difficulty": 0
+    },
+    {
+      "word": "Internet",
+      "difficulty": 2
+    },
+    {
+      "word": "Italien",
+      "difficulty": 0
+    },
+    {
+      "word": "Jacke",
+      "difficulty": 1
+    },
+    {
+      "word": "Jahreszeit",
+      "difficulty": 1
+    },
+    {
+      "word": "Kaffe",
+      "difficulty": 1
+    },
+    {
+      "word": "Kalender",
+      "difficulty": 0
+    },
+    {
+      "word": "Kamera",
+      "difficulty": 0
+    },
+    {
+      "word": "Kanne",
+      "difficulty": 0
+    },
+    {
+      "word": "Karte",
+      "difficulty": 1
+    },
+    {
+      "word": "Kartoffel",
+      "difficulty": 0
+    },
+    {
+      "word": "Kassette",
+      "difficulty": 1
+    },
+    {
+      "word": "Käse",
+      "difficulty": 0
+    },
+    {
+      "word": "Katze",
+      "difficulty": 0
+    },
+    {
+      "word": "Keller",
+      "difficulty": 1
+    },
+    {
+      "word": "Kellner",
+      "difficulty": 0
+    },
+    {
+      "word": "Kette",
+      "difficulty": 0
+    },
+    {
+      "word": "Kind",
+      "difficulty": 1
+    },
+    {
+      "word": "Kinderwagen",
+      "difficulty": 1
+    },
+    {
+      "word": "Kino",
+      "difficulty": 1
+    },
+    {
+      "word": "Kiosk",
+      "difficulty": 2
+    },
+    {
+      "word": "Kirche",
+      "difficulty": 1
+    },
+    {
+      "word": "Kleid",
+      "difficulty": 0
+    },
+    {
+      "word": "klettern",
+      "difficulty": 1
+    },
+    {
+      "word": "kochen",
+      "difficulty": 0
+    },
+    {
+      "word": "Koffer",
+      "difficulty": 1
+    },
+    {
+      "word": "Konzert",
+      "difficulty": 0
+    },
+    {
+      "word": "Kopf",
+      "difficulty": 0
+    },
+    {
+      "word": "Körper",
+      "difficulty": 0
+    },
+    {
+      "word": "Kreuzung",
+      "difficulty": 1
+    },
+    {
+      "word": "Küche",
+      "difficulty": 1
+    },
+    {
+      "word": "Kuchen",
+      "difficulty": 1
+    },
+    {
+      "word": "Kugelschreiber",
+      "difficulty": 2
+    },
+    {
+      "word": "Kühlschrank",
+      "difficulty": 1
+    },
+    {
+      "word": "Lampe",
+      "difficulty": 0
+    },
+    {
+      "word": "Landschaft",
+      "difficulty": 1
+    },
+    {
+      "word": "laufen",
+      "difficulty": 1
+    },
+    {
+      "word": "Licht",
+      "difficulty": 0
+    },
+    {
+      "word": "Lied",
+      "difficulty": 1
+    },
+    {
+      "word": "LKW",
+      "difficulty": 0
+    },
+    {
+      "word": "Loch",
+      "difficulty": 1
+    },
+    {
+      "word": "Löffel",
+      "difficulty": 0
+    },
+    {
+      "word": "Luft",
+      "difficulty": 0
+    },
+    {
+      "word": "Lustig",
+      "difficulty": 2
+    },
+    {
+      "word": "Magen",
+      "difficulty": 0
+    },
+    {
+      "word": "Mantel",
+      "difficulty": 1
+    },
+    {
+      "word": "Markt",
+      "difficulty": 1
+    },
+    {
+      "word": "Maschine",
+      "difficulty": 2
+    },
+    {
+      "word": "Maus",
+      "difficulty": 0
+    },
+    {
+      "word": "Mechaniker",
+      "difficulty": 2
+    },
+    {
+      "word": "Meer",
+      "difficulty": 0
+    },
+    {
+      "word": "Messer",
+      "difficulty": 0
+    },
+    {
+      "word": "Milch",
+      "difficulty": 0
+    },
+    {
+      "word": "Minute",
+      "difficulty": 1
+    },
+    {
+      "word": "Mittag",
+      "difficulty": 1
+    },
+    {
+      "word": "Mitternacht",
+      "difficulty": 1
+    },
+    {
+      "word": "Möbel",
+      "difficulty": 1
+    },
+    {
+      "word": "Monat",
+      "difficulty": 1
+    },
+    {
+      "word": "Müll",
+      "difficulty": 1
+    },
+    {
+      "word": "Mund",
+      "difficulty": 0
+    },
+    {
+      "word": "Museum",
+      "difficulty": 1
+    },
+    {
+      "word": "Musik",
+      "difficulty": 1
+    },
+    {
+      "word": "Nacht",
+      "difficulty": 0
+    },
+    {
+      "word": "Nase",
+      "difficulty": 0
+    },
+    {
+      "word": "nass",
+      "difficulty": 1
+    },
+    {
+      "word": "Natur",
+      "difficulty": 1
+    },
+    {
+      "word": "Nebel",
+      "difficulty": 0
+    },
+    {
+      "word": "Notarzt",
+      "difficulty": 2
+    },
+    {
+      "word": "Nudel",
+      "difficulty": 0
+    },
+    {
+      "word": "Obst",
+      "difficulty": 1
+    },
+    {
+      "word": "Öl",
+      "difficulty": 1
+    },
+    {
+      "word": "Österreich",
+      "difficulty": 0
+    },
+    {
+      "word": "Paket",
+      "difficulty": 1
+    },
+    {
+      "word": "Papier",
+      "difficulty": 1
+    },
+    {
+      "word": "Parfüm",
+      "difficulty": 1
+    },
+    {
+      "word": "Park",
+      "difficulty": 1
+    },
+    {
+      "word": "Party",
+      "difficulty": 2
+    },
+    {
+      "word": "Pferd",
+      "difficulty": 0
+    },
+    {
+      "word": "PKW",
+      "difficulty": 0
+    },
+    {
+      "word": "Plastik",
+      "difficulty": 2
+    },
+    {
+      "word": "Polizei",
+      "difficulty": 0
+    },
+    {
+      "word": "Pokal",
+      "difficulty": 1
+    },
+    {
+      "word": "Pommes",
+      "difficulty": 0
+    },
+    {
+      "word": "Programm",
+      "difficulty": 2
+    },
+    {
+      "word": "Pullover",
+      "difficulty": 1
+    },
+    {
+      "word": "Radio",
+      "difficulty": 0
+    },
+    {
+      "word": "Rathaus",
+      "difficulty": 2
+    },
+    {
+      "word": "Raucher",
+      "difficulty": 1
+    },
+    {
+      "word": "Raum",
+      "difficulty": 1
+    },
+    {
+      "word": "Rechnung",
+      "difficulty": 0
+    },
+    {
+      "word": "Regen",
+      "difficulty": 0
+    },
+    {
+      "word": "Reifen",
+      "difficulty": 0
+    },
+    {
+      "word": "Reperatur",
+      "difficulty": 2
+    },
+    {
+      "word": "Restaurant",
+      "difficulty": 1
+    },
+    {
+      "word": "Rezept",
+      "difficulty": 1
+    },
+    {
+      "word": "Rock",
+      "difficulty": 1
+    },
+    {
+      "word": "Rose",
+      "difficulty": 0
+    },
+    {
+      "word": "Rücken",
+      "difficulty": 0
+    },
+    {
+      "word": "Saft",
+      "difficulty": 1
+    },
+    {
+      "word": "Salat",
+      "difficulty": 1
+    },
+    {
+      "word": "Schiff",
+      "difficulty": 0
+    },
+    {
+      "word": "Schild",
+      "difficulty": 1
+    },
+    {
+      "word": "Schinken",
+      "difficulty": 2
+    },
+    {
+      "word": "Schlüssel",
+      "difficulty": 1
+    },
+    {
+      "word": "Schloss",
+      "difficulty": 1
+    },
+    {
+      "word": "Schnee",
+      "difficulty": 0
+    },
+    {
+      "word": "Schokolade",
+      "difficulty": 1
+    },
+    {
+      "word": "Schuh",
+      "difficulty": 0
+    },
+    {
+      "word": "Schule",
+      "difficulty": 1
+    },
+    {
+      "word": "Schwein",
+      "difficulty": 0
+    },
+    {
+      "word": "schwimmen",
+      "difficulty": 2
+    },
+    {
+      "word": "Schwimmbad",
+      "difficulty": 1
+    },
+    {
+      "word": "See",
+      "difficulty": 1
+    },
+    {
+      "word": "Segelschiff",
+      "difficulty": 1
+    },
+    {
+      "word": "Seife",
+      "difficulty": 1
+    },
+    {
+      "word": "Sessel",
+      "difficulty": 1
+    },
+    {
+      "word": "Sofa",
+      "difficulty": 1
+    },
+    {
+      "word": "Sommer",
+      "difficulty": 0
+    },
+    {
+      "word": "Sonne",
+      "difficulty": 0
+    },
+    {
+      "word": "Spanien",
+      "difficulty": 0
+    },
+    {
+      "word": "Stadt",
+      "difficulty": 0
+    },
+    {
+      "word": "Stein",
+      "difficulty": 0
+    },
+    {
+      "word": "Steg",
+      "difficulty": 2
+    },
+    {
+      "word": "Stiege",
+      "difficulty": 0
+    },
+    {
+      "word": "Stock",
+      "difficulty": 0
+    },
+    {
+      "word": "Straße",
+      "difficulty": 0
+    },
+    {
+      "word": "Straßenbahn",
+      "difficulty": 1
+    },
+    {
+      "word": "Streichholz",
+      "difficulty": 1
+    },
+    {
+      "word": "Strom",
+      "difficulty": 1
+    },
+    {
+      "word": "Stück",
+      "difficulty": 2
+    },
+    {
+      "word": "Suppe",
+      "difficulty": 1
+    },
+    {
+      "word": "surfen",
+      "difficulty": 1
+    },
+    {
+      "word": "Tankstelle",
+      "difficulty": 1
+    },
+    {
+      "word": "Taxi",
+      "difficulty": 0
+    },
+    {
+      "word": "Tee",
+      "difficulty": 0
+    },
+    {
+      "word": "Telefon",
+      "difficulty": 0
+    },
+    {
+      "word": "Teller",
+      "difficulty": 0
+    },
+    {
+      "word": "Teppich",
+      "difficulty": 1
+    },
+    {
+      "word": "Tier",
+      "difficulty": 0
+    },
+    {
+      "word": "Tiger",
+      "difficulty": 0
+    },
+    {
+      "word": "Tisch",
+      "difficulty": 0
+    },
+    {
+      "word": "Toillete",
+      "difficulty": 0
+    },
+    {
+      "word": "Tomate",
+      "difficulty": 0
+    },
+    {
+      "word": "Topf",
+      "difficulty": 0
+    },
+    {
+      "word": "Tür",
+      "difficulty": 0
+    },
+    {
+      "word": "Turm",
+      "difficulty": 0
+    },
+    {
+      "word": "Uhr",
+      "difficulty": 1
+    },
+    {
+      "word": "Unfall",
+      "difficulty": 2
+    },
+    {
+      "word": "Urlaub",
+      "difficulty": 2
+    },
+    {
+      "word": "USA",
+      "difficulty": 2
+    },
+    {
+      "word": "Video",
+      "difficulty": 2
+    },
+    {
+      "word": "Vogel",
+      "difficulty": 0
+    },
+    {
+      "word": "Wagen",
+      "difficulty": 1
+    },
+    {
+      "word": "Wald",
+      "difficulty": 0
+    },
+    {
+      "word": "Wäsche",
+      "difficulty": 1
+    },
+    {
+      "word": "Wasser",
+      "difficulty": 0
+    },
+    {
+      "word": "Weg",
+      "difficulty": 0
+    },
+    {
+      "word": "Wein",
+      "difficulty": 1
+    },
+    {
+      "word": "Weihnachten",
+      "difficulty": 1
+    },
+    {
+      "word": "Welt",
+      "difficulty": 0
+    },
+    {
+      "word": "Werkstatt",
+      "difficulty": 2
+    },
+    {
+      "word": "Werkzeug",
+      "difficulty": 2
+    },
+    {
+      "word": "Wetter",
+      "difficulty": 0
+    },
+    {
+      "word": "Wiese",
+      "difficulty": 0
+    },
+    {
+      "word": "Wind",
+      "difficulty": 0
+    },
+    {
+      "word": "Winter",
+      "difficulty": 0
+    },
+    {
+      "word": "Woche",
+      "difficulty": 0
+    },
+    {
+      "word": "Wohnung",
+      "difficulty": 1
+    },
+    {
+      "word": "Wolke",
+      "difficulty": 0
+    },
+    {
+      "word": "word",
+      "difficulty": 1
+    },
+    {
+      "word": "Wurst",
+      "difficulty": 1
+    },
+    {
+      "word": "Zahl",
+      "difficulty": 0
+    },
+    {
+      "word": "Zahn",
+      "difficulty": 0
+    },
+    {
+      "word": "Zeit",
+      "difficulty": 0
+    },
+    {
+      "word": "Zeitschrift",
+      "difficulty": 2
+    },
+    {
+      "word": "Zeitung",
+      "difficulty": 1
+    },
+    {
+      "word": "Zettel",
+      "difficulty": 1
+    },
+    {
+      "word": "Zigarre",
+      "difficulty": 1
+    },
+    {
+      "word": "Zigarette",
+      "difficulty": 1
+    },
+    {
+      "word": "Zimmer",
+      "difficulty": 1
+    },
+    {
+      "word": "Zitrone",
+      "difficulty": 0
+    },
+    {
+      "word": "Zoo",
+      "difficulty": 1
+    },
+    {
+      "word": "Zucker",
+      "difficulty": 1
+    },
+    {
+      "word": "Zug",
+      "difficulty": 0
+    },
+    {
+      "word": "Marienkäfer",
+      "difficulty": 2
+    },
+    {
+      "word": "Panzerband",
+      "difficulty": 2
+    },
+    {
+      "word": "Schnorchel",
+      "difficulty": 2
+    },
+    {
+      "word": "Abgrund",
+      "difficulty": 2
+    },
+    {
+      "word": "geduldig",
+      "difficulty": 2
+    },
+    {
+      "word": "Edelstein",
+      "difficulty": 2
+    },
+    {
+      "word": "Rasseln",
+      "difficulty": 2
+    },
+    {
+      "word": "Ohr",
+      "difficulty": 1
+    },
+    {
+      "word": "Ameisenbär",
+      "difficulty": 2
+    },
+    {
+      "word": "Zaubertrick",
+      "difficulty": 2
+    },
+    {
+      "word": "Beförderung",
+      "difficulty": 2
+    },
+    {
+      "word": "Karteikasten",
+      "difficulty": 2
+    },
+    {
+      "word": "wachsen",
+      "difficulty": 2
+    },
+    {
+      "word": "Säbel",
+      "difficulty": 2
+    },
+    {
+      "word": "Peperoni",
+      "difficulty": 2
+    },
+    {
+      "word": "Zirkus",
+      "difficulty": 0
+    },
+    {
+      "word": "Kredithai",
+      "difficulty": 2
+    },
+    {
+      "word": "Tür",
+      "difficulty": 2
+    },
+    {
+      "word": "Bauchnabel",
+      "difficulty": 2
+    },
+    {
+      "word": "Kolosseum",
+      "difficulty": 2
+    },
+    {
+      "word": "lächeln",
+      "difficulty": 2
+    },
+    {
+      "word": "Götterspeise",
+      "difficulty": 2
+    },
+    {
+      "word": "Gewürz",
+      "difficulty": 2
+    },
+    {
+      "word": "Seerose",
+      "difficulty": 1
+    },
+    {
+      "word": "Erdkern",
+      "difficulty": 2
+    },
+    {
+      "word": "Motorrad",
+      "difficulty": 2
+    },
+    {
+      "word": "Gesicht",
+      "difficulty": 2
+    },
+    {
+      "word": "Elsa",
+      "difficulty": 2
+    },
+    {
+      "word": "Basketball",
+      "difficulty": 2
+    },
+    {
+      "word": "Kegelrobbe",
+      "difficulty": 2
+    },
+    {
+      "word": "Hagel",
+      "difficulty": 2
+    },
+    {
+      "word": "Sitzsack",
+      "difficulty": 2
+    },
+    {
+      "word": "Chips",
+      "difficulty": 2
+    },
+    {
+      "word": "Eis",
+      "difficulty": 2
+    },
+    {
+      "word": "Kühlschrank",
+      "difficulty": 2
+    },
+    {
+      "word": "Hammerhai",
+      "difficulty": 2
+    },
+    {
+      "word": "Lasso",
+      "difficulty": 2
+    },
+    {
+      "word": "Redner",
+      "difficulty": 2
+    },
+    {
+      "word": "Feuerwehrmann",
+      "difficulty": 2
+    },
+    {
+      "word": "Atmosphäre",
+      "difficulty": 2
+    },
+    {
+      "word": "Bruch",
+      "difficulty": 2
+    },
+    {
+      "word": "Schwarm",
+      "difficulty": 2
+    },
+    {
+      "word": "Anime",
+      "difficulty": 2
+    },
+    {
+      "word": "Wasserschildkröte",
+      "difficulty": 2
+    },
+    {
+      "word": "Baguette",
+      "difficulty": 2
+    },
+    {
+      "word": "Badewanne",
+      "difficulty": 2
+    },
+    {
+      "word": "funkeln",
+      "difficulty": 2
+    },
+    {
+      "word": "Welt",
+      "difficulty": 1
+    },
+    {
+      "word": "Benachrichtigung",
+      "difficulty": 2
+    },
+    {
+      "word": "Richter",
+      "difficulty": 1
+    },
+    {
+      "word": "Guillotine",
+      "difficulty": 2
+    },
+    {
+      "word": "Zahnlücke",
+      "difficulty": 0
+    },
+    {
+      "word": "Nachricht",
+      "difficulty": 2
+    },
+    {
+      "word": "Figur",
+      "difficulty": 2
+    },
+    {
+      "word": "Pizza",
+      "difficulty": 1
+    },
+    {
+      "word": "Kanalisation",
+      "difficulty": 2
+    },
+    {
+      "word": "Wasserpistole",
+      "difficulty": 1
+    },
+    {
+      "word": "Pudding",
+      "difficulty": 2
+    },
+    {
+      "word": "Benzin",
+      "difficulty": 2
+    },
+    {
+      "word": "Spaghetti",
+      "difficulty": 1
+    },
+    {
+      "word": "Elefant",
+      "difficulty": 2
+    },
+    {
+      "word": "Bühne",
+      "difficulty": 1
+    },
+    {
+      "word": "Oreo",
+      "difficulty": 2
+    },
+    {
+      "word": "Nasenbluten",
+      "difficulty": 2
+    },
+    {
+      "word": "Rapper",
+      "difficulty": 2
+    },
+    {
+      "word": "Abend",
+      "difficulty": 2
+    },
+    {
+      "word": "Welle",
+      "difficulty": 2
+    },
+    {
+      "word": "Fass",
+      "difficulty": 2
+    },
+    {
+      "word": "beten",
+      "difficulty": 2
+    },
+    {
+      "word": "Pferdeschwanz",
+      "difficulty": 2
+    },
+    {
+      "word": "Dirndl",
+      "difficulty": 2
+    },
+    {
+      "word": "Laubhaufen",
+      "difficulty": 1
+    },
+    {
+      "word": "Lineal",
+      "difficulty": 2
+    },
+    {
+      "word": "Kanister",
+      "difficulty": 2
+    },
+    {
+      "word": "Sprache",
+      "difficulty": 2
+    },
+    {
+      "word": "Bomberman",
+      "difficulty": 2
+    },
+    {
+      "word": "Labyrinth",
+      "difficulty": 2
+    },
+    {
+      "word": "Weizen",
+      "difficulty": 2
+    },
+    {
+      "word": "Trompete",
+      "difficulty": 2
+    },
+    {
+      "word": "Brennnessel",
+      "difficulty": 2
+    },
+    {
+      "word": "Feuerball",
+      "difficulty": 2
+    },
+    {
+      "word": "Clownfisch",
+      "difficulty": 2
+    },
+    {
+      "word": "Suppe",
+      "difficulty": 1
+    },
+    {
+      "word": "Diener",
+      "difficulty": 2
+    },
+    {
+      "word": "stark",
+      "difficulty": 0
+    },
+    {
+      "word": "Velociraptor",
+      "difficulty": 2
+    },
+    {
+      "word": "Leuchtreklame",
+      "difficulty": 2
+    },
+    {
+      "word": "Zug",
+      "difficulty": 2
+    },
+    {
+      "word": "Ärmel",
+      "difficulty": 2
+    },
+    {
+      "word": "Dschungel",
+      "difficulty": 2
+    },
+    {
+      "word": "Zigarette",
+      "difficulty": 2
+    },
+    {
+      "word": "Goldfisch",
+      "difficulty": 2
+    },
+    {
+      "word": "Löwe",
+      "difficulty": 2
+    },
+    {
+      "word": "Pflaster",
+      "difficulty": 2
+    },
+    {
+      "word": "zelten",
+      "difficulty": 2
+    },
+    {
+      "word": "Gemüse",
+      "difficulty": 2
+    },
+    {
+      "word": "Teich",
+      "difficulty": 2
+    },
+    {
+      "word": "Zahnpasta",
+      "difficulty": 1
+    },
+    {
+      "word": "Kiefer",
+      "difficulty": 2
+    },
+    {
+      "word": "Düne",
+      "difficulty": 2
+    },
+    {
+      "word": "Urlaub",
+      "difficulty": 1
+    },
+    {
+      "word": "Schrank",
+      "difficulty": 2
+    },
+    {
+      "word": "Untersetzer",
+      "difficulty": 2
+    },
+    {
+      "word": "Picasso",
+      "difficulty": 2
+    },
+    {
+      "word": "Ukulele",
+      "difficulty": 2
+    },
+    {
+      "word": "Medaille",
+      "difficulty": 2
+    },
+    {
+      "word": "Bongo",
+      "difficulty": 0
+    },
+    {
+      "word": "jung",
+      "difficulty": 1
+    },
+    {
+      "word": "Computer",
+      "difficulty": 2
+    },
+    {
+      "word": "Flöte",
+      "difficulty": 2
+    },
+    {
+      "word": "Eselsohr",
+      "difficulty": 2
+    },
+    {
+      "word": "Straßenbahn",
+      "difficulty": 2
+    },
+    {
+      "word": "Schere",
+      "difficulty": 0
+    },
+    {
+      "word": "Avocado",
+      "difficulty": 2
+    },
+    {
+      "word": "Sonne",
+      "difficulty": 1
+    },
+    {
+      "word": "traurig",
+      "difficulty": 1
+    },
+    {
+      "word": "Elch",
+      "difficulty": 1
+    },
+    {
+      "word": "Luftmatratze",
+      "difficulty": 2
+    },
+    {
+      "word": "Rubin",
+      "difficulty": 2
+    },
+    {
+      "word": "Eselsbrücke",
+      "difficulty": 2
+    },
+    {
+      "word": "Glücksspiel",
+      "difficulty": 2
+    },
+    {
+      "word": "Party",
+      "difficulty": 2
+    },
+    {
+      "word": "Feuerzeug",
+      "difficulty": 2
+    },
+    {
+      "word": "Aussichtspunkt",
+      "difficulty": 1
+    },
+    {
+      "word": "Gänseblümchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Kleeblatt",
+      "difficulty": 2
+    },
+    {
+      "word": "Seestern",
+      "difficulty": 1
+    },
+    {
+      "word": "Tschechien",
+      "difficulty": 2
+    },
+    {
+      "word": "Baum",
+      "difficulty": 2
+    },
+    {
+      "word": "Schwimmbad",
+      "difficulty": 2
+    },
+    {
+      "word": "Kamm",
+      "difficulty": 2
+    },
+    {
+      "word": "Rose",
+      "difficulty": 2
+    },
+    {
+      "word": "Herbst",
+      "difficulty": 2
+    },
+    {
+      "word": "Meerjungfrau",
+      "difficulty": 1
+    },
+    {
+      "word": "Löwenzahn",
+      "difficulty": 2
+    },
+    {
+      "word": "Armbanduhr",
+      "difficulty": 1
+    },
+    {
+      "word": "Nest",
+      "difficulty": 2
+    },
+    {
+      "word": "Bernstein",
+      "difficulty": 2
+    },
+    {
+      "word": "Auge",
+      "difficulty": 1
+    },
+    {
+      "word": "Wind",
+      "difficulty": 2
+    },
+    {
+      "word": "Piratenschiff",
+      "difficulty": 2
+    },
+    {
+      "word": "Twitter",
+      "difficulty": 2
+    },
+    {
+      "word": "genau",
+      "difficulty": 2
+    },
+    {
+      "word": "Pelikan",
+      "difficulty": 2
+    },
+    {
+      "word": "Toilette",
+      "difficulty": 2
+    },
+    {
+      "word": "Fleischbällchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Spiegelei",
+      "difficulty": 1
+    },
+    {
+      "word": "Einhorn",
+      "difficulty": 2
+    },
+    {
+      "word": "Rücken",
+      "difficulty": 2
+    },
+    {
+      "word": "Kaulquappe",
+      "difficulty": 2
+    },
+    {
+      "word": "Jesus",
+      "difficulty": 2
+    },
+    {
+      "word": "Tausendfüßer",
+      "difficulty": 1
+    },
+    {
+      "word": "Schlitten",
+      "difficulty": 2
+    },
+    {
+      "word": "Rakete",
+      "difficulty": 2
+    },
+    {
+      "word": "Glatze",
+      "difficulty": 2
+    },
+    {
+      "word": "Weihnachtsbaum",
+      "difficulty": 1
+    },
+    {
+      "word": "Ruder",
+      "difficulty": 2
+    },
+    {
+      "word": "Apotheker",
+      "difficulty": 2
+    },
+    {
+      "word": "Küste",
+      "difficulty": 1
+    },
+    {
+      "word": "anzünden",
+      "difficulty": 2
+    },
+    {
+      "word": "googeln",
+      "difficulty": 2
+    },
+    {
+      "word": "Vogelscheuche",
+      "difficulty": 1
+    },
+    {
+      "word": "Ente",
+      "difficulty": 2
+    },
+    {
+      "word": "blind",
+      "difficulty": 2
+    },
+    {
+      "word": "Blasebalg",
+      "difficulty": 2
+    },
+    {
+      "word": "Poster",
+      "difficulty": 1
+    },
+    {
+      "word": "schwingen",
+      "difficulty": 2
+    },
+    {
+      "word": "Schneeflocke",
+      "difficulty": 1
+    },
+    {
+      "word": "Polarlicht",
+      "difficulty": 2
+    },
+    {
+      "word": "Nutella",
+      "difficulty": 2
+    },
+    {
+      "word": "Grinsen",
+      "difficulty": 2
+    },
+    {
+      "word": "Ende",
+      "difficulty": 1
+    },
+    {
+      "word": "Wasserfall",
+      "difficulty": 1
+    },
+    {
+      "word": "Chat",
+      "difficulty": 2
+    },
+    {
+      "word": "Gebrauchtwagenhändler",
+      "difficulty": 2
+    },
+    {
+      "word": "Fisch",
+      "difficulty": 2
+    },
+    {
+      "word": "zerreißen",
+      "difficulty": 2
+    },
+    {
+      "word": "Tapete",
+      "difficulty": 1
+    },
+    {
+      "word": "Ober",
+      "difficulty": 2
+    },
+    {
+      "word": "Espresso",
+      "difficulty": 2
+    },
+    {
+      "word": "Wörterbuch",
+      "difficulty": 2
+    },
+    {
+      "word": "Champion",
+      "difficulty": 2
+    },
+    {
+      "word": "Hockey",
+      "difficulty": 2
+    },
+    {
+      "word": "Playstation",
+      "difficulty": 2
+    },
+    {
+      "word": "Flaschendrehen",
+      "difficulty": 2
+    },
+    {
+      "word": "Stuhlbein",
+      "difficulty": 2
+    },
+    {
+      "word": "Verbrecher",
+      "difficulty": 2
+    },
+    {
+      "word": "Chamäleon",
+      "difficulty": 2
+    },
+    {
+      "word": "Magma",
+      "difficulty": 2
+    },
+    {
+      "word": "Ei",
+      "difficulty": 1
+    },
+    {
+      "word": "Gasse",
+      "difficulty": 2
+    },
+    {
+      "word": "Werbung",
+      "difficulty": 2
+    },
+    {
+      "word": "Hulk",
+      "difficulty": 2
+    },
+    {
+      "word": "Mafia",
+      "difficulty": 2
+    },
+    {
+      "word": "Hochzeitskutsche",
+      "difficulty": 2
+    },
+    {
+      "word": "Weihnachten",
+      "difficulty": 2
+    },
+    {
+      "word": "Luchs",
+      "difficulty": 2
+    },
+    {
+      "word": "Vogelstrauß",
+      "difficulty": 2
+    },
+    {
+      "word": "Voodoo",
+      "difficulty": 2
+    },
+    {
+      "word": "Radar",
+      "difficulty": 2
+    },
+    {
+      "word": "Segway",
+      "difficulty": 2
+    },
+    {
+      "word": "Weinglas",
+      "difficulty": 2
+    },
+    {
+      "word": "Tastatur",
+      "difficulty": 2
+    },
+    {
+      "word": "Samstag",
+      "difficulty": 2
+    },
+    {
+      "word": "Sternfrucht",
+      "difficulty": 1
+    },
+    {
+      "word": "erschreckend",
+      "difficulty": 2
+    },
+    {
+      "word": "Allergie",
+      "difficulty": 0
+    },
+    {
+      "word": "Himmel",
+      "difficulty": 2
+    },
+    {
+      "word": "Staffelei",
+      "difficulty": 2
+    },
+    {
+      "word": "Falle",
+      "difficulty": 2
+    },
+    {
+      "word": "Limette",
+      "difficulty": 2
+    },
+    {
+      "word": "Klobrille",
+      "difficulty": 2
+    },
+    {
+      "word": "falten",
+      "difficulty": 2
+    },
+    {
+      "word": "Hängematte",
+      "difficulty": 0
+    },
+    {
+      "word": "Laptop",
+      "difficulty": 0
+    },
+    {
+      "word": "Pacman",
+      "difficulty": 2
+    },
+    {
+      "word": "Radio",
+      "difficulty": 2
+    },
+    {
+      "word": "Mörder",
+      "difficulty": 2
+    },
+    {
+      "word": "Sanduhr",
+      "difficulty": 2
+    },
+    {
+      "word": "Einkaufswagen",
+      "difficulty": 2
+    },
+    {
+      "word": "Bluterguss",
+      "difficulty": 2
+    },
+    {
+      "word": "Spinne",
+      "difficulty": 1
+    },
+    {
+      "word": "Pfannkuchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Rippe",
+      "difficulty": 2
+    },
+    {
+      "word": "schwarz",
+      "difficulty": 1
+    },
+    {
+      "word": "Russland",
+      "difficulty": 2
+    },
+    {
+      "word": "Torte",
+      "difficulty": 2
+    },
+    {
+      "word": "Kronleuchter",
+      "difficulty": 1
+    },
+    {
+      "word": "Muskelkater",
+      "difficulty": 2
+    },
+    {
+      "word": "Käse",
+      "difficulty": 2
+    },
+    {
+      "word": "Südpol",
+      "difficulty": 2
+    },
+    {
+      "word": "Netzwerk",
+      "difficulty": 2
+    },
+    {
+      "word": "Taschenlampe",
+      "difficulty": 1
+    },
+    {
+      "word": "Spieß",
+      "difficulty": 0
+    },
+    {
+      "word": "Strand",
+      "difficulty": 2
+    },
+    {
+      "word": "Abfall",
+      "difficulty": 2
+    },
+    {
+      "word": "schwimmen",
+      "difficulty": 2
+    },
+    {
+      "word": "Peitsche",
+      "difficulty": 2
+    },
+    {
+      "word": "Schlüssel",
+      "difficulty": 0
+    },
+    {
+      "word": "unendlich",
+      "difficulty": 0
+    },
+    {
+      "word": "Korallenriff",
+      "difficulty": 2
+    },
+    {
+      "word": "Taco",
+      "difficulty": 2
+    },
+    {
+      "word": "Violine",
+      "difficulty": 0
+    },
+    {
+      "word": "mürrisch",
+      "difficulty": 1
+    },
+    {
+      "word": "Rechnung",
+      "difficulty": 2
+    },
+    {
+      "word": "Mumie",
+      "difficulty": 2
+    },
+    {
+      "word": "parallel",
+      "difficulty": 2
+    },
+    {
+      "word": "Insel",
+      "difficulty": 1
+    },
+    {
+      "word": "Barbecue",
+      "difficulty": 2
+    },
+    {
+      "word": "Haus",
+      "difficulty": 1
+    },
+    {
+      "word": "Handgelenk",
+      "difficulty": 2
+    },
+    {
+      "word": "Walross",
+      "difficulty": 2
+    },
+    {
+      "word": "Oktopus",
+      "difficulty": 2
+    },
+    {
+      "word": "Rennen",
+      "difficulty": 1
+    },
+    {
+      "word": "Mikrofon",
+      "difficulty": 1
+    },
+    {
+      "word": "Superman",
+      "difficulty": 1
+    },
+    {
+      "word": "Lippen",
+      "difficulty": 2
+    },
+    {
+      "word": "Fotograf",
+      "difficulty": 2
+    },
+    {
+      "word": "Popcorn",
+      "difficulty": 0
+    },
+    {
+      "word": "Lamm",
+      "difficulty": 2
+    },
+    {
+      "word": "Bienenstich",
+      "difficulty": 0
+    },
+    {
+      "word": "Hölle",
+      "difficulty": 2
+    },
+    {
+      "word": "Boot",
+      "difficulty": 1
+    },
+    {
+      "word": "Cartoon",
+      "difficulty": 2
+    },
+    {
+      "word": "Seegurke",
+      "difficulty": 2
+    },
+    {
+      "word": "Vogel",
+      "difficulty": 2
+    },
+    {
+      "word": "Kopftuch",
+      "difficulty": 2
+    },
+    {
+      "word": "Klebestift",
+      "difficulty": 2
+    },
+    {
+      "word": "Oper",
+      "difficulty": 1
+    },
+    {
+      "word": "Riese",
+      "difficulty": 1
+    },
+    {
+      "word": "Walnuss",
+      "difficulty": 2
+    },
+    {
+      "word": "Pech",
+      "difficulty": 2
+    },
+    {
+      "word": "Lego",
+      "difficulty": 1
+    },
+    {
+      "word": "Ballon",
+      "difficulty": 2
+    },
+    {
+      "word": "Demonstration",
+      "difficulty": 0
+    },
+    {
+      "word": "Wanderstock",
+      "difficulty": 2
+    },
+    {
+      "word": "Fledermaus",
+      "difficulty": 2
+    },
+    {
+      "word": "Sudoku",
+      "difficulty": 2
+    },
+    {
+      "word": "Cola",
+      "difficulty": 2
+    },
+    {
+      "word": "untergewichtig",
+      "difficulty": 2
+    },
+    {
+      "word": "Zeitlupe",
+      "difficulty": 2
+    },
+    {
+      "word": "Nintendo",
+      "difficulty": 2
+    },
+    {
+      "word": "Eltern",
+      "difficulty": 0
+    },
+    {
+      "word": "Tannenbaum",
+      "difficulty": 2
+    },
+    {
+      "word": "Hyäne",
+      "difficulty": 2
+    },
+    {
+      "word": "Heuschrecke",
+      "difficulty": 2
+    },
+    {
+      "word": "Bier",
+      "difficulty": 2
+    },
+    {
+      "word": "Haarfarbe",
+      "difficulty": 2
+    },
+    {
+      "word": "Webseite",
+      "difficulty": 1
+    },
+    {
+      "word": "Pflug",
+      "difficulty": 2
+    },
+    {
+      "word": "machomäßig",
+      "difficulty": 2
+    },
+    {
+      "word": "Schnürsenkel",
+      "difficulty": 0
+    },
+    {
+      "word": "Felsen",
+      "difficulty": 1
+    },
+    {
+      "word": "Kanarienvogel",
+      "difficulty": 2
+    },
+    {
+      "word": "Brust",
+      "difficulty": 2
+    },
+    {
+      "word": "Schaukelpferd",
+      "difficulty": 2
+    },
+    {
+      "word": "Schatten",
+      "difficulty": 2
+    },
+    {
+      "word": "Entensuppe",
+      "difficulty": 2
+    },
+    {
+      "word": "Milch",
+      "difficulty": 2
+    },
+    {
+      "word": "Schaumschläger",
+      "difficulty": 2
+    },
+    {
+      "word": "Möbel",
+      "difficulty": 2
+    },
+    {
+      "word": "Partnerlook",
+      "difficulty": 2
+    },
+    {
+      "word": "Geist",
+      "difficulty": 2
+    },
+    {
+      "word": "Nordpol",
+      "difficulty": 2
+    },
+    {
+      "word": "Fanta",
+      "difficulty": 1
+    },
+    {
+      "word": "Bonbon",
+      "difficulty": 1
+    },
+    {
+      "word": "Schnurrbart",
+      "difficulty": 2
+    },
+    {
+      "word": "Büroklammer",
+      "difficulty": 2
+    },
+    {
+      "word": "Besenstiel",
+      "difficulty": 2
+    },
+    {
+      "word": "Kreuzung",
+      "difficulty": 2
+    },
+    {
+      "word": "Zentaur",
+      "difficulty": 2
+    },
+    {
+      "word": "Arm",
+      "difficulty": 2
+    },
+    {
+      "word": "DNS",
+      "difficulty": 2
+    },
+    {
+      "word": "Seelöwe",
+      "difficulty": 2
+    },
+    {
+      "word": "Freitag",
+      "difficulty": 1
+    },
+    {
+      "word": "Alufolie",
+      "difficulty": 2
+    },
+    {
+      "word": "Kirche",
+      "difficulty": 1
+    },
+    {
+      "word": "Grinch",
+      "difficulty": 2
+    },
+    {
+      "word": "Klempner",
+      "difficulty": 2
+    },
+    {
+      "word": "Gladiator",
+      "difficulty": 2
+    },
+    {
+      "word": "Karte",
+      "difficulty": 2
+    },
+    {
+      "word": "Uranus",
+      "difficulty": 2
+    },
+    {
+      "word": "Eiche",
+      "difficulty": 2
+    },
+    {
+      "word": "Reh",
+      "difficulty": 1
+    },
+    {
+      "word": "Anzug",
+      "difficulty": 2
+    },
+    {
+      "word": "Süden",
+      "difficulty": 0
+    },
+    {
+      "word": "lesen",
+      "difficulty": 2
+    },
+    {
+      "word": "Köder",
+      "difficulty": 2
+    },
+    {
+      "word": "Nike",
+      "difficulty": 2
+    },
+    {
+      "word": "Handy",
+      "difficulty": 2
+    },
+    {
+      "word": "Fuchs",
+      "difficulty": 2
+    },
+    {
+      "word": "Musik",
+      "difficulty": 2
+    },
+    {
+      "word": "Säge",
+      "difficulty": 0
+    },
+    {
+      "word": "blau",
+      "difficulty": 2
+    },
+    {
+      "word": "Windmühle",
+      "difficulty": 2
+    },
+    {
+      "word": "Tasche",
+      "difficulty": 2
+    },
+    {
+      "word": "Abendessen",
+      "difficulty": 2
+    },
+    {
+      "word": "Moskito",
+      "difficulty": 1
+    },
+    {
+      "word": "Lava",
+      "difficulty": 2
+    },
+    {
+      "word": "Tropfen",
+      "difficulty": 2
+    },
+    {
+      "word": "Zoowärter",
+      "difficulty": 2
+    },
+    {
+      "word": "Klassenzimmer",
+      "difficulty": 2
+    },
+    {
+      "word": "Ketchup",
+      "difficulty": 1
+    },
+    {
+      "word": "Hobbit",
+      "difficulty": 2
+    },
+    {
+      "word": "Boxer",
+      "difficulty": 2
+    },
+    {
+      "word": "Lupe",
+      "difficulty": 2
+    },
+    {
+      "word": "Steinbock",
+      "difficulty": 2
+    },
+    {
+      "word": "Tor",
+      "difficulty": 2
+    },
+    {
+      "word": "Kneipe",
+      "difficulty": 2
+    },
+    {
+      "word": "Träne",
+      "difficulty": 2
+    },
+    {
+      "word": "Marmelade",
+      "difficulty": 2
+    },
+    {
+      "word": "Herz",
+      "difficulty": 2
+    },
+    {
+      "word": "Knopf",
+      "difficulty": 0
+    },
+    {
+      "word": "Baumhaus",
+      "difficulty": 2
+    },
+    {
+      "word": "Funke",
+      "difficulty": 2
+    },
+    {
+      "word": "Venus",
+      "difficulty": 2
+    },
+    {
+      "word": "Lebensmittel",
+      "difficulty": 2
+    },
+    {
+      "word": "Säule",
+      "difficulty": 1
+    },
+    {
+      "word": "Audi",
+      "difficulty": 2
+    },
+    {
+      "word": "haarig",
+      "difficulty": 1
+    },
+    {
+      "word": "Muschel",
+      "difficulty": 0
+    },
+    {
+      "word": "Nemo",
+      "difficulty": 2
+    },
+    {
+      "word": "Schimpanse",
+      "difficulty": 2
+    },
+    {
+      "word": "schlafen",
+      "difficulty": 0
+    },
+    {
+      "word": "Frühling",
+      "difficulty": 0
+    },
+    {
+      "word": "Kopfhörer",
+      "difficulty": 2
+    },
+    {
+      "word": "Friedhof",
+      "difficulty": 2
+    },
+    {
+      "word": "Lavalampe",
+      "difficulty": 2
+    },
+    {
+      "word": "Granate",
+      "difficulty": 1
+    },
+    {
+      "word": "Tasse",
+      "difficulty": 0
+    },
+    {
+      "word": "Torpedo",
+      "difficulty": 1
+    },
+    {
+      "word": "Glitzer",
+      "difficulty": 2
+    },
+    {
+      "word": "schweben",
+      "difficulty": 2
+    },
+    {
+      "word": "Hahn",
+      "difficulty": 2
+    },
+    {
+      "word": "Glühbirne",
+      "difficulty": 2
+    },
+    {
+      "word": "Deodorant",
+      "difficulty": 0
+    },
+    {
+      "word": "Harfe",
+      "difficulty": 2
+    },
+    {
+      "word": "umarmen",
+      "difficulty": 2
+    },
+    {
+      "word": "Achterbahn",
+      "difficulty": 1
+    },
+    {
+      "word": "Hand",
+      "difficulty": 0
+    },
+    {
+      "word": "Sattel",
+      "difficulty": 2
+    },
+    {
+      "word": "Regen",
+      "difficulty": 2
+    },
+    {
+      "word": "aufwachen",
+      "difficulty": 2
+    },
+    {
+      "word": "Picknick",
+      "difficulty": 2
+    },
+    {
+      "word": "Laterne",
+      "difficulty": 2
+    },
+    {
+      "word": "Krawatte",
+      "difficulty": 2
+    },
+    {
+      "word": "Qualle",
+      "difficulty": 2
+    },
+    {
+      "word": "Flutlicht",
+      "difficulty": 2
+    },
+    {
+      "word": "Dampf",
+      "difficulty": 0
+    },
+    {
+      "word": "Polizist",
+      "difficulty": 2
+    },
+    {
+      "word": "Drillinge",
+      "difficulty": 2
+    },
+    {
+      "word": "Slalom",
+      "difficulty": 2
+    },
+    {
+      "word": "Brieftaube",
+      "difficulty": 2
+    },
+    {
+      "word": "Gebäck",
+      "difficulty": 2
+    },
+    {
+      "word": "Geburtstag",
+      "difficulty": 2
+    },
+    {
+      "word": "Obelix",
+      "difficulty": 0
+    },
+    {
+      "word": "Dollar",
+      "difficulty": 0
+    },
+    {
+      "word": "kratzen",
+      "difficulty": 2
+    },
+    {
+      "word": "Raumschiff",
+      "difficulty": 2
+    },
+    {
+      "word": "Keksdose",
+      "difficulty": 2
+    },
+    {
+      "word": "heiß",
+      "difficulty": 2
+    },
+    {
+      "word": "Tabak",
+      "difficulty": 2
+    },
+    {
+      "word": "Münze",
+      "difficulty": 2
+    },
+    {
+      "word": "Überschrift",
+      "difficulty": 1
+    },
+    {
+      "word": "magersüchtig",
+      "difficulty": 2
+    },
+    {
+      "word": "Giftzwerg",
+      "difficulty": 2
+    },
+    {
+      "word": "Barcode",
+      "difficulty": 2
+    },
+    {
+      "word": "Morgen",
+      "difficulty": 2
+    },
+    {
+      "word": "Tisch",
+      "difficulty": 0
+    },
+    {
+      "word": "Jäger",
+      "difficulty": 2
+    },
+    {
+      "word": "Kreuzfahrt",
+      "difficulty": 0
+    },
+    {
+      "word": "Parade",
+      "difficulty": 2
+    },
+    {
+      "word": "Kontrabass",
+      "difficulty": 2
+    },
+    {
+      "word": "Daumen",
+      "difficulty": 2
+    },
+    {
+      "word": "Sonnenaufgang",
+      "difficulty": 2
+    },
+    {
+      "word": "Fliegenklatsche",
+      "difficulty": 2
+    },
+    {
+      "word": "Maskottchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Tank",
+      "difficulty": 1
+    },
+    {
+      "word": "lachen",
+      "difficulty": 0
+    },
+    {
+      "word": "vertikal",
+      "difficulty": 2
+    },
+    {
+      "word": "Grashüpfer",
+      "difficulty": 2
+    },
+    {
+      "word": "Perle",
+      "difficulty": 2
+    },
+    {
+      "word": "Explosion",
+      "difficulty": 2
+    },
+    {
+      "word": "Kleid",
+      "difficulty": 2
+    },
+    {
+      "word": "depressiv",
+      "difficulty": 2
+    },
+    {
+      "word": "Sparschwein",
+      "difficulty": 1
+    },
+    {
+      "word": "fahren",
+      "difficulty": 1
+    },
+    {
+      "word": "Pistole",
+      "difficulty": 2
+    },
+    {
+      "word": "Eiffelturm",
+      "difficulty": 2
+    },
+    {
+      "word": "Batterie",
+      "difficulty": 1
+    },
+    {
+      "word": "Thron",
+      "difficulty": 2
+    },
+    {
+      "word": "Spielzeug",
+      "difficulty": 2
+    },
+    {
+      "word": "Lunge",
+      "difficulty": 2
+    },
+    {
+      "word": "Wange",
+      "difficulty": 0
+    },
+    {
+      "word": "Schneemann",
+      "difficulty": 1
+    },
+    {
+      "word": "Domino",
+      "difficulty": 0
+    },
+    {
+      "word": "Hawaiihemd",
+      "difficulty": 2
+    },
+    {
+      "word": "Brustkorb",
+      "difficulty": 2
+    },
+    {
+      "word": "rechnen",
+      "difficulty": 2
+    },
+    {
+      "word": "Steckdose",
+      "difficulty": 2
+    },
+    {
+      "word": "Rochen",
+      "difficulty": 2
+    },
+    {
+      "word": "Spiderman",
+      "difficulty": 2
+    },
+    {
+      "word": "Schlafenszeit",
+      "difficulty": 2
+    },
+    {
+      "word": "Weltraum",
+      "difficulty": 2
+    },
+    {
+      "word": "Heinzelmännchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Pilot",
+      "difficulty": 2
+    },
+    {
+      "word": "Augenbraue",
+      "difficulty": 2
+    },
+    {
+      "word": "Unfall",
+      "difficulty": 2
+    },
+    {
+      "word": "Photosynthese",
+      "difficulty": 2
+    },
+    {
+      "word": "Grabstein",
+      "difficulty": 0
+    },
+    {
+      "word": "Emoji",
+      "difficulty": 2
+    },
+    {
+      "word": "Stereo",
+      "difficulty": 2
+    },
+    {
+      "word": "Brezel",
+      "difficulty": 1
+    },
+    {
+      "word": "Gepäckträger",
+      "difficulty": 2
+    },
+    {
+      "word": "Paypal",
+      "difficulty": 2
+    },
+    {
+      "word": "Spitzmaus",
+      "difficulty": 2
+    },
+    {
+      "word": "Glas",
+      "difficulty": 2
+    },
+    {
+      "word": "Wasserkreislauf",
+      "difficulty": 2
+    },
+    {
+      "word": "schenken",
+      "difficulty": 2
+    },
+    {
+      "word": "Portugal",
+      "difficulty": 0
+    },
+    {
+      "word": "Stirnband",
+      "difficulty": 2
+    },
+    {
+      "word": "Uniform",
+      "difficulty": 2
+    },
+    {
+      "word": "Aubergine",
+      "difficulty": 2
+    },
+    {
+      "word": "Leiche",
+      "difficulty": 2
+    },
+    {
+      "word": "Pyramide",
+      "difficulty": 1
+    },
+    {
+      "word": "Tandem",
+      "difficulty": 2
+    },
+    {
+      "word": "Seite",
+      "difficulty": 2
+    },
+    {
+      "word": "Hosentasche",
+      "difficulty": 2
+    },
+    {
+      "word": "Zirkel",
+      "difficulty": 2
+    },
+    {
+      "word": "Kohlrübe",
+      "difficulty": 2
+    },
+    {
+      "word": "Jacht",
+      "difficulty": 2
+    },
+    {
+      "word": "Karate",
+      "difficulty": 2
+    },
+    {
+      "word": "Diamant",
+      "difficulty": 2
+    },
+    {
+      "word": "Bär",
+      "difficulty": 2
+    },
+    {
+      "word": "Verkehrskontrolle",
+      "difficulty": 2
+    },
+    {
+      "word": "übergeben",
+      "difficulty": 2
+    },
+    {
+      "word": "Gott",
+      "difficulty": 2
+    },
+    {
+      "word": "Nasenlöcher",
+      "difficulty": 2
+    },
+    {
+      "word": "Berlin",
+      "difficulty": 2
+    },
+    {
+      "word": "Flipper",
+      "difficulty": 2
+    },
+    {
+      "word": "Airbag",
+      "difficulty": 1
+    },
+    {
+      "word": "Tunnel",
+      "difficulty": 2
+    },
+    {
+      "word": "Idee",
+      "difficulty": 0
+    },
+    {
+      "word": "Parkplatz",
+      "difficulty": 2
+    },
+    {
+      "word": "Video",
+      "difficulty": 2
+    },
+    {
+      "word": "Zahnarzt",
+      "difficulty": 2
+    },
+    {
+      "word": "Federball",
+      "difficulty": 2
+    },
+    {
+      "word": "Keyboard",
+      "difficulty": 2
+    },
+    {
+      "word": "Litschi",
+      "difficulty": 2
+    },
+    {
+      "word": "Fenster",
+      "difficulty": 0
+    },
+    {
+      "word": "Tonleiter",
+      "difficulty": 2
+    },
+    {
+      "word": "Döner",
+      "difficulty": 2
+    },
+    {
+      "word": "Dracula",
+      "difficulty": 2
+    },
+    {
+      "word": "Saft",
+      "difficulty": 2
+    },
+    {
+      "word": "Bräutigam",
+      "difficulty": 2
+    },
+    {
+      "word": "studieren",
+      "difficulty": 2
+    },
+    {
+      "word": "Schwanz",
+      "difficulty": 2
+    },
+    {
+      "word": "schnell",
+      "difficulty": 0
+    },
+    {
+      "word": "Xbox",
+      "difficulty": 2
+    },
+    {
+      "word": "Anker",
+      "difficulty": 2
+    },
+    {
+      "word": "Gesundheit",
+      "difficulty": 0
+    },
+    {
+      "word": "Tattoo",
+      "difficulty": 2
+    },
+    {
+      "word": "Alkohol",
+      "difficulty": 0
+    },
+    {
+      "word": "Kamel",
+      "difficulty": 2
+    },
+    {
+      "word": "Hexe",
+      "difficulty": 2
+    },
+    {
+      "word": "herunterladen",
+      "difficulty": 2
+    },
+    {
+      "word": "Lampe",
+      "difficulty": 1
+    },
+    {
+      "word": "Horn",
+      "difficulty": 2
+    },
+    {
+      "word": "Goldkette",
+      "difficulty": 2
+    },
+    {
+      "word": "Keks",
+      "difficulty": 2
+    },
+    {
+      "word": "Kettenkarussell",
+      "difficulty": 2
+    },
+    {
+      "word": "Zeus",
+      "difficulty": 2
+    },
+    {
+      "word": "Leuchtstab",
+      "difficulty": 2
+    },
+    {
+      "word": "Eisen",
+      "difficulty": 1
+    },
+    {
+      "word": "Seilspringen",
+      "difficulty": 2
+    },
+    {
+      "word": "Feuerwerk",
+      "difficulty": 1
+    },
+    {
+      "word": "Snoopy",
+      "difficulty": 2
+    },
+    {
+      "word": "Waschbecken",
+      "difficulty": 2
+    },
+    {
+      "word": "Karotte",
+      "difficulty": 2
+    },
+    {
+      "word": "Dachboden",
+      "difficulty": 2
+    },
+    {
+      "word": "Löffel",
+      "difficulty": 1
+    },
+    {
+      "word": "Pups",
+      "difficulty": 2
+    },
+    {
+      "word": "Stuhl",
+      "difficulty": 0
+    },
+    {
+      "word": "rülpsen",
+      "difficulty": 2
+    },
+    {
+      "word": "Feder",
+      "difficulty": 2
+    },
+    {
+      "word": "Bücherregal",
+      "difficulty": 2
+    },
+    {
+      "word": "Melone",
+      "difficulty": 0
+    },
+    {
+      "word": "Talentshow",
+      "difficulty": 2
+    },
+    {
+      "word": "Asteroid",
+      "difficulty": 1
+    },
+    {
+      "word": "Gitarre",
+      "difficulty": 0
+    },
+    {
+      "word": "Kohle",
+      "difficulty": 2
+    },
+    {
+      "word": "Pauke",
+      "difficulty": 2
+    },
+    {
+      "word": "Orbit",
+      "difficulty": 2
+    },
+    {
+      "word": "Fassade",
+      "difficulty": 2
+    },
+    {
+      "word": "Tiramisu",
+      "difficulty": 2
+    },
+    {
+      "word": "Laubsäge",
+      "difficulty": 2
+    },
+    {
+      "word": "Discord",
+      "difficulty": 0
+    },
+    {
+      "word": "Bombe",
+      "difficulty": 1
+    },
+    {
+      "word": "Risiko",
+      "difficulty": 1
+    },
+    {
+      "word": "Vampir",
+      "difficulty": 2
+    },
+    {
+      "word": "Nussknacker",
+      "difficulty": 0
+    },
+    {
+      "word": "Mutter",
+      "difficulty": 2
+    },
+    {
+      "word": "Huhn",
+      "difficulty": 2
+    },
+    {
+      "word": "Albtraum",
+      "difficulty": 1
+    },
+    {
+      "word": "Moskau",
+      "difficulty": 2
+    },
+    {
+      "word": "Silo",
+      "difficulty": 2
+    },
+    {
+      "word": "Antarktis",
+      "difficulty": 2
+    },
+    {
+      "word": "Brecheisen",
+      "difficulty": 1
+    },
+    {
+      "word": "Tretmühle",
+      "difficulty": 2
+    },
+    {
+      "word": "Gewitter",
+      "difficulty": 1
+    },
+    {
+      "word": "Garnele",
+      "difficulty": 2
+    },
+    {
+      "word": "Wunschliste",
+      "difficulty": 0
+    },
+    {
+      "word": "Fingerspitze",
+      "difficulty": 2
+    },
+    {
+      "word": "Minion",
+      "difficulty": 2
+    },
+    {
+      "word": "anzeigen",
+      "difficulty": 2
+    },
+    {
+      "word": "Ballett",
+      "difficulty": 2
+    },
+    {
+      "word": "Interview",
+      "difficulty": 2
+    },
+    {
+      "word": "Krankenschwester",
+      "difficulty": 2
+    },
+    {
+      "word": "Kugelfisch",
+      "difficulty": 2
+    },
+    {
+      "word": "Dach",
+      "difficulty": 2
+    },
+    {
+      "word": "kauen",
+      "difficulty": 2
+    },
+    {
+      "word": "Flughafen",
+      "difficulty": 2
+    },
+    {
+      "word": "Drama",
+      "difficulty": 2
+    },
+    {
+      "word": "Gießkanne",
+      "difficulty": 2
+    },
+    {
+      "word": "Kokosnuss",
+      "difficulty": 0
+    },
+    {
+      "word": "Bodybuilding",
+      "difficulty": 2
+    },
+    {
+      "word": "schreiben",
+      "difficulty": 0
+    },
+    {
+      "word": "gemütlich",
+      "difficulty": 2
+    },
+    {
+      "word": "Glockenspiel",
+      "difficulty": 1
+    },
+    {
+      "word": "besuchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Amor",
+      "difficulty": 2
+    },
+    {
+      "word": "Windbeutel",
+      "difficulty": 2
+    },
+    {
+      "word": "Joghurt",
+      "difficulty": 2
+    },
+    {
+      "word": "sauber",
+      "difficulty": 2
+    },
+    {
+      "word": "Etagenbett",
+      "difficulty": 2
+    },
+    {
+      "word": "Arzt",
+      "difficulty": 1
+    },
+    {
+      "word": "Handschuh",
+      "difficulty": 1
+    },
+    {
+      "word": "Tee",
+      "difficulty": 2
+    },
+    {
+      "word": "Jeans",
+      "difficulty": 2
+    },
+    {
+      "word": "Sonnenfinsternis",
+      "difficulty": 0
+    },
+    {
+      "word": "Euter",
+      "difficulty": 2
+    },
+    {
+      "word": "Verband",
+      "difficulty": 2
+    },
+    {
+      "word": "Sekunde",
+      "difficulty": 1
+    },
+    {
+      "word": "Roller",
+      "difficulty": 2
+    },
+    {
+      "word": "zupfen",
+      "difficulty": 2
+    },
+    {
+      "word": "Aufhänger",
+      "difficulty": 2
+    },
+    {
+      "word": "Bohnenstange",
+      "difficulty": 2
+    },
+    {
+      "word": "Pegasus",
+      "difficulty": 1
+    },
+    {
+      "word": "Nähmaschine",
+      "difficulty": 2
+    },
+    {
+      "word": "Zahnfee",
+      "difficulty": 2
+    },
+    {
+      "word": "Regenbogen",
+      "difficulty": 1
+    },
+    {
+      "word": "Pause",
+      "difficulty": 1
+    },
+    {
+      "word": "Titanic",
+      "difficulty": 2
+    },
+    {
+      "word": "Biene",
+      "difficulty": 2
+    },
+    {
+      "word": "Dämon",
+      "difficulty": 2
+    },
+    {
+      "word": "Kaugummi",
+      "difficulty": 2
+    },
+    {
+      "word": "Ninja",
+      "difficulty": 2
+    },
+    {
+      "word": "Reißverschluss",
+      "difficulty": 2
+    },
+    {
+      "word": "Spaghettimonster",
+      "difficulty": 2
+    },
+    {
+      "word": "Kuckuck",
+      "difficulty": 2
+    },
+    {
+      "word": "Rohr",
+      "difficulty": 1
+    },
+    {
+      "word": "Spargel",
+      "difficulty": 2
+    },
+    {
+      "word": "Nashorn",
+      "difficulty": 0
+    },
+    {
+      "word": "Tablette",
+      "difficulty": 2
+    },
+    {
+      "word": "Taxi",
+      "difficulty": 2
+    },
+    {
+      "word": "Croissant",
+      "difficulty": 2
+    },
+    {
+      "word": "Zwillinge",
+      "difficulty": 0
+    },
+    {
+      "word": "Minotaurus",
+      "difficulty": 2
+    },
+    {
+      "word": "Supermarkt",
+      "difficulty": 2
+    },
+    {
+      "word": "Wolf",
+      "difficulty": 1
+    },
+    {
+      "word": "glücklich",
+      "difficulty": 2
+    },
+    {
+      "word": "Seeigel",
+      "difficulty": 0
+    },
+    {
+      "word": "Apfelkuchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Gebiss",
+      "difficulty": 2
+    },
+    {
+      "word": "Falltür",
+      "difficulty": 2
+    },
+    {
+      "word": "Schlucht",
+      "difficulty": 2
+    },
+    {
+      "word": "Wolkenkratzer",
+      "difficulty": 2
+    },
+    {
+      "word": "Kappe",
+      "difficulty": 2
+    },
+    {
+      "word": "Polizei",
+      "difficulty": 2
+    },
+    {
+      "word": "Krebs",
+      "difficulty": 0
+    },
+    {
+      "word": "Pfeil",
+      "difficulty": 2
+    },
+    {
+      "word": "Maske",
+      "difficulty": 2
+    },
+    {
+      "word": "rasieren",
+      "difficulty": 1
+    },
+    {
+      "word": "Honig",
+      "difficulty": 1
+    },
+    {
+      "word": "Sarg",
+      "difficulty": 0
+    },
+    {
+      "word": "Park",
+      "difficulty": 2
+    },
+    {
+      "word": "träumen",
+      "difficulty": 2
+    },
+    {
+      "word": "Monster",
+      "difficulty": 2
+    },
+    {
+      "word": "Quadrat",
+      "difficulty": 2
+    },
+    {
+      "word": "Kaugummikugel",
+      "difficulty": 2
+    },
+    {
+      "word": "Adler",
+      "difficulty": 1
+    },
+    {
+      "word": "Luftschloss",
+      "difficulty": 2
+    },
+    {
+      "word": "Durst",
+      "difficulty": 2
+    },
+    {
+      "word": "Krähe",
+      "difficulty": 2
+    },
+    {
+      "word": "Sonnenblume",
+      "difficulty": 0
+    },
+    {
+      "word": "Cyborg",
+      "difficulty": 2
+    },
+    {
+      "word": "Italien",
+      "difficulty": 2
+    },
+    {
+      "word": "Türschloss",
+      "difficulty": 2
+    },
+    {
+      "word": "Arbeitszimmer",
+      "difficulty": 2
+    },
+    {
+      "word": "Rührei",
+      "difficulty": 2
+    },
+    {
+      "word": "Herkules",
+      "difficulty": 2
+    },
+    {
+      "word": "Känguru",
+      "difficulty": 2
+    },
+    {
+      "word": "Erde",
+      "difficulty": 0
+    },
+    {
+      "word": "ausruhen",
+      "difficulty": 2
+    },
+    {
+      "word": "Anwalt",
+      "difficulty": 2
+    },
+    {
+      "word": "Handtuch",
+      "difficulty": 0
+    },
+    {
+      "word": "Maurer",
+      "difficulty": 2
+    },
+    {
+      "word": "erröten",
+      "difficulty": 2
+    },
+    {
+      "word": "Stadion",
+      "difficulty": 2
+    },
+    {
+      "word": "Kleiderbügel",
+      "difficulty": 0
+    },
+    {
+      "word": "Türstopper",
+      "difficulty": 2
+    },
+    {
+      "word": "dünn",
+      "difficulty": 2
+    },
+    {
+      "word": "Schwertfisch",
+      "difficulty": 2
+    },
+    {
+      "word": "Osterhase",
+      "difficulty": 2
+    },
+    {
+      "word": "Bart",
+      "difficulty": 1
+    },
+    {
+      "word": "Motte",
+      "difficulty": 2
+    },
+    {
+      "word": "Schimmel",
+      "difficulty": 2
+    },
+    {
+      "word": "Superkraft",
+      "difficulty": 2
+    },
+    {
+      "word": "übersetzen",
+      "difficulty": 2
+    },
+    {
+      "word": "Lachs",
+      "difficulty": 2
+    },
+    {
+      "word": "Truhe",
+      "difficulty": 1
+    },
+    {
+      "word": "Zitteraal",
+      "difficulty": 1
+    },
+    {
+      "word": "Schweinestall",
+      "difficulty": 2
+    },
+    {
+      "word": "Stiefel",
+      "difficulty": 2
+    },
+    {
+      "word": "Hunger",
+      "difficulty": 2
+    },
+    {
+      "word": "Konsole",
+      "difficulty": 2
+    },
+    {
+      "word": "Sommer",
+      "difficulty": 2
+    },
+    {
+      "word": "Haltestelle",
+      "difficulty": 2
+    },
+    {
+      "word": "Kaktus",
+      "difficulty": 0
+    },
+    {
+      "word": "Nachos",
+      "difficulty": 2
+    },
+    {
+      "word": "Wattestäbchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Vater",
+      "difficulty": 2
+    },
+    {
+      "word": "Blume",
+      "difficulty": 2
+    },
+    {
+      "word": "Mercedes",
+      "difficulty": 2
+    },
+    {
+      "word": "Fischer",
+      "difficulty": 2
+    },
+    {
+      "word": "Wunderland",
+      "difficulty": 2
+    },
+    {
+      "word": "Gabel",
+      "difficulty": 0
+    },
+    {
+      "word": "Skyline",
+      "difficulty": 2
+    },
+    {
+      "word": "Erdbeere",
+      "difficulty": 2
+    },
+    {
+      "word": "Hausnummer",
+      "difficulty": 1
+    },
+    {
+      "word": "Ziegenbart",
+      "difficulty": 2
+    },
+    {
+      "word": "Salzwasser",
+      "difficulty": 2
+    },
+    {
+      "word": "Zeitung",
+      "difficulty": 1
+    },
+    {
+      "word": "Rad",
+      "difficulty": 2
+    },
+    {
+      "word": "Schneesturm",
+      "difficulty": 2
+    },
+    {
+      "word": "Skulptur",
+      "difficulty": 2
+    },
+    {
+      "word": "Bademantel",
+      "difficulty": 2
+    },
+    {
+      "word": "Griechenland",
+      "difficulty": 2
+    },
+    {
+      "word": "Ferkel",
+      "difficulty": 2
+    },
+    {
+      "word": "Patronenhülse",
+      "difficulty": 2
+    },
+    {
+      "word": "Wal",
+      "difficulty": 2
+    },
+    {
+      "word": "chemisch",
+      "difficulty": 0
+    },
+    {
+      "word": "Schal",
+      "difficulty": 2
+    },
+    {
+      "word": "Gitarre",
+      "difficulty": 2
+    },
+    {
+      "word": "einkaufen",
+      "difficulty": 2
+    },
+    {
+      "word": "Beerdigung",
+      "difficulty": 2
+    },
+    {
+      "word": "Frisbee",
+      "difficulty": 2
+    },
+    {
+      "word": "Floh",
+      "difficulty": 2
+    },
+    {
+      "word": "Cockpit",
+      "difficulty": 2
+    },
+    {
+      "word": "Ostern",
+      "difficulty": 1
+    },
+    {
+      "word": "Geige",
+      "difficulty": 2
+    },
+    {
+      "word": "Kiwi",
+      "difficulty": 2
+    },
+    {
+      "word": "Ingenieur",
+      "difficulty": 2
+    },
+    {
+      "word": "Ast",
+      "difficulty": 2
+    },
+    {
+      "word": "Dinosaurier",
+      "difficulty": 0
+    },
+    {
+      "word": "Spritze",
+      "difficulty": 0
+    },
+    {
+      "word": "Tukan",
+      "difficulty": 2
+    },
+    {
+      "word": "Streichholz",
+      "difficulty": 2
+    },
+    {
+      "word": "strichmännchen",
+      "difficulty": 1
+    },
+    {
+      "word": "Lüftung",
+      "difficulty": 2
+    },
+    {
+      "word": "Bestatter",
+      "difficulty": 2
+    },
+    {
+      "word": "Grafiktablett",
+      "difficulty": 2
+    },
+    {
+      "word": "Pluto",
+      "difficulty": 2
+    },
+    {
+      "word": "Schornstein",
+      "difficulty": 2
+    },
+    {
+      "word": "Pobacken",
+      "difficulty": 2
+    },
+    {
+      "word": "Teufel",
+      "difficulty": 2
+    },
+    {
+      "word": "Ring",
+      "difficulty": 1
+    },
+    {
+      "word": "Wimper",
+      "difficulty": 2
+    },
+    {
+      "word": "Amboss",
+      "difficulty": 2
+    },
+    {
+      "word": "Ohrhörer",
+      "difficulty": 2
+    },
+    {
+      "word": "Rollschuhe",
+      "difficulty": 2
+    },
+    {
+      "word": "Ellbogen",
+      "difficulty": 2
+    },
+    {
+      "word": "Donut",
+      "difficulty": 2
+    },
+    {
+      "word": "Zeppelin",
+      "difficulty": 2
+    },
+    {
+      "word": "Comicbuch",
+      "difficulty": 2
+    },
+    {
+      "word": "Yoda",
+      "difficulty": 2
+    },
+    {
+      "word": "Mixer",
+      "difficulty": 1
+    },
+    {
+      "word": "Hosenstall",
+      "difficulty": 1
+    },
+    {
+      "word": "Ordner",
+      "difficulty": 2
+    },
+    {
+      "word": "Mais",
+      "difficulty": 2
+    },
+    {
+      "word": "Galaxie",
+      "difficulty": 2
+    },
+    {
+      "word": "Irokesenfrisur",
+      "difficulty": 1
+    },
+    {
+      "word": "Sohn",
+      "difficulty": 2
+    },
+    {
+      "word": "Lilie",
+      "difficulty": 2
+    },
+    {
+      "word": "Ferse",
+      "difficulty": 0
+    },
+    {
+      "word": "Ampel",
+      "difficulty": 2
+    },
+    {
+      "word": "Einrad",
+      "difficulty": 2
+    },
+    {
+      "word": "Postbote",
+      "difficulty": 2
+    },
+    {
+      "word": "Rennauto",
+      "difficulty": 2
+    },
+    {
+      "word": "Schüssel",
+      "difficulty": 2
+    },
+    {
+      "word": "prallen",
+      "difficulty": 2
+    },
+    {
+      "word": "Donnerstag",
+      "difficulty": 0
+    },
+    {
+      "word": "Fallschirm",
+      "difficulty": 2
+    },
+    {
+      "word": "Bienenkönigin",
+      "difficulty": 2
+    },
+    {
+      "word": "Lichtschwert",
+      "difficulty": 2
+    },
+    {
+      "word": "Echo",
+      "difficulty": 2
+    },
+    {
+      "word": "Pfeffer",
+      "difficulty": 2
+    },
+    {
+      "word": "Zucchini",
+      "difficulty": 1
+    },
+    {
+      "word": "Fliegenpilz",
+      "difficulty": 2
+    },
+    {
+      "word": "Mahlzeit",
+      "difficulty": 2
+    },
+    {
+      "word": "Autoradio",
+      "difficulty": 2
+    },
+    {
+      "word": "seekrank",
+      "difficulty": 0
+    },
+    {
+      "word": "Spiegel",
+      "difficulty": 2
+    },
+    {
+      "word": "positiv",
+      "difficulty": 2
+    },
+    {
+      "word": "kopieren",
+      "difficulty": 2
+    },
+    {
+      "word": "WhatsApp",
+      "difficulty": 1
+    },
+    {
+      "word": "Fernseher",
+      "difficulty": 2
+    },
+    {
+      "word": "Gehirn",
+      "difficulty": 2
+    },
+    {
+      "word": "Gepäck",
+      "difficulty": 2
+    },
+    {
+      "word": "Wein",
+      "difficulty": 0
+    },
+    {
+      "word": "Zündschnur",
+      "difficulty": 2
+    },
+    {
+      "word": "Kopfende",
+      "difficulty": 2
+    },
+    {
+      "word": "Briefträger",
+      "difficulty": 2
+    },
+    {
+      "word": "Aprikose",
+      "difficulty": 1
+    },
+    {
+      "word": "Israel",
+      "difficulty": 2
+    },
+    {
+      "word": "Wippe",
+      "difficulty": 2
+    },
+    {
+      "word": "Hafen",
+      "difficulty": 2
+    },
+    {
+      "word": "Fleisch",
+      "difficulty": 2
+    },
+    {
+      "word": "arm",
+      "difficulty": 2
+    },
+    {
+      "word": "Mäusefalle",
+      "difficulty": 2
+    },
+    {
+      "word": "Teddybär",
+      "difficulty": 2
+    },
+    {
+      "word": "Biber",
+      "difficulty": 2
+    },
+    {
+      "word": "Nasenring",
+      "difficulty": 2
+    },
+    {
+      "word": "Mütze",
+      "difficulty": 2
+    },
+    {
+      "word": "Sitzbank",
+      "difficulty": 2
+    },
+    {
+      "word": "Duell",
+      "difficulty": 1
+    },
+    {
+      "word": "Punkte",
+      "difficulty": 1
+    },
+    {
+      "word": "Reddit",
+      "difficulty": 2
+    },
+    {
+      "word": "Lotterie",
+      "difficulty": 2
+    },
+    {
+      "word": "China",
+      "difficulty": 2
+    },
+    {
+      "word": "Seetang",
+      "difficulty": 2
+    },
+    {
+      "word": "Bett",
+      "difficulty": 2
+    },
+    {
+      "word": "Schlüsselanhänger",
+      "difficulty": 2
+    },
+    {
+      "word": "Giraffe",
+      "difficulty": 2
+    },
+    {
+      "word": "Chirurg",
+      "difficulty": 2
+    },
+    {
+      "word": "Terrasse",
+      "difficulty": 2
+    },
+    {
+      "word": "Kerze",
+      "difficulty": 2
+    },
+    {
+      "word": "Gazelle",
+      "difficulty": 2
+    },
+    {
+      "word": "Veganer",
+      "difficulty": 2
+    },
+    {
+      "word": "Ozean",
+      "difficulty": 1
+    },
+    {
+      "word": "Mozart",
+      "difficulty": 2
+    },
+    {
+      "word": "Schornsteinfeger",
+      "difficulty": 2
+    },
+    {
+      "word": "Magazin",
+      "difficulty": 1
+    },
+    {
+      "word": "Silvester",
+      "difficulty": 2
+    },
+    {
+      "word": "pfeifen",
+      "difficulty": 0
+    },
+    {
+      "word": "Limbo",
+      "difficulty": 2
+    },
+    {
+      "word": "Balkon",
+      "difficulty": 1
+    },
+    {
+      "word": "rutschen",
+      "difficulty": 2
+    },
+    {
+      "word": "Streichholzschachtel",
+      "difficulty": 2
+    },
+    {
+      "word": "Eimer",
+      "difficulty": 1
+    },
+    {
+      "word": "Telefon",
+      "difficulty": 1
+    },
+    {
+      "word": "Warnweste",
+      "difficulty": 2
+    },
+    {
+      "word": "pink",
+      "difficulty": 1
+    },
+    {
+      "word": "Holzfäller",
+      "difficulty": 1
+    },
+    {
+      "word": "Moos",
+      "difficulty": 2
+    },
+    {
+      "word": "Kanada",
+      "difficulty": 2
+    },
+    {
+      "word": "Seifenblase",
+      "difficulty": 1
+    },
+    {
+      "word": "Zahn",
+      "difficulty": 2
+    },
+    {
+      "word": "Dreieck",
+      "difficulty": 1
+    },
+    {
+      "word": "Regentropfen",
+      "difficulty": 2
+    },
+    {
+      "word": "Portrait",
+      "difficulty": 2
+    },
+    {
+      "word": "kabellos",
+      "difficulty": 2
+    },
+    {
+      "word": "Vollmond",
+      "difficulty": 2
+    },
+    {
+      "word": "Zyklop",
+      "difficulty": 2
+    },
+    {
+      "word": "Stachelschwein",
+      "difficulty": 2
+    },
+    {
+      "word": "ClickBait",
+      "difficulty": 2
+    },
+    {
+      "word": "Flügel",
+      "difficulty": 1
+    },
+    {
+      "word": "Frieden",
+      "difficulty": 1
+    },
+    {
+      "word": "Teller",
+      "difficulty": 0
+    },
+    {
+      "word": "Teppich",
+      "difficulty": 2
+    },
+    {
+      "word": "Fischernetz",
+      "difficulty": 1
+    },
+    {
+      "word": "Wurst",
+      "difficulty": 2
+    },
+    {
+      "word": "Netz",
+      "difficulty": 0
+    },
+    {
+      "word": "Aladdin",
+      "difficulty": 2
+    },
+    {
+      "word": "Korken",
+      "difficulty": 2
+    },
+    {
+      "word": "Wüste",
+      "difficulty": 2
+    },
+    {
+      "word": "Lautsprecher",
+      "difficulty": 2
+    },
+    {
+      "word": "binden",
+      "difficulty": 2
+    },
+    {
+      "word": "Marke",
+      "difficulty": 1
+    },
+    {
+      "word": "Observatorium",
+      "difficulty": 2
+    },
+    {
+      "word": "Lesezeichen",
+      "difficulty": 2
+    },
+    {
+      "word": "Saturn",
+      "difficulty": 2
+    },
+    {
+      "word": "Zelt",
+      "difficulty": 2
+    },
+    {
+      "word": "Darts",
+      "difficulty": 2
+    },
+    {
+      "word": "Mitternacht",
+      "difficulty": 2
+    },
+    {
+      "word": "Afrika",
+      "difficulty": 2
+    },
+    {
+      "word": "Arztkoffer",
+      "difficulty": 2
+    },
+    {
+      "word": "Baumkuchen",
+      "difficulty": 2
+    },
+    {
+      "word": "behindert",
+      "difficulty": 2
+    },
+    {
+      "word": "Hitze",
+      "difficulty": 1
+    },
+    {
+      "word": "König",
+      "difficulty": 0
+    },
+    {
+      "word": "Meerschweinchen",
+      "difficulty": 0
+    },
+    {
+      "word": "Asien",
+      "difficulty": 1
+    },
+    {
+      "word": "brünett",
+      "difficulty": 2
+    },
+    {
+      "word": "rückgängig",
+      "difficulty": 2
+    },
+    {
+      "word": "Schaltknüppel",
+      "difficulty": 1
+    },
+    {
+      "word": "Poseidon",
+      "difficulty": 2
+    },
+    {
+      "word": "Hund",
+      "difficulty": 2
+    },
+    {
+      "word": "Dachfenster",
+      "difficulty": 2
+    },
+    {
+      "word": "Postkarte",
+      "difficulty": 2
+    },
+    {
+      "word": "Großmutter",
+      "difficulty": 2
+    },
+    {
+      "word": "Panther",
+      "difficulty": 2
+    },
+    {
+      "word": "Hammer",
+      "difficulty": 2
+    },
+    {
+      "word": "Gebäude",
+      "difficulty": 2
+    },
+    {
+      "word": "Schnuller",
+      "difficulty": 2
+    },
+    {
+      "word": "Amerika",
+      "difficulty": 2
+    },
+    {
+      "word": "Zeh",
+      "difficulty": 1
+    },
+    {
+      "word": "Hängebrücke",
+      "difficulty": 0
+    },
+    {
+      "word": "Pfeife",
+      "difficulty": 0
+    },
+    {
+      "word": "Maschine",
+      "difficulty": 2
+    },
+    {
+      "word": "Temperatur",
+      "difficulty": 2
+    },
+    {
+      "word": "Nadelkissen",
+      "difficulty": 2
+    },
+    {
+      "word": "Nudel",
+      "difficulty": 2
+    },
+    {
+      "word": "Maulwurf",
+      "difficulty": 1
+    },
+    {
+      "word": "Ferrari",
+      "difficulty": 2
+    },
+    {
+      "word": "Cello",
+      "difficulty": 2
+    },
+    {
+      "word": "Password",
+      "difficulty": 2
+    },
+    {
+      "word": "Markt",
+      "difficulty": 1
+    },
+    {
+      "word": "Teleskop",
+      "difficulty": 2
+    },
+    {
+      "word": "Töne",
+      "difficulty": 2
+    },
+    {
+      "word": "Generator",
+      "difficulty": 2
+    },
+    {
+      "word": "Leidenschaft",
+      "difficulty": 2
+    },
+    {
+      "word": "Zombie",
+      "difficulty": 0
+    },
+    {
+      "word": "Darsteller",
+      "difficulty": 2
+    },
+    {
+      "word": "Liane",
+      "difficulty": 2
+    },
+    {
+      "word": "Windows",
+      "difficulty": 2
+    },
+    {
+      "word": "Tornado",
+      "difficulty": 2
+    },
+    {
+      "word": "Sprühfarbe",
+      "difficulty": 2
+    },
+    {
+      "word": "Ziel",
+      "difficulty": 2
+    },
+    {
+      "word": "Purzelbaum",
+      "difficulty": 2
+    },
+    {
+      "word": "Haare",
+      "difficulty": 2
+    },
+    {
+      "word": "Raumanzug",
+      "difficulty": 2
+    },
+    {
+      "word": "Kreuzotter",
+      "difficulty": 0
+    },
+    {
+      "word": "Kakerlake",
+      "difficulty": 2
+    },
+    {
+      "word": "Kinn",
+      "difficulty": 2
+    },
+    {
+      "word": "Bäckerei",
+      "difficulty": 2
+    },
+    {
+      "word": "Konfetti",
+      "difficulty": 2
+    },
+    {
+      "word": "Elektriker",
+      "difficulty": 2
+    },
+    {
+      "word": "Zebra",
+      "difficulty": 0
+    },
+    {
+      "word": "Ladebalken",
+      "difficulty": 2
+    },
+    {
+      "word": "Feuerwehrauto",
+      "difficulty": 2
+    },
+    {
+      "word": "Architekt",
+      "difficulty": 2
+    },
+    {
+      "word": "Bügeleisen",
+      "difficulty": 2
+    },
+    {
+      "word": "Bob",
+      "difficulty": 0
+    },
+    {
+      "word": "Höhle",
+      "difficulty": 2
+    },
+    {
+      "word": "Werwolf",
+      "difficulty": 2
+    },
+    {
+      "word": "Totenkopf",
+      "difficulty": 2
+    },
+    {
+      "word": "Spaten",
+      "difficulty": 2
+    },
+    {
+      "word": "Person",
+      "difficulty": 2
+    },
+    {
+      "word": "Ameise",
+      "difficulty": 2
+    },
+    {
+      "word": "Nilpferd",
+      "difficulty": 2
+    },
+    {
+      "word": "Textmarker",
+      "difficulty": 2
+    },
+    {
+      "word": "schwanger",
+      "difficulty": 2
+    },
+    {
+      "word": "Gymnastik",
+      "difficulty": 2
+    },
+    {
+      "word": "Essstäbchen",
+      "difficulty": 2
+    },
+    {
+      "word": "Strumpfhose",
+      "difficulty": 2
+    },
+    {
+      "word": "Eichel",
+      "difficulty": 2
+    },
+    {
+      "word": "Hose",
+      "difficulty": 0
+    },
+    {
+      "word": "Blitz",
+      "difficulty": 2
+    },
+    {
+      "word": "Excalibur",
+      "difficulty": 2
+    },
+    {
+      "word": "Creeper",
+      "difficulty": 2
+    },
+    {
+      "word": "Dorf",
+      "difficulty": 2
+    },
+    {
+      "word": "Mineralwasser",
+      "difficulty": 2
+    },
+    {
+      "word": "Abonnement",
+      "difficulty": 0
+    },
+    {
+      "word": "weinen",
+      "difficulty": 2
+    },
+    {
+      "word": "Eisberg",
+      "difficulty": 2
+    },
+    {
+      "word": "Evolution",
+      "difficulty": 2
+    },
+    {
+      "word": "Koffer",
+      "difficulty": 2
+    },
+    {
+      "word": "Meerenge",
+      "difficulty": 2
+    },
+    {
+      "word": "Spore",
+      "difficulty": 2
+    },
+    {
+      "word": "Böller",
+      "difficulty": 2
+    },
+    {
+      "word": "Einkaufszentrum",
+      "difficulty": 2
+    },
+    {
+      "word": "Fliege",
+      "difficulty": 2
+    },
+    {
+      "word": "Deutschland",
+      "difficulty": 2
+    },
+    {
+      "word": "Schleuder",
+      "difficulty": 1
+    },
+    {
+      "word": "Beatbox",
+      "difficulty": 2
+    },
+    {
+      "word": "Schreibschrift",
+      "difficulty": 2
+    },
+    {
+      "word": "Achsel",
+      "difficulty": 1
+    },
+    {
+      "word": "Burrito",
+      "difficulty": 2
+    },
+    {
+      "word": "UFO",
+      "difficulty": 1
+    },
+    {
+      "word": "See",
+      "difficulty": 2
+    },
+    {
+      "word": "grinsen",
+      "difficulty": 0
+    },
+    {
+      "word": "Leiterbahn",
+      "difficulty": 2
+    },
+    {
+      "word": "Zahnbürste",
+      "difficulty": 2
+    },
+    {
+      "word": "Geschäft",
+      "difficulty": 2
+    },
+    {
+      "word": "CO2",
+      "difficulty": 2
+    },
+    {
+      "word": "Natur",
+      "difficulty": 2
+    },
+    {
+      "word": "Vulkan",
+      "difficulty": 2
+    },
+    {
+      "word": "read",
+      "difficulty": 2
+    },
+    {
+      "word": "skull",
+      "difficulty": 2
+    },
+    {
+      "word": "tennis",
+      "difficulty": 1
+    },
+    {
+      "word": "axe",
+      "difficulty": 2
+    },
+    {
+      "word": "verletzt",
+      "difficulty": 2
+    },
+    {
+      "word": "Nuss",
+      "difficulty": 2
+    },
+    {
+      "word": "Rasensprenger",
+      "difficulty": 2
+    },
+    {
+      "word": "Geschenk",
+      "difficulty": 2
+    },
+    {
+      "word": "Einstein",
+      "difficulty": 2
+    },
+    {
+      "word": "Kennzeichen",
+      "difficulty": 2
+    },
+    {
+      "word": "niesen",
+      "difficulty": 2
+    },
+    {
+      "word": "Geologe",
+      "difficulty": 2
+    },
+    {
+      "word": "Trampolin",
+      "difficulty": 2
+    },
+    {
+      "word": "sinken",
+      "difficulty": 1
+    },
+    {
+      "word": "Soldat",
+      "difficulty": 2
+    },
+    {
+      "word": "Küche",
+      "difficulty": 2
+    },
+    {
+      "word": "Olive",
+      "difficulty": 2
+    },
+    {
+      "word": "Regenschirm",
+      "difficulty": 1
+    },
+    {
+      "word": "Eisverkäufer",
+      "difficulty": 1
+    },
+    {
+      "word": "Buntstift",
+      "difficulty": 2
+    },
+    {
+      "word": "Achteck",
+      "difficulty": 1
+    },
+    {
+      "word": "Nacken",
+      "difficulty": 2
+    },
+    {
+      "word": "weiß",
+      "difficulty": 1
+    },
+    {
+      "word": "Totem",
+      "difficulty": 0
+    },
+    {
+      "word": "Kobra",
+      "difficulty": 1
+    },
+    {
+      "word": "BMW",
+      "difficulty": 2
+    },
+    {
+      "word": "Wespe",
+      "difficulty": 2
+    },
+    {
+      "word": "Inlineskates",
+      "difficulty": 2
+    },
+    {
+      "word": "Weihnachtsmann",
+      "difficulty": 0
+    },
+    {
+      "word": "Mantel",
+      "difficulty": 0
+    },
+    {
+      "word": "Westen",
+      "difficulty": 1
+    },
+    {
+      "word": "Meteorologe",
+      "difficulty": 2
+    },
+    {
+      "word": "Warze",
+      "difficulty": 2
+    },
+    {
+      "word": "Museum",
+      "difficulty": 2
+    },
+    {
+      "word": "spülen",
+      "difficulty": 1
+    },
+    {
+      "word": "fliegen",
+      "difficulty": 2
+    },
+    {
+      "word": "begrüßen",
+      "difficulty": 2
+    },
+    {
+      "word": "Krümelmonster",
+      "difficulty": 2
+    },
+    {
+      "word": "Uhr",
+      "difficulty": 0
+    },
+    {
+      "word": "Kebab",
+      "difficulty": 2
+    },
+    {
+      "word": "Bettdecke",
+      "difficulty": 2
+    },
+    {
+      "word": "Libelle",
+      "difficulty": 2
+    },
+    {
+      "word": "Segelboot",
+      "difficulty": 2
+    },
+    {
+      "word": "Zahnspange",
+      "difficulty": 2
+    },
+    {
+      "word": "Florida",
+      "difficulty": 2
+    },
+    {
+      "word": "Zirkusdirektor",
+      "difficulty": 1
+    },
+    {
+      "word": "copy",
+      "difficulty": 1
+    },
+    {
+      "word": "blood",
+      "difficulty": 1
+    },
+    {
+      "word": "Sonnenfinsternis",
+      "difficulty": 2
+    },
+    {
+      "word": "Trummer",
+      "difficulty": 2
+    },
+    {
+      "word": "Hamburger",
+      "difficulty": 2
+    },
+    {
+      "word": "Flamingo",
+      "difficulty": 1
+    },
+    {
+      "word": "Orange",
+      "difficulty": 2
+    },
+    {
+      "word": "Becken",
+      "difficulty": 2
+    },
+    {
+      "word": "Hydrant",
+      "difficulty": 2
+    },
+    {
+      "word": "Wunderlampe",
+      "difficulty": 2
+    },
+    {
+      "word": "Schnee",
+      "difficulty": 2
+    },
+    {
+      "word": "smell",
+      "difficulty": 0
+    },
+    {
+      "word": "sunglasses",
+      "difficulty": 2
+    },
+    {
+      "word": "waist",
+      "difficulty": 0
+    },
+    {
+      "word": "compass",
+      "difficulty": 2
+    },
+    {
+      "word": "flashlight",
+      "difficulty": 0
+    },
+    {
+      "word": "Rasierer",
+      "difficulty": 2
+    },
+    {
+      "word": "Bürgermeister",
+      "difficulty": 2
+    },
+    {
+      "word": "Esel",
+      "difficulty": 2
+    },
+    {
+      "word": "Meme",
+      "difficulty": 1
+    },
+    {
+      "word": "Belgien",
+      "difficulty": 1
+    },
+    {
+      "word": "sea",
+      "difficulty": 2
+    },
+    {
+      "word": "Schach",
+      "difficulty": 2
+    },
+    {
+      "word": "Schädel",
+      "difficulty": 2
+    },
+    {
+      "word": "Delfin",
+      "difficulty": 2
+    },
+    {
+      "word": "Aufseher",
+      "difficulty": 2
+    },
+    {
+      "word": "Reis",
+      "difficulty": 1
+    },
+    {
+      "word": "kochen",
+      "difficulty": 2
+    },
+    {
+      "word": "Planet",
+      "difficulty": 2
+    },
+    {
+      "word": "Camping",
+      "difficulty": 2
+    },
+    {
+      "word": "Vogelhaus",
+      "difficulty": 1
+    },
+    {
+      "word": "Krankheit",
+      "difficulty": 2
+    },
+    {
+      "word": "Teelöffel",
+      "difficulty": 2
+    },
+    {
+      "word": "Jahrbuch",
+      "difficulty": 2
+    },
+    {
+      "word": "Filmemacher",
+      "difficulty": 2
+    },
+    {
+      "word": "Ohrenschmalz",
+      "difficulty": 2
+    },
+    {
+      "word": "Winter",
+      "difficulty": 1
+    },
+    {
+      "word": "Chrome",
+      "difficulty": 1
+    },
+    {
+      "word": "Firefox",
+      "difficulty": 1
+    },
+    {
+      "word": "Windows",
+      "difficulty": 1
+    },
+    {
+      "word": "Linux",
+      "difficulty": 1
+    },
+    {
+      "word": "Bauch",
+      "difficulty": 2
+    },
+    {
+      "word": "Taser",
+      "difficulty": 2
+    }
+  ]
+}

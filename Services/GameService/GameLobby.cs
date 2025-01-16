@@ -269,7 +269,8 @@
                 return;
             }
 
-            this.DistributeMessage(key, new SelectWordMessage(message));
+            this.game.SelectWord(message.Word);
+// this.DistributeMessage(key, new SelectWordMessage(message));
         }
 
         private void ReceivedRoundDurationChangedMessage(string key, RoundDurationChangedMessageBody message)

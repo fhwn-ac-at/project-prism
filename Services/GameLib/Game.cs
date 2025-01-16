@@ -347,6 +347,7 @@
 
             this.DrawingEnded?.Invoke(this, new DrawingEndedEventArgs(this.totalRoundAmount - this.roundAmount + 1, this.drawingRoundScore));
             this.drawingRoundScore.Clear();
+            // TODO maby delay for showing scores
             this.FireWordSelectionEvent();
         }
 
@@ -374,7 +375,7 @@
             // Calculate remaining time as a fraction
             double timeFactor = (this.drawingDuration - timeTaken) / this.drawingDuration;
 
-            double orderFactor = 1.0-(this.guessedCounter-1)*this.orderReduction; 
+            double orderFactor = this.orderFactorStartPoint-(this.guessedCounter-1)*this.orderReduction; 
             orderFactor=Math.Max(orderFactor, this.minFactor);         
 
             // Calculate the score

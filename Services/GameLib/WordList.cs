@@ -1,6 +1,7 @@
 ﻿namespace GameLib
 {
     using FrenziedMarmot.DependencyInjection;
+    using LoggerLib;
     using MessageLib;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
@@ -12,7 +13,7 @@
     {
         private readonly WordListItem[] words;
 
-        public WordList(IOptions<WordListOptions> options, Deserializer deserializer)
+        public WordList(IOptions<WordListOptions> options, Deserializer deserializer, IFileOpener fileOpener)
         {
             if (options == null || options.Value == null)
             {
@@ -24,15 +25,22 @@
                 throw new ArgumentNullException();
             }
 
-            var text = File.ReadAllTextAsync(options.Value.Location);
+            var fileStream = fileOpener.OpenRead(options.Value.Location);
 
-            text.Wait();
+            fileStream.Wait();
 
-            var jsonWords = deserializer.DeserializeTo<JSONWordList>(text.Result);
+            var buffer = new byte[fileStream.Result.Length];
+            var readWait = fileStream.Result.ReadAsync(buffer, 0, buffer.Length);
 
-            if (jsonWords==null)
+            readWait.Wait();
+
+            var text = System.Text.Encoding.UTF8.GetString(buffer);
+
+            var jsonWords = deserializer.DeserializeTo<JSONWordList>(text);
+
+            if (jsonWords==null || jsonWords.Words==null)
             {
-                throw new ArgumentException();
+                throw new JsonException();
             }
 
             this.words=jsonWords.Words;

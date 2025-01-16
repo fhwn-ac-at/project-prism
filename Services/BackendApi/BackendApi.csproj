@@ -33,7 +33,7 @@
 		
 		<Exec Command="swagger tofile --output $(ProjectDir)openapi.json $(TargetPath) v1" EnvironmentVariables="DOTNET_ROLL_FORWARD=LatestMajor" />
 		
-		<Exec Command="nswag openapi2tsclient /input:$(ProjectDir)\openapi.json /output:$(ProjectDir)..\..\generatedTsClient\GeneratedApiClient.ts" />
+		<Exec Command="nswag openapi2tsclient /input:$(ProjectDir)\openapi.json /output:$(ProjectDir)..\..\generatedTsClient\GeneratedApiClient.ts /template:Angular" />
 	</Target>
 	
 </Project>

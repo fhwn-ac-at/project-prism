@@ -45,10 +45,10 @@ public class CustomFileLoggerProvider : ILoggerProvider
 
         if (this.currentConfig.Path!=null)
         {
-            Task<FileStream> fileStreamTask = fileOpener.OpenWrite(this.currentConfig.Path, this.currentConfig.Append ? FileMode.Append : FileMode.Create);
+            Task<Stream> fileStreamTask = fileOpener.OpenWrite(this.currentConfig.Path, this.currentConfig.Append ? FileMode.Append : FileMode.Create);
             fileStreamTask.Wait();
 
-            FileStream fileStream = fileStreamTask.Result;
+            Stream fileStream = fileStreamTask.Result;
 
             if (fileStream==null)
             {

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MessageLib\MessageLib.csproj" />
+    <ProjectReference Include="..\LoggerLib\LoggerLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

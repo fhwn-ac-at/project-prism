@@ -1,6 +1,7 @@
-﻿namespace BackendApi;
+﻿namespace BackendApi.MessageDistributing;
 
 using AMQPLib;
+using BackendApi;
 using BackendApi.ApiClients;
 using MessageLib;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ public class AMQPBridgeHub : Hub
     {
         var clientId = this.Context.GetHttpContext()?.Request.RouteValues["client-id"]?.ToString();
 
-        if (clientId== null)
+        if (clientId==null)
         {
             this.logger?.LogError("Websocket connected without client id");
             throw new BadHttpRequestException("Missing client id");
@@ -41,7 +42,7 @@ public class AMQPBridgeHub : Hub
         }
 
 
-        if (this.Context.User == null)
+        if (this.Context.User==null)
         {
             this.logger?.LogError("User connected without claim.");
             throw new BadHttpRequestException("No Token");
@@ -55,7 +56,8 @@ public class AMQPBridgeHub : Hub
         if (identifier==null)
         {
             identifier=clientId;
-        } else if (identifier!=clientId)
+        }
+        else if (identifier!=clientId)
         {
             this.logger?.LogError("Connection on id {} doesn't match the user id {}.", clientId, identifier);
             throw new BadHttpRequestException("Invalid client id");
@@ -65,9 +67,9 @@ public class AMQPBridgeHub : Hub
 
         var clientProxy = Clients.User(this.Context.ConnectionId);
         var connector = new WebsocketToAMQPConnector(
-            clientProxy, 
-            identifier, 
-            this.serviceProvider.GetRequiredService<IAMQPBroker>(), 
+            clientProxy,
+            identifier,
+            this.serviceProvider.GetRequiredService<IAMQPBroker>(),
             this.serviceProvider.GetRequiredService<PlainMessageDistributor>(),
             this.serviceProvider.GetRequiredService<Validator>(),
             this.serviceProvider.GetRequiredService<ILogger<WebsocketToAMQPConnector>>()
@@ -115,7 +117,7 @@ public class AMQPBridgeHub : Hub
         }
 
         var user = new User();
-        user.Id = identifier;
+        user.Id=identifier;
         user.Name=this.Context.User?.ExtractDisplayName();
         await this.generatedGameClient.DisconnectUserFromLobbyAsync(lobbyId, user);
 
@@ -123,5 +125,14 @@ public class AMQPBridgeHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    // TODO look up how to receive messages and send it based on the user claim
+    public async Task Backend(string message)
+    {
+        if (!this.connectors.TryGetValue(Context.ConnectionId, out var connector))
+        {
+            this.logger?.LogError("Connection with id {} not known", Context.ConnectionId);
+            throw new BadHttpRequestException("Invalid connection");
+        }
+
+        await connector.SendAsync(message);
+    }
 }

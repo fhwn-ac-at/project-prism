@@ -1,4 +1,5 @@
 ﻿using GameLib;
+using LoggerLib;
 using MessageLib;
 using MessageLib.Game;
 using MessageLib.Lobby;
@@ -60,7 +61,7 @@ internal class Program
         SetDrawerMessage? parsedSetDrwaer = deserialzier.DeserializeTo<SetDrawerMessage>(message3);
         Console.WriteLine(parsedSetDrwaer);
 
-        WordList list = new WordList(Options.Create(new WordListOptions("./wordlist.json")), deserialzier);
+        WordList list = new WordList(Options.Create(new WordListOptions() { Location ="./wordlist.json" }), deserialzier, new FileOpener(Options.Create(new FileOpenerOptions()), null));
 
         Console.WriteLine(list);
     }

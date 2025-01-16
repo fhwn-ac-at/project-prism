@@ -26,7 +26,8 @@ using System;
 /// </exception>
 /// 
 [Injectable(Lifetime = ServiceLifetime.Singleton)]
-public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>? logger)
+[Injectable(Lifetime = ServiceLifetime.Singleton, TargetType = typeof(IFileOpener))]
+public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>? logger) : IFileOpener
 {
     /// <summary>
     /// The wait time.
@@ -54,7 +55,7 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// <exception cref="ArgumentNullException">
     /// Is thrown if the path is null.
     /// </exception>
-    public async Task<FileStream> OpenRead(string path)
+    public async Task<Stream> OpenRead(string path)
     {
         return path==null
             ? throw new ArgumentNullException(nameof(path), "The parameter must not be null.")
@@ -73,7 +74,7 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// <exception cref="ArgumentNullException">
     /// Is thrown if the path is null.
     /// </exception>
-    public async Task<FileStream> OpenWrite(string path, FileMode mode)
+    public async Task<Stream> OpenWrite(string path, FileMode mode)
     {
         return path==null
             ? throw new ArgumentNullException(nameof(path), "The parameter must not be null.")
@@ -91,7 +92,7 @@ public class FileOpener(IOptions<FileOpenerOptions> options, ILogger<FileOpener>
     /// <exception cref="ArgumentNullException">
     /// Is thrown if the path is null.
     /// </exception>
-    public async Task<FileStream> OpenReadWrite(string path)
+    public async Task<Stream> OpenReadWrite(string path)
     {
         return path==null
             ? throw new ArgumentNullException(nameof(path), "The parameter must not be null.")

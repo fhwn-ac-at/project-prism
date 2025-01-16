@@ -224,6 +224,7 @@
 
         public void Undo()
         {
+            // TODO implement as on the frontend!!!
             this.drawing.RemoveLast();
         }
 

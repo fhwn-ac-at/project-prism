@@ -1,0 +1,30 @@
+.Top-Bar
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.options
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5%;
+    padding: 0.5%;
+}
+
+.hidden-word
+{
+    margin: auto;
+
+}
+
+.countdown
+{
+    justify-content: center;
+    align-items: center;
+    min-width: 5%;
+    margin: 0.5%;
+}

@@ -1,0 +1,18 @@
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { PlayerDataService } from './services/player-data/player-data.service';
+
+@Component
+({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+  providers: [
+    {provide: PlayerDataService, useClass: PlayerDataService}
+  ]
+})
+export class AppComponent 
+{
+
+}

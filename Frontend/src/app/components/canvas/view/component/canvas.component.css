@@ -1,0 +1,6 @@
+.canvas-container
+{
+    background-color: rgb(255, 255, 255);
+    margin: 1vmax;
+    cursor:crosshair;
+}

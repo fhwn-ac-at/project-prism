@@ -1,0 +1,16 @@
+<mat-card class="canvas-container">
+    <canvas 
+    #drawingCanvas
+    tabindex="1"
+    [width]="CanvasWidth()"
+    [height]="CanvasHeight()"
+    class="canvas"
+    id="drawingcanv"
+    (mousedown)="OnMouseDown($event)"
+    (mousemove)="OnMouseMove($event)"
+    (mouseup)="OnMouseUp($event)"
+    (mouseleave)="OnMouseLeave($event)"
+    >      
+</canvas>
+</mat-card>
+

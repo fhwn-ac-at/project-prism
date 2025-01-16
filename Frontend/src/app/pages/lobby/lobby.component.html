@@ -1,0 +1,19 @@
+@if (PlayerDataService.PlayerData.value.isNone()) 
+{
+    <h1>Error: no value set for player data</h1>
+}
+@else 
+{
+    <div>
+        <app-active-players/>
+
+       @if (PlayerDataService.PlayerData.value.value.Role == PlayerType.Drawer)
+       {
+        
+       }
+       @else 
+       {
+
+       }
+    </div>
+}

@@ -1,0 +1,50 @@
+<div class="headline-container">
+    <h1 class="headline">Skrabbl.io</h1>
+    <img width="50" height="50" class="pen-icon" src="./assets/pen-bw.jpg"/>
+</div>
+
+<div class="start-root">
+    <mat-card class="forms-container">
+        <h2 class="h2">Enter your username</h2>
+
+        <mat-form-field appearance="fill" class="username-input">
+            <mat-label>Username</mat-label>
+            <input
+                matInput 
+                [formControl]="UsernameModel"
+            />
+            @if (UsernameModel.invalid)
+            {
+                <mat-error>Username is invalid</mat-error>
+            }
+        </mat-form-field>
+
+        <h2 class="h2">Join Existing Game</h2>
+
+        <mat-divider></mat-divider>
+
+        <div class="join-game-row">
+            <button (click)="OnJoinGameButtonClicked($event)" class="join-game-button" mat-fab id="joinGame">Join Game</button>
+
+            <mat-form-field appearance="fill" class="join-game-input">       
+                <mat-label>Game ID</mat-label>
+                
+                <input 
+                    matInput 
+                    [formControl]="LobbyIDToJoinModel"
+                />
+
+                @if (LobbyIDToJoinModel.invalid)
+                {
+                    <mat-error>Lobby ID is not valid</mat-error>
+                }
+            </mat-form-field>    
+        </div>
+
+        <h2 class="h2">Create New Game</h2>
+
+        <mat-divider/>
+
+        <button (click)="OnCreatePrivateRoomButtonClicked($event)" mat-fab id="startGame" class="start-new-game">Create Private Room</button>
+    </mat-card >
+</div>

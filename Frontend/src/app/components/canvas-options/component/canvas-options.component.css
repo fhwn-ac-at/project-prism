@@ -1,0 +1,53 @@
+.CanvasOptions-Container
+{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+    margin: auto;
+    padding: 2vmax;
+}
+
+.ColorPicker-Container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: auto;
+
+}
+
+.ColorPicker
+{
+    border-radius: 10vmax;
+    width: 75%;
+}
+
+.Options-Container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: auto;
+    height: auto;
+
+}
+
+.SizeSlider-Container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: auto;
+    height: auto;
+}
+
+.Divider
+{
+    margin-left: 2vmax;
+    margin-right: 2vmax;
+}

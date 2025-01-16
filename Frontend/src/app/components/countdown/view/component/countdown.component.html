@@ -1,13 +1,13 @@
 <mat-card class="countdown-root">
     <ng-container *ngIf="CountdownState | instanceof: CdNotStarted as notStarted">
-        <ng-container>Not Started</ng-container>
+        <div class="countdown-text">Not Started</div>
     </ng-container>
 
     <ng-container *ngIf="CountdownState | instanceof: CdFinished as finished">
-        <ng-container>Finished</ng-container>
+        <div class="countdown-text">Finished</div>
     </ng-container>
 
     <ng-container *ngIf="CountdownState | instanceof: CdRunning as running">
-        <ng-container>{{ running.TimeLeft }}</ng-container>
+        <div class="countdown-text">{{ running.TimeLeft }}</div>
     </ng-container>
 </mat-card>

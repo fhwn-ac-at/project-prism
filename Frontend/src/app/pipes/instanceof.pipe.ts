@@ -9,7 +9,6 @@ type AbstractType<T> = new (...args: any[]) => T;
 })
 export class InstanceofPipe implements PipeTransform 
 {
-  
   public transform<V, R>(value: V, type: AbstractType<R>): R | undefined 
   {
     return value instanceof type ? value : undefined;

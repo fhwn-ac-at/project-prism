@@ -1,9 +1,12 @@
 <mat-card class="chat-root">
+    <h1 class="title">Chat</h1>
+
+    <mat-divider/>
 
     <mat-list class="chat-message-list">
         @for (item of ChatMessages; track item)
         {
-            <mat-list-item  class="chat-message">
+            <mat-list-item class="chat-message">
                 <span  class="username">
                     {{item.Username}}
                 </span>
@@ -13,10 +16,8 @@
                 <span class="message">{{item.Message}}</span>
             </mat-list-item>
         }
-
     </mat-list>
-       
-
+      
     <mat-form-field class="example-form-field">
         
         <mat-label>Enter your message:</mat-label>

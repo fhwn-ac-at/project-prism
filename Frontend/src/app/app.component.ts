@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { PlayerDataService } from './services/player-data/player-data.service';
 
 @Component
 ({
@@ -7,6 +8,9 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  providers: [
+    {provide: PlayerDataService, useClass: PlayerDataService}
+  ]
 })
 export class AppComponent 
 {

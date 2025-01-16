@@ -1,0 +1,9 @@
+<h1>Routing Test</h1>
+
+<nav> 
+     <ul>
+        <li><a [routerLink]="['/game']" (click)="OnGamePageClicked($event)" routerLinkActive="active" >Game Page</a></li> 
+    </ul>
+</nav>
+
+<router-outlet></router-outlet>

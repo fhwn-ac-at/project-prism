@@ -22,8 +22,8 @@ export class HiddenWordComponent
       {next: (event) => this.Word = event.LettersOrNones}
     )
 
-    this.hiddenWordService.SetWord("Mysupersecretword"); 
+    this.Word = this.hiddenWordService.GetWord() || [];
   }
 
-  public Word: Maybe<string>[] = [];
+  public Word: Maybe<string>[];
 }

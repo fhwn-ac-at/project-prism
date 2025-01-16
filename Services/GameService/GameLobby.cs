@@ -81,6 +81,7 @@
             }
 
             this.StartGameAndConnectEvents();
+            this.DistributeMessage(null, new GameStartedMessage());
             return true;
         }
 

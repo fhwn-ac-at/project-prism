@@ -29,6 +29,7 @@ namespace MessageLib
         public event EventHandler<EmptyMessageBody>? ReceivedClosePathMessage;
         public event EventHandler<DrawingSizeChangedMessageBody>? ReceivedDrawingSizeChangedMessage;
         public event EventHandler<EmptyMessageBody>? ReceivedGameEndedMessage;
+        public event EventHandler<EmptyMessageBody>? ReceivedGameStartedMessage;
         public event EventHandler<LineToMessageBody>? ReceivedLineToMessage;
         public event EventHandler<MoveToMessageBody>? ReceivedMoveToMessage;
         public event EventHandler<EmptyMessageBody>? ReceivedNextRoundMessage;
@@ -102,6 +103,9 @@ namespace MessageLib
                     break;
                 case MessageType.gameEnded:
                     this.FireEvent<GameEndedMessage, EmptyMessageBody>(this.ReceivedGameEndedMessage, message);
+                    break;
+                case MessageType.gameStarted:
+                    this.FireEvent<GameStartedMessage, EmptyMessageBody>(this.ReceivedGameStartedMessage, message);
                     break;
                 case MessageType.lineTo:
                     this.FireEvent<LineToMessage, LineToMessageBody>(this.ReceivedLineToMessage, message);

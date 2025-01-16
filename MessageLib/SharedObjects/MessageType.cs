@@ -23,6 +23,7 @@
         setDrawer,
         setNotDrawer,
         undo,
-        userScore
+        userScore,
+        gameStarted
     }
 }

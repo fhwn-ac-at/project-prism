@@ -99,4 +99,4 @@ von lobby zu game http get request start game von einem Client
 ### gameEndedMessage
     von backend an alle clients 
     backend geht zurück in den lobby mode
-    anzeigen der scores des spiles mit reihnefolge wer gewonnen hat und nach ca 30 sekunden wieder in die Lobby wechseln
+    anzeigen der scores des spieles mit reihnefolge wer gewonnen hat und nach ca 30 sekunden wieder in die Lobby wechseln

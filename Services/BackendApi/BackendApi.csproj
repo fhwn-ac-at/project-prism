@@ -23,7 +23,7 @@
   </ItemGroup>
 
 	<Target Name="GenerateApiClient" AfterTargets="Build">
-		<!-- Needs before dotnet tool install __global NSwag.ConsoleCore-->
+		<!-- Needs before dotnet tool install __global NSwag.ConsoleCore __ durch minus minus ersetzen-->
 		<!-- Ensure the output directory exists for the generated file -->
 		<MakeDir Directories="$(ProjectDir)\Generated" />
 		<MakeDir Directories="$(ProjectDir)..\..\generatedTsClient\" />

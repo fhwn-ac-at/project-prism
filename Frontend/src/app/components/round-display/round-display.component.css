@@ -1,0 +1,13 @@
+.round-display-root
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: auto;
+}
+
+.text
+{
+    font-weight: bold;
+}

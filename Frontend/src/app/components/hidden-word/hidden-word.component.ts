@@ -21,9 +21,7 @@ export class HiddenWordComponent
     this.hiddenWordService.SubscribeWordEvent(
       {next: (event) => this.Word = event.LettersOrNones}
     )
-
-    this.Word = this.hiddenWordService.GetWord() || [];
   }
 
-  public Word: Maybe<string>[];
+  public Word: Maybe<string>[] | undefined;
 }

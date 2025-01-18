@@ -4,22 +4,35 @@
     flex-direction: column;
 }
 
+.top-bar
+{
+    margin: 0.5%;
+}
+
 .player-canvas-chat
 {
     display: flex;
     flex-direction: row;
-    align-content: space-between;
-    justify-content: space-between;
+    align-content: stretch;
+    justify-content: center;
     margin-top: 2%;
-    max-height: 83vh;
+    max-height: 80vh;
 }
 
 .chat
 {
-    width: 20vw;
+    width: 30vw;
+    max-height: 100%;
+}
+
+.canvas
+{
+    width: 30vw;
+    max-height: 100%;
 }
 
 .active-players
 {
-    width: 20vw;
+    width: 30vw;
+    max-height: 100%;
 }

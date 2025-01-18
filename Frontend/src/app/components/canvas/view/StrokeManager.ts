@@ -1,40 +1,34 @@
 import { CanvasStateService } from "../../../services/canvas-state/canvas-state.service";
-import { Position2d } from "../../../../lib/Position2d";
-import { StrokeVM } from "../../../services/canvas-state/StrokeVM";
-import { StrokeConverter } from "../StrokeConverter/StrokeConverter";
-import { CountdownService } from "../../../services/countdown/countdown.service";
-import { PlayerDataService } from "../../../services/player-data/player-data.service";
-import { PlayerType } from "../../../services/player-data/PlayerType";
+import { CanDrawService } from "../../../services/can-draw/can-draw.service";
+import { CoordinateConverter } from "../StrokeConverter/CoordinateConverter";
 
 export class StrokeManager
 {
-    private currentPath: Position2d[] | null = null;
-
     private canvasService: CanvasStateService;
-    private countdownService: CountdownService;
-    private playerDataService: PlayerDataService;
+    private canDrawService: CanDrawService;
     private ctx: CanvasRenderingContext2D;
 
     public constructor
     (
         canvasService: CanvasStateService, 
-        countdownService: CountdownService, 
-        playerDataService: PlayerDataService,
+        canDrawService: CanDrawService,
         ctx: CanvasRenderingContext2D
     )
     {
-        this.countdownService = countdownService;
         this.canvasService = canvasService;
-        this.playerDataService = playerDataService;
+        this.canDrawService = canDrawService;
         this.ctx = ctx;
     }
 
     public TryStartLine(posX: number, posY: number) : void
     {
-        if (!this.CanStartStroke()) return;
+        if (!this.canDrawService.CanUseCanvas()) return;
         
-        this.currentPath = [];
-        this.currentPath.push({x: posX, y: posY});
+        const successfullyStarted = this.canvasService.StartStroke
+        (
+            CoordinateConverter.ConvertToUnitSpace({x: posX, y: posY}, this.ctx.canvas.width, this.ctx.canvas.height)
+        );       
+        if (!successfullyStarted) return;
 
         this.ctx.lineCap = "round";
         this.ctx.strokeStyle = this.canvasService.StrokeColor.value;
@@ -45,15 +39,18 @@ export class StrokeManager
 
     public TryMoveLine(posX: number, posY: number) : void
     {
-        if (this.currentPath == null) return;
-
-        if (!this.countdownService.IsRunning())
+        if (!this.canDrawService.IsCountdownRunning())
         {
             this.TrEndLine(); 
             return;
         }
 
-        this.currentPath.push({x: posX, y: posY});
+        const successfullyMoved = this.canvasService.MoveStroke
+        (
+            CoordinateConverter.ConvertToUnitSpace({x: posX, y: posY}, this.ctx.canvas.width, this.ctx.canvas.height)
+        );    
+
+        if (!successfullyMoved) return;
     
         this.ctx.lineTo(posX, posY);
         this.ctx.stroke();
@@ -61,32 +58,6 @@ export class StrokeManager
 
     public TrEndLine() : void
     {
-        if (this.currentPath == null) return;
-
-        let newStroke: StrokeVM = {
-          StrokeWidth: this.ctx.lineWidth,
-          Color: this.ctx.strokeStyle as string,
-          PathData: this.currentPath
-        };   
-
-        let convertedStroke: StrokeVM = StrokeConverter.ConvertToUnitSpaceStroke
-            (newStroke, this.ctx.canvas.width, this.ctx.canvas.height)
-
-        this.canvasService.PushStroke(convertedStroke);
-
-        // reset
-        this.currentPath = null;
-    }
-
-    private CanStartStroke(): boolean
-    {
-        if (this.playerDataService.PlayerData.value.isNone()) return false;
-
-        if (this.playerDataService.PlayerData.value.value.Role != PlayerType.Drawer || !this.countdownService.IsRunning()) 
-        {
-            return false;
-        }
-
-        return true;
+        this.canvasService.EndStroke();
     }
 }

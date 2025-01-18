@@ -1,0 +1,31 @@
+.options-form
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header
+{
+    margin: 2% auto auto auto;
+}
+
+.divider
+{
+    margin:  2% 0 2% 0;
+}
+
+.rounds-amount
+{
+
+}
+
+.rounds-duration
+{
+
+}
+
+.start-game-button
+{
+    margin: 2% 10% 2% 10%;
+    background-color: rgb(68, 255, 99);
+}

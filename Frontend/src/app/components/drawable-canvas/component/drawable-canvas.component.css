@@ -2,10 +2,18 @@
 {
     display: flex;
     flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    margin: 1vmax;
-    padding: 1vmax;
-
+    justify-content:stretch;
+    align-items: center;
+    margin: auto 2% auto 2%;
+    padding: 2%;
 }
 
+.canvas
+{
+    margin:auto;
+}
+
+.canvas-options
+{
+    margin-top:10%;
+}

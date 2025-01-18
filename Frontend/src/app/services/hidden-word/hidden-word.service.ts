@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WordPart } from './WordPart';
 import { StringToWordPartsConverter } from './StringToWordPartsConverter';
-import { Observer, Subject } from 'rxjs';
+import { Observer, ReplaySubject, Subject } from 'rxjs';
 import  { Maybe } from '@sweet-monads/maybe';
 import { HiddenWordEvent } from './HiddenWordEvent';
 
@@ -12,7 +12,7 @@ export class HiddenWordService
 {
   private wordParts: WordPart[] | undefined;
 
-  private eventSubject: Subject<HiddenWordEvent> = new Subject<HiddenWordEvent>();
+  private eventSubject: ReplaySubject<HiddenWordEvent> = new ReplaySubject<HiddenWordEvent>(1);
 
   public constructor() 
   { }

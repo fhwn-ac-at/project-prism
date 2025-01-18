@@ -4,7 +4,7 @@ import { StrokeView } from "./StrokeView";
 
 export class CanvasRenderer
 {
-    public DrawCanvas(context: CanvasRenderingContext2D, strokes: StrokeVM[])
+    public static DrawCanvas(context: CanvasRenderingContext2D, strokes: StrokeVM[])
     {
         context.reset();
         context.lineCap = "round";
@@ -20,7 +20,7 @@ export class CanvasRenderer
         });
     }
 
-    private DrawStroke(context: CanvasRenderingContext2D, stroke: StrokeView)
+    private static DrawStroke(context: CanvasRenderingContext2D, stroke: StrokeView)
     {
         context.strokeStyle = stroke.Color;
         context.lineWidth = stroke.StrokeSize;

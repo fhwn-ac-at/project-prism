@@ -1,0 +1,10 @@
+<mat-card class="round-display-root">
+    @if (GameRoundService.RoundsObject.value == undefined)
+    {
+        <div class="text">Rounds not set!</div>
+    }
+    @else 
+    {
+        <div class="text">Current Round: {{GameRoundService.RoundsObject.value!.CurrentRound}} of {{GameRoundService.RoundsObject.value!.TotalRounds}}</div>
+    }
+</mat-card>

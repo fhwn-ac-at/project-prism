@@ -32,6 +32,12 @@
     margin: auto;
 }
 
+.score
+{
+    font-weight: bold;
+    margin: auto;
+}
+
 img 
 {
     border-radius: 50%;

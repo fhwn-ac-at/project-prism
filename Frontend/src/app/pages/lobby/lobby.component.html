@@ -1,19 +1,12 @@
-@if (PlayerDataService.PlayerData.value.isNone()) 
-{
-    <h1>Error: no value set for player data</h1>
-}
-@else 
-{
-    <div>
-        <app-active-players/>
+<div class="pageRoot">
+    <app-top-bar class="top-bar"/>
 
-       @if (PlayerDataService.PlayerData.value.value.Role == PlayerType.Drawer)
-       {
-        
-       }
-       @else 
-       {
+    <div class="player-options-chat">
 
-       }
+        <app-active-players class="active-players"/>
+
+        <app-lobby-options class="lobby-options"/>
+
+        <app-chat class="chat"/>
     </div>
-}
+</div>

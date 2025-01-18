@@ -5,7 +5,7 @@
     align-items: stretch;
     justify-content: stretch;
     margin: auto;
-    padding: 2vmax;
+    padding: 5%;
 }
 
 .ColorPicker-Container
@@ -16,13 +16,17 @@
     align-items: center;
     margin: auto;
     height: auto;
+}
 
+label
+{
+    margin-bottom: 5%;
 }
 
 .ColorPicker
 {
     border-radius: 10vmax;
-    width: 75%;
+    width: 50%;
 }
 
 .Options-Container
@@ -33,7 +37,6 @@
     align-items: stretch;
     margin: auto;
     height: auto;
-
 }
 
 .SizeSlider-Container
@@ -48,6 +51,6 @@
 
 .Divider
 {
-    margin-left: 2vmax;
-    margin-right: 2vmax;
+    margin-left: 2%;
+    margin-right: 2%;
 }

@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Choose a word:</h2>
+
+<mat-dialog-actions>
+    @for (word of Words; track $index) 
+    {
+        <button mat-raised-button mat-dialog-close (click)="OnWordClicked(word)">{{word}}</button>
+    }
+</mat-dialog-actions>

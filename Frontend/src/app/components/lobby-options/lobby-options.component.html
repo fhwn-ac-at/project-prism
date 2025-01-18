@@ -1,0 +1,30 @@
+@if (PlayerDataService.PlayerData.value.isNone()) 
+{
+    <h1>Error: no value set for player data</h1>
+}
+@else 
+{
+    <mat-card>
+        <h1 mat-card-header class="card-header">Choose values</h1>
+
+        <mat-divider class="divider"/>
+
+        <form class="options-form" [formGroup]="OptionsData">
+            <mat-form-field class="rounds-amount">
+                <mat-label>Amount of rounds</mat-label>
+                <input (change)="OnRoundsAmountChanged($event)"  matInput type="number" formControlName="roundsAmount">
+              </mat-form-field>
+            
+              <mat-form-field class="rounds-duration">
+                <mat-label>Duration of a round</mat-label>
+                <input (change)="OnRoundsDurationChanged($event)" matInput type="number" formControlName="roundDuration">
+              </mat-form-field>
+        </form>
+
+        <mat-divider class="divider"/>
+
+        <button mat-raised-button class="start-game-button" (click)="OnStartGameButtonClicked($event)">
+            Start Game
+        </button>
+    </mat-card>
+}

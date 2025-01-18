@@ -9,7 +9,7 @@
     font-size:xx-large;
     margin: auto;
     padding: 1vmax;
-    width: fit-content;
+    height: 100%;
 }
 
 .word-part
@@ -20,4 +20,5 @@
     border-radius: 0.5vmax; 
     margin-left: 0.1vmax;
     margin-right: 0.1vmax;
+    height: 100%;
 }

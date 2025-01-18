@@ -3,5 +3,16 @@
     {
         "strokeWidth": 0.05,
         "strokeColor": "rgb(5 5 5)"
+    },
+    "keycloak":
+    {
+        "url": "http://localhost:8180",
+        "realm": "prism",
+        "clientId": "Frontend"
+    },
+    "lobbyDefaults":
+    {
+        "roundAmount": 3,
+        "roundDuration": 60
     }
 }

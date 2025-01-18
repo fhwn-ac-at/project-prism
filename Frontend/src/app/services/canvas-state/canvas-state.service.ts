@@ -1,12 +1,14 @@
-import { Injectable} from '@angular/core';
-import { BehaviorSubject, Observer, Subscription } from 'rxjs';
-import { ObservableArray } from '../../../lib/observable/ObservableArray/ObservableArray';
+import { inject, Injectable} from '@angular/core';
+import { BehaviorSubject, Observer, Subject, Subscription } from 'rxjs';
 import { ConfigService } from "../config/config.service";
 import { StrokeVM } from './StrokeVM';
-import { Event } from '../../../lib/observable/ObservableArray/events/Event';
-import { CountdownService } from '../countdown/countdown.service';
-import { PlayerDataService } from '../player-data/player-data.service';
-import { PlayerType } from '../player-data/PlayerType';
+import { Position2d } from '../../../lib/Position2d';
+import { StrokesEvent } from './events/StrokesEvent';
+import { ClearedEvent } from './events/ClearedEvent';
+import { StartedEvent } from './events/StartedEvent';
+import { MovedEvent } from './events/MovedEvent';
+import { ClosedEvent } from './events/ClosedEvent';
+import { RemovedEvent } from './events/RemovedEvent';
 
 @Injectable(
 {
@@ -14,60 +16,89 @@ import { PlayerType } from '../player-data/PlayerType';
 })
 export class CanvasStateService 
 {
-  private configService: ConfigService;
-  private countdownService: CountdownService;
-  private playerDataService: PlayerDataService;
+  // services
+  private configService: ConfigService = inject(ConfigService);
 
-  private strokes: ObservableArray<StrokeVM>;
+  // stroke data
+  private strokes: StrokeVM[] = [];
+  private openStroke: StrokeVM | null = null;
 
-  public constructor
-  (
-    configService: ConfigService, 
-    countdownService: CountdownService,
-    playerDataService: PlayerDataService
-  )
+  // event subject
+  private eventSubject: Subject<StrokesEvent> = new Subject<StrokesEvent>();
+
+  public get Strokes(): StrokeVM[]
   {
-    this.configService = configService;
-    this.countdownService = countdownService;
-    this.playerDataService = playerDataService;
+    const strokes = [...this.strokes];
 
-    this.strokes = new ObservableArray<StrokeVM>([]);
+    if(this.openStroke != null)
+    {
+      strokes.push(this.openStroke);
+    }
 
-    this.StrokeWidth = new BehaviorSubject<number>(this.configService.configData.canvasOptions.strokeWidth);
-    this.StrokeColor = new BehaviorSubject<string>(this.configService.configData.canvasOptions.strokeColor);
+    return strokes;
   }
 
-  public StrokeWidth: BehaviorSubject<number>;
-  public StrokeColor: BehaviorSubject<string>;
-
-  public GetStrokes(): StrokeVM[]
+  // event stuff
+  public StrokeWidth: BehaviorSubject<number> = new BehaviorSubject<number>(this.configService.configData.canvasOptions.strokeWidth);
+  public StrokeColor: BehaviorSubject<string> = new BehaviorSubject<string>(this.configService.configData.canvasOptions.strokeColor);
+  public SubscribeStrokesEvent(obs : Partial<Observer<StrokesEvent>>) : Subscription
   {
-    return this.strokes.GetItems();
+    return this.eventSubject.subscribe(obs);
   }
 
-  public SubscribeToStrokes(obs : Partial<Observer<Event>>) : Subscription
-  {
-    return this.strokes.SubscribeEvent(obs);
-  }
-
-  public PushStroke(stroke: StrokeVM): void
-  {
-    if (!this.CanDraw()) return;
-
-    this.strokes.Push(stroke);
-  }
+  // stroke API
 
   public ResetStrokes(): void
   {
-    if (!this.CanDraw()) return;
+    this.strokes = [];
 
-    this.strokes.Clear();
+    this.eventSubject.next(new ClearedEvent());
   }
 
-  private CanDraw(): boolean
+  public StartStroke(startPos: Position2d): boolean
   {
-    if (this.playerDataService.PlayerData.value.isNone()) return false;
+    if (this.openStroke != null) return false;
 
-    return this.playerDataService.PlayerData.value.value.Role == PlayerType.Drawer && this.countdownService.IsRunning();
+    this.openStroke = {
+      StrokeWidth: this.StrokeWidth.value,
+      PathData: [startPos],
+      Color: this.StrokeColor.value,
+    }
+
+    this.eventSubject.next(new StartedEvent(this.openStroke));
+    return true;
+  }
+
+  public MoveStroke(pos: Position2d): boolean
+  {
+    if (this.openStroke == null) return false;
+
+    this.openStroke.PathData.push(pos);
+    
+    this.eventSubject.next(new MovedEvent(this.openStroke));
+
+    return true;
+  }
+
+  public EndStroke(): boolean
+  {
+    if (this.openStroke == null) return false;
+
+    this.strokes.push(this.openStroke);
+
+    this.eventSubject.next(new ClosedEvent(this.openStroke));
+
+    this.openStroke = null;
+
+    return true;
+  }
+
+  public Undo(): void
+  {
+    const popped: StrokeVM | undefined = this.strokes.pop();
+
+    if(!popped) return;
+
+    this.eventSubject.next(new RemovedEvent(popped));
   }
 }

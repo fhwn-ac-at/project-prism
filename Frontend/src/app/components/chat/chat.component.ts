@@ -9,12 +9,13 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import {MatListModule} from "@angular/material/list"
+import { NgStyle } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-chat',
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatListModule],
+  imports: [MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatListModule, NgStyle],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
@@ -42,8 +43,9 @@ export class ChatComponent
   {
     this.chatMessagesService.ChatMessages.Push(
     {
-      Username: this.playerDataService.PlayerData.value.value?.Username || "?", 
-      Message: this.ChatMessageInputModel
+      Username: this.playerDataService.PlayerData.value.value?.Username || "NO_USERNAME_SET", 
+      Message: this.ChatMessageInputModel,
+      Color: "red",
     });
     
     this.ChatMessageInputModel = "";

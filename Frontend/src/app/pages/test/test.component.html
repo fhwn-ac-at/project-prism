@@ -8,6 +8,14 @@
     <ul>
         <li><a [routerLink]="['/lobby']" (click)="OnLobbyPageClicked($event)" routerLinkActive="active" >Lobby Page</a></li> 
     </ul>
+
+    <ul>
+        <li><button (click)="OnApiButtonClicked($event)">Test API</button></li> 
+    </ul>
+
+    <ul>
+        <li><button (click)="OnWSButtonClicked($event)">Test Websocket</button></li> 
+    </ul>
 </nav>
 
 <router-outlet></router-outlet>

@@ -3,7 +3,7 @@ import { createInterceptorCondition, IncludeBearerTokenCondition } from "keycloa
 export const urlCondition = createInterceptorCondition<IncludeBearerTokenCondition>
 (
     {
-        urlPattern: /^(http:\/\/localhost:8180)(\/.*)?$/i,
+        urlPattern: /^(http:\/\/localhost:5164)(\/.*)?$/i,
         bearerPrefix: 'Bearer'
     }
 );

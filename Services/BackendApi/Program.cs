@@ -41,8 +41,21 @@ internal class Program
         builder.Services.AddHttpClient();
         builder.Services.AddTransient<GeneratedGameClientFactory>();
 
+        // build cors
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                });
+        });
 
         WebApplication app = builder.Build();
+
+        // use cors
+        app.UseCors();
+
         app.Logger.LogCritical("critical");
         app.Logger.LogError("error");
         app.Logger.LogWarning("warning");

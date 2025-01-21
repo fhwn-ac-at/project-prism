@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Client } from './generatedAPI/GeneratedApiClient';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../services/config/config.service';
 
 @Injectable({
   providedIn: null
 })
 export class ApiService {
 
-  constructor(httpClient: HttpClient) 
-  { 
-    this.ApiClient = new Client(httpClient, "http://localhost:5164");
-  }
+  private httpClient: HttpClient = inject(HttpClient);
+  private configService: ConfigService = inject(ConfigService);
 
-  public ApiClient: Client;
+
 }

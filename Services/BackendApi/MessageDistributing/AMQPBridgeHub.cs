@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 
-[Authorize]
+//[Authorize]
 public class AMQPBridgeHub : Hub
 {
     private readonly ILogger<AMQPBridgeHub>? logger;

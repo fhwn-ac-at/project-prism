@@ -47,7 +47,10 @@ internal class Program
             options.AddDefaultPolicy(
                 policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                    policy.AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .SetIsOriginAllowed((host) => true)
+                          .AllowCredentials();
                 });
         });
 

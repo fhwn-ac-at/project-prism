@@ -9,8 +9,9 @@ import { PickWordService } from '../../services/pick-word/pick-word.service';
 import { HiddenWordService } from '../../services/hidden-word/hidden-word.service';
 import { ActivePlayersService } from '../../services/current-players/active-players.service';
 import { ApiService } from '../../networking/api.service';
-import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import * as signalR from '@microsoft/signalr';
+import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-test',
@@ -61,7 +62,7 @@ export class TestComponent
 
   public OnApiButtonClicked($event: MouseEvent) 
   {
-    let params = new HttpParams().set("lobbyId", "test12345");
+    let params = new HttpParams().set("lobbyId", "test1");
 
     this.http.get
     (
@@ -80,13 +81,27 @@ export class TestComponent
     );
   }
 
-  public OnWSButtonClicked($event: MouseEvent) 
+  public async OnWSButtonClicked($event: MouseEvent) 
   {
-    webSocket("ws://localhost:5164/ws/test1").subscribe(
-    {
-      next: (v) => console.log(v), 
-      error: (v) => console.log(v),
-      complete: () => console.log("complete!")
-    })
+    
+
+
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl
+    (
+      'http://localhost:5164/ws/b9e88f28-54e5-4458-b7ad-591b4f043fb6'
+    ) // Adjust the URL as needed
+    .build();
+
+    connection.on("send", (data) => {console.log(data)});
+
+    connection.start().then
+    (
+      () => console.log("started!"),
+      (r) => {
+        console.log("Error!");
+        console.log(r);
+       }
+    );
   }
 }

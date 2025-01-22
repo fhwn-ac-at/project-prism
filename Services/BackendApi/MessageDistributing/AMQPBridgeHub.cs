@@ -14,19 +14,22 @@ public class AMQPBridgeHub : Hub
     private readonly ILogger<AMQPBridgeHub>? logger;
 
     private readonly IServiceProvider serviceProvider;
-    private readonly Dictionary<string, WebsocketToAMQPConnector> connectors = [];
+    private readonly KnownConnectionsStore connectors;
     private readonly KnownClientStore clientStore;
     private readonly GeneratedGameClient generatedGameClient;
 
-    public AMQPBridgeHub(IServiceProvider serviceProvider, KnownClientStore clientStore, GeneratedGameClientFactory generatedGameClient)
+    public AMQPBridgeHub(IServiceProvider serviceProvider, KnownClientStore clientStore, GeneratedGameClientFactory generatedGameClient, KnownConnectionsStore connectors, ILogger<AMQPBridgeHub> logger)
     {
         this.serviceProvider=serviceProvider;
         this.clientStore=clientStore;
         this.generatedGameClient=generatedGameClient.Generate();
+        this.logger =logger;
+        this.connectors=connectors;
     }
 
     public override async Task OnConnectedAsync()
     {
+        this.logger?.LogError(this.GetHashCode().ToString());
         var clientId = this.Context.GetHttpContext()?.Request.RouteValues["client-id"]?.ToString();
 
         if (clientId==null)
@@ -127,6 +130,7 @@ public class AMQPBridgeHub : Hub
 
     public async Task Backend(string message)
     {
+        this.logger?.LogError(this.GetHashCode().ToString());
         if (!this.connectors.TryGetValue(Context.ConnectionId, out var connector))
         {
             this.logger?.LogError("Connection with id {} not known", Context.ConnectionId);

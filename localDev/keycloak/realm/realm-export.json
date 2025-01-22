@@ -665,6 +665,7 @@
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
@@ -730,11 +731,13 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://localhost:4200/*",
         "/*",
         "https://oauth.pstmn.io/v1/callback"
       ],
       "webOrigins": [
-        "/*"
+        "/*",
+        "http://localhost:4200"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1470,7 +1473,7 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
-  "loginTheme": "prism",
+  "loginTheme": "keycloak",
   "accountTheme": "keycloak.v3",
   "adminTheme": "keycloak.v2",
   "emailTheme": "",
@@ -1493,13 +1496,13 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-property-mapper",
             "oidc-usermodel-property-mapper",
             "saml-role-list-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "oidc-usermodel-attribute-mapper",
             "oidc-address-mapper",
             "oidc-full-name-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-property-mapper",
+            "oidc-usermodel-attribute-mapper",
             "saml-user-attribute-mapper"
           ]
         }
@@ -1528,13 +1531,13 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-role-list-mapper",
-            "oidc-usermodel-attribute-mapper",
             "saml-user-attribute-mapper",
-            "saml-user-property-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
             "oidc-full-name-mapper",
             "oidc-address-mapper",
+            "saml-user-property-mapper",
+            "saml-role-list-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-usermodel-attribute-mapper",
             "oidc-usermodel-property-mapper"
           ]
         }

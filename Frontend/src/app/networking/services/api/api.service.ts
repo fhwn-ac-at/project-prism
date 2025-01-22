@@ -35,7 +35,7 @@ export class ApiService
     (
       this.configService.configData.api.base + 
       this.configService.configData.api.lobby.base +
-      this.configService.configData.api.lobby.connect,
+      this.configService.configData.api.lobby.startGame,
       {
         params: params, 
         responseType: 'text'

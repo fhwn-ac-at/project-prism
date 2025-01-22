@@ -69,7 +69,15 @@
         [HttpGet("startGame")]
         public async Task StartGame(string lobbyId)
         {
-            await this.gameServiceClient.StartGameAsync(lobbyId);
+            try
+            {
+                await this.gameServiceClient.StartGameAsync(lobbyId);
+            }
+            catch (ApiException ex)
+            {
+                this.logger?.LogWarning(ex.Message);
+                throw new BadHttpRequestException("Could not be started");
+            }
         }
     }
 }

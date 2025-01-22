@@ -25,7 +25,19 @@
                 throw new ArgumentNullException();
             }
 
-            var fileStream = fileOpener.OpenRead(options.Value.Location);
+            string location = options.Value.Location;
+
+            if (!File.Exists(location))
+            {
+                location=Path.Combine(AppContext.BaseDirectory, options.Value.Location);
+
+                if (!File.Exists(location))
+                {
+                    throw new ArgumentException();
+                }
+            }
+
+            var fileStream = fileOpener.OpenRead(location);
 
             fileStream.Wait();
 
@@ -49,6 +61,7 @@
         public WordListItem[] Words => this.words;
     }
 
+    [InjectableOptions("WordListOptions")]
     public class WordListOptions
     {
         public string? Location { get; init; }

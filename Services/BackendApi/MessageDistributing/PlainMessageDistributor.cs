@@ -4,6 +4,7 @@
     using MessageLib;
 
     [Injectable(Lifetime = ServiceLifetime.Transient, TargetType = typeof(IMessageDistributor))]
+    [Injectable(Lifetime = ServiceLifetime.Transient, TargetType = typeof(PlainMessageDistributor))]
     public class PlainMessageDistributor(Validator validator, ILogger<PlainMessageDistributor>? logger = null) : IMessageDistributor
     {
         public event EventHandler<string>? ValidMessageReceived;

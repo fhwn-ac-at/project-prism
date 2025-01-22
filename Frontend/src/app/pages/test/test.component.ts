@@ -8,10 +8,11 @@ import { GameRoundService } from '../../services/game-round/game-round.service';
 import { PickWordService } from '../../services/pick-word/pick-word.service';
 import { HiddenWordService } from '../../services/hidden-word/hidden-word.service';
 import { ActivePlayersService } from '../../services/current-players/active-players.service';
-import { ApiService } from '../../networking/api.service';
+import { ApiService } from '../../networking/services/api/api.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as signalR from '@microsoft/signalr';
 import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import { SignalRService } from '../../networking/services/signal-r/signal-r.service';
 
 @Component({
   selector: 'app-test',
@@ -28,7 +29,7 @@ export class TestComponent
   private hiddenWordService: HiddenWordService = inject(HiddenWordService);
   private activePlayersService: ActivePlayersService = inject(ActivePlayersService);
   private apiService: ApiService = inject(ApiService);
-  private http: HttpClient = inject(HttpClient);
+  private signalRService: SignalRService = inject(SignalRService);
 
   public OnGamePageClicked(_: MouseEvent) 
   {
@@ -60,48 +61,44 @@ export class TestComponent
     );
   }
 
-  public OnApiButtonClicked($event: MouseEvent) 
-  {
-    let params = new HttpParams().set("lobbyId", "test1");
+  private id: string | undefined = undefined;
 
-    this.http.get
-    (
-      "http://localhost:5164/api/Lobby/connect", 
-      {
-        params: params, 
-        responseType: 'text'
-      }
-    )
-    .subscribe
-    (
-      {
-        next: (val) => console.log(val),
-        error: (err) => console.log(err)
-      }
-    );
+  public OnConnectClicked($event: MouseEvent) 
+  {
+    this.apiService.ConnectToLobby("test").subscribe({next: (v) => 
+    {
+      console.log("received connect response!:" + v);
+      this.id = v;
+    }});
+  }
+
+  public OnStartClicked($event: MouseEvent) 
+  {
+    this.apiService.StartGame("test").subscribe({next: (v) => 
+    {
+      console.log("received start response!:" + v);
+    }});
   }
 
   public async OnWSButtonClicked($event: MouseEvent) 
   {
+    this.signalRService.Initialize(this.id!);
+
+    this.signalRService.SignalRHub!.on("Backend", (m) => {
+      console.log("Received data on Backend:");
+      console.log(m);
+    });
+
+    this.signalRService.SignalRHub!.on("Fronted", (m) => {
+      console.log("Received data on Fronted:");
+      console.log(m);
+    });
     
+    await this.signalRService.SignalRHub!.start().then(() => console.log("Started!"), (v) => console.log(v));
+  }
 
-
-    const connection = new signalR.HubConnectionBuilder()
-    .withUrl
-    (
-      'http://localhost:5164/ws/b9e88f28-54e5-4458-b7ad-591b4f043fb6'
-    ) // Adjust the URL as needed
-    .build();
-
-    connection.on("send", (data) => {console.log(data)});
-
-    connection.start().then
-    (
-      () => console.log("started!"),
-      (r) => {
-        console.log("Error!");
-        console.log(r);
-       }
-    );
+  public async OnSendClicked($event: MouseEvent)
+  {
+    this.signalRService.SignalRHub!.send("Backend", "testMessage");
   }
 }

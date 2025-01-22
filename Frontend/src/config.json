@@ -14,5 +14,16 @@
     {
         "roundAmount": 3,
         "roundDuration": 60
+    },
+    "api":
+    {
+        "base": "http://localhost:5164",
+        "lobby":
+        {
+            "base": "/api/lobby",
+            "connect": "/connect",
+            "startGame": "/startGame"
+        },
+        "websocket": "/ws"
     }
 }

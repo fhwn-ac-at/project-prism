@@ -39,7 +39,7 @@
         {
             Task.Run(async () =>
             {
-                // TODO maby error handeling
+                this.logger?.LogTrace("Send message to Frontend: {}", message);
                 await this.clientProxy.SendAsync("Fronted", message);
             });
         }

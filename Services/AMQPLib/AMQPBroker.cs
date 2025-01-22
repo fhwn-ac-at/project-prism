@@ -7,6 +7,8 @@
     using Microsoft.Extensions.Options;
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
+    using RabbitMQ.Client.Exceptions;
+    using System;
     using System.Threading.Tasks;
 
 
@@ -63,7 +65,7 @@
 
             this.connectionTask=async () =>
             {
-                if (this.connection==null||this.channel==null)
+                if (this.connection==null||this.channel==null || !this.connection.IsOpen || !this.channel.IsOpen)
                 {
                     await Task.Run(async () =>
                     {
@@ -140,6 +142,7 @@
 
         public async Task ConnectToQueueAsync(string name, string prefix, IMessageDistributor messageDistributor)
         {
+            this.logger?.LogTrace("Connect to {}.{}", prefix, name);
             lock (this.managedQueues)
             {
                 if (!this.managedQueues.Contains(name))
@@ -161,6 +164,7 @@
             var distributor = new AMQPMessageDistributor(messageDistributor, this.serviceProvider.GetRequiredService<ILogger<AMQPMessageDistributor>>());
             consumer.ReceivedAsync+=async (object sender, BasicDeliverEventArgs args) =>
             {
+                this.logger?.LogTrace("Got Message mq");
                 await distributor.HandleReceivedAsync(sender, args);
                 await channel!.BasicAckAsync(deliveryTag: args.DeliveryTag, multiple: false);
             };
@@ -176,6 +180,7 @@
 
         public async Task SendMessageAsync(string exchange, string queue, ReadOnlyMemory<byte> bytes, uint ttl)
         {
+            this.logger?.LogTrace("Sending to exchange {} for queue {}", exchange, queue);
             lock (this.managedQueues)
             {
                 if (!this.managedQueues.Contains(queue))
@@ -192,7 +197,15 @@
                     Expiration=ttl.ToString()
                 };
 
-                await this.channel!.BasicPublishAsync(exchange, queue, true, properties, bytes);
+                try
+                {
+                    await this.channel!.BasicPublishAsync(exchange, queue, false, properties, bytes);
+                    this.logger?.LogTrace("Published to exchange {} for queue {}", exchange, queue);
+                }
+                catch (PublishException e)
+                {
+                    this.logger?.LogError("Message could not be published for exchange {} for queue {} mit errorMessage {}", exchange, queue, e.Message);
+                }
             });
         }
 

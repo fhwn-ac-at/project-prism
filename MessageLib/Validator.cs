@@ -102,6 +102,7 @@
                 MessageType.closePath => "game/closePath.schema.json",
                 MessageType.drawingSizeChanged => "game/drawingSizeChanged.schema.json",
                 MessageType.gameEnded => "game/gameEnded.schema.json",
+                MessageType.gameStarted => "game/gameStarted.schema.json",
                 MessageType.lineTo => "game/lineTo.schema.json",
                 MessageType.moveTo => "game/moveTo.schema.json",
                 MessageType.nextRound => "game/nextRound.schema.json",

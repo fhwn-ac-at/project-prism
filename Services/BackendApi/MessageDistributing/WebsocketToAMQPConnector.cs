@@ -39,8 +39,8 @@
         {
             Task.Run(async () =>
             {
-                this.logger?.LogTrace("Send message to Frontend: {}", message);
                 await this.clientProxy.SendAsync("Fronted", message);
+                this.logger?.LogTrace("Send message to Frontend: {}", message);
             });
         }
     }

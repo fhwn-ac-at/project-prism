@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ConfigService } from '../../../services/config/config.service';
 import { map, Observable } from 'rxjs';
-import { ConnectToLobbyResponse, isConnectToLobbyResponse } from './dto/ConnectToLobbyResponse';
 import { isUser } from '../../dtos/shared/User.guard';
 import { User } from '../../dtos/shared/User';
 

@@ -13,6 +13,7 @@
 
         public bool HandleMessage(string message)
         {
+            this.logger?.LogTrace("Got Message: {}", message);
             if (!this.validator.Validate(message, out _))
             {
                 this.logger?.LogInformation("Message not valid! Message: {}", message);

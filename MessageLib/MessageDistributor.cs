@@ -48,6 +48,8 @@ namespace MessageLib
         /// <returns>True if this handler distributed the message otherwise false</returns>
         public bool HandleMessage(string message)
         {
+            this.logger?.LogTrace("Got Message: {}", message);
+
             if (!this.validator.Validate(message, out MessageType? messageType))
             {
                 this.logger?.LogInformation("Message not valid! Message: {}", message);

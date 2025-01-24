@@ -24,6 +24,7 @@ public sealed class ColorConsoleLogger : ILogger
 {
     private readonly Func<ColorConsoleLoggerConfiguration> getCurrentConfig;
     private readonly string name;
+    private readonly object lockObject = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorConsoleLogger"/> class.
@@ -65,14 +66,16 @@ public sealed class ColorConsoleLogger : ILogger
         ColorConsoleLoggerConfiguration config = this.getCurrentConfig();
         if (config.EventId==0||config.EventId==eventId.Id)
         {
-            ConsoleColor originalColor = Console.ForegroundColor;
+            lock (lockObject)
+            {
+                ConsoleColor originalColor = Console.ForegroundColor;
 
-            Console.ForegroundColor=config.LogLevelToColorMap[logLevel];
-            Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12} - {this.name}]");
+                Console.ForegroundColor=config.LogLevelToColorMap[logLevel];
+                Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12} - {this.name}]");
 
-            Console.ForegroundColor=originalColor;
-            Console.Write($"{formatter(state, exception)}");
-            Console.WriteLine();
+                Console.ForegroundColor=originalColor;
+                Console.WriteLine($"{formatter(state, exception)}");
+            }
         }
     }
 }

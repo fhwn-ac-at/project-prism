@@ -27,5 +27,10 @@
                 return this.id;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{{name: {this.name}, id: {this.id}}}";
+        }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 
+
 //[Authorize]
 public class AMQPBridgeHub : Hub
 {
@@ -29,7 +30,13 @@ public class AMQPBridgeHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        var clientId = this.Context.GetHttpContext()?.Request.RouteValues["client-id"]?.ToString();
+        var httpContext = this.Context.GetHttpContext();
+        var clientId = httpContext?.Request.RouteValues["client-id"]?.ToString();
+
+        if (clientId == null)
+        {
+            clientId=httpContext?.Request.Path.Value?.Split('/').Last();
+        }
 
         if (clientId==null)
         {

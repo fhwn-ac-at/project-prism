@@ -13,7 +13,7 @@ export const provideMiddleware = () =>
         provideKeycloakAngular(),
         provideHttpClient
         (
-            withInterceptors([includeBearerTokenInterceptor])
+            withInterceptors([includeBearerTokenInterceptor])            
         ),
         {
             provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,

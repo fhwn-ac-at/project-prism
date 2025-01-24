@@ -23,7 +23,7 @@
         private readonly int drawingDuration; //s
 
         private readonly uint wordSelectionCount = 3; 
-        private readonly uint selectionDuration = 60; 
+        private readonly uint selectionDuration = 45; 
         private readonly uint maxScore = 500; 
         private readonly uint minScore = 50;
         private readonly uint maxDrawerScoreTimeScore = 500;

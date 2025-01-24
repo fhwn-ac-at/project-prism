@@ -18,6 +18,7 @@
 
         private readonly ILogger<GameLobby>? logger;
         private bool disposedValue;
+        private readonly object gameLock = new object();
 
         public GameLobby(string id, IAMQPBroker messageBroker, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
         {
@@ -80,25 +81,41 @@
 
         public bool StartGame()
         {
+            lock(gameLock)
+            {
+
+                if (this.game!=null)
+                {
+                    return false;
+                }
+            }
+
             if (this.UserCount<2)
             {
                 return false;
             }
 
-            this.StartGameAndConnectEvents();
             this.DistributeMessage(null, new GameStartedMessage());
+            // Discard to not have a warning
+            _ = this.StartGameAndConnectEvents();
             return true;
         }
 
-        private void StartGameAndConnectEvents()
+        private async Task StartGameAndConnectEvents()
         {
-            this.game=this.lobby.StartGame();
+            lock (gameLock)
+            {
+                this.game=this.lobby.StartGame();
+            }
 
             this.game.WordSelection+=this.ReceivedWordSelectionEvent;
             this.game.SelectedWord+=this.ReceivedSelectedWordEvent;
             this.game.DrawingEnded+=this.ReceivedDrawingEndedEvent;
             this.game.GameEnded+=this.ReceivedGameEndedEvent;
             this.game.UserScored+=this.ReceivedUserScoredEvent;
+
+            await Task.Delay(100);
+            this.game.Start();
         }
 
         private void ReceivedUserScoredEvent(object? sender, UserScoredEventArgs e)
@@ -120,6 +137,7 @@
         {
             // TODO do ew want to send end result
             this.DistributeMessage(null, new GameEndedMessage());
+            this.game=null;
         }
 
         private void ReceivedDrawingEndedEvent(object? sender, DrawingEndedEventArgs e)

@@ -22,9 +22,9 @@
 
         public IEnumerable<string> Users => users;
 
-        public int RoundAmount { get; set; }
+        public int RoundAmount { get; set; } = 1;
 
-        public int RoundDuration { get; set; }
+        public int RoundDuration { get; set; } = 30;
 
         public bool AddUser(string key)
         {

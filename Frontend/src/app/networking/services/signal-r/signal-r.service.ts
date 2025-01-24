@@ -2,6 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { ConfigService } from '../../../services/config/config.service';
 import * as signalR from '@microsoft/signalr';
 import { Observable, Subject } from 'rxjs';
+import { AngularSignalRHttpClient } from './signal-r-http-client';
+import Keycloak, { KeycloakAdapter, KeycloakTokenParsed } from 'keycloak-js';
+import { KEYCLOAK_EVENT_SIGNAL } from 'keycloak-angular';
 
 @Injectable({
   providedIn: null
@@ -9,14 +12,21 @@ import { Observable, Subject } from 'rxjs';
 export class SignalRService 
 {
   private configService: ConfigService = inject(ConfigService);
+  private httpClient: AngularSignalRHttpClient = inject(AngularSignalRHttpClient);
+  private keycloakSignal = inject(Keycloak);
 
   private signalRHub:signalR.HubConnection | undefined;
 
   private dataReceivedEventSub: Subject<object> = new Subject<object>
+  constructor() {
+    
+  }
 
   public Initialize(lobbyId: string)
   {
+    const test = this.keycloakSignal;
     const options : signalR.IHttpConnectionOptions = {
+      // httpClient: this.httpClient,
     }
 
     this.signalRHub = new signalR.HubConnectionBuilder()

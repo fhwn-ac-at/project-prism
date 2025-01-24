@@ -5,20 +5,6 @@
 
 <div class="start-root">
     <mat-card class="forms-container">
-        <h2 class="h2">Enter your username</h2>
-
-        <mat-form-field appearance="fill" class="username-input">
-            <mat-label>Username</mat-label>
-            <input
-                matInput 
-                [formControl]="UsernameModel"
-            />
-            @if (UsernameModel.invalid)
-            {
-                <mat-error>Username is invalid</mat-error>
-            }
-        </mat-form-field>
-
         <h2 class="h2">Join Existing Game</h2>
 
         <mat-divider></mat-divider>

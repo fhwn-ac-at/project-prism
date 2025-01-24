@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ConfigService } from '../../../services/config/config.service';
 import { map, Observable } from 'rxjs';
-import { ConnectToLobbyResponse, isConnectToLobbyResponse } from './dto/ConnectToLobbyResponse';
+import { isUser } from '../../dtos/shared/User.guard';
+import { User } from '../../dtos/shared/User';
 
 @Injectable({
   providedIn: null
@@ -12,7 +13,7 @@ export class ApiService
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
 
-  public ConnectToLobby(lobbyId: string): Observable<ConnectToLobbyResponse>
+  public ConnectToLobby(lobbyId: string): Observable<User>
   {
     let params = new HttpParams().set("lobbyId", lobbyId);
     
@@ -32,9 +33,9 @@ export class ApiService
       (
         (obj) => 
         {
-          if (isConnectToLobbyResponse(obj)) 
+          if (isUser(obj)) 
           {
-            return {lobbyId: obj.lobbyId, username: obj.username, userId: obj.userId};
+            return obj;
           }
           else
           {
@@ -45,7 +46,7 @@ export class ApiService
     )
   }
 
-  public StartGame(lobbyId: string): Observable<string>
+  public StartGame(lobbyId: string): Observable<void>
   {
     let params = new HttpParams().set("lobbyId", lobbyId);
     
@@ -56,8 +57,12 @@ export class ApiService
       this.configService.configData.api.lobby.startGame,
       {
         params: params, 
-        responseType: 'text'
+        responseType: "text"
       }
+    ).
+    pipe
+    (
+      map(() => {})
     );
   }
 }

@@ -8,6 +8,7 @@ import { ChatComponent } from "../../components/chat/chat.component";
 import { DrawableCanvasComponent } from "../../components/drawable-canvas/component/drawable-canvas.component";
 import { LobbyOptionsComponent } from "../../components/lobby-options/lobby-options.component";
 import { LobbyOptionsService } from '../../services/lobby-options/lobby-options.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lobby',
@@ -20,5 +21,18 @@ import { LobbyOptionsService } from '../../services/lobby-options/lobby-options.
   ]
 })
 export class LobbyComponent 
-{
+{  
+  private lobbyService: LobbyOptionsService;
+  router: Router;
+
+  public constructor(lobby: LobbyOptionsService, router: Router)
+  {
+    this.lobbyService = lobby;
+    this.router = router;
+    
+    this.lobbyService.GameStarted.subscribe((() => 
+    {
+      this.router.navigate(["/game"]);
+    }));
+  }
 }

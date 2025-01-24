@@ -11,6 +11,7 @@ import { HiddenWordService } from "../services/hidden-word/hidden-word.service";
 import { LobbyApiService } from "../services/lobby-api/lobby-api.service";
 import { PickWordService } from "../services/pick-word/pick-word.service";
 import { PlayerDataService } from "../services/player-data/player-data.service";
+import { StartService } from "../services/start/start.service";
 
 export const provideRootAppServices = () => 
 [
@@ -27,4 +28,5 @@ export const provideRootAppServices = () =>
   {provide: SignalRService, useClass: SignalRService},
   {provide: LobbyApiService, useClass: LobbyApiService},
   {provide: GameApiService, useClass: GameApiService},
+  {provide: StartService, useClass: StartService}
 ];

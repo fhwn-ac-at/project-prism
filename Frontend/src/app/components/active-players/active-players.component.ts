@@ -4,7 +4,6 @@ import { PlayerData } from '../../services/player-data/PlayerData';
 import { CurrentPlayersMessage } from '../../services/current-players/events/CurrentPlayersMessage';
 import { MatListItemIcon, MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { PlayerType } from '../../services/player-data/PlayerType';
 
 @Component({
   selector: 'app-active-players',

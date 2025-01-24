@@ -1,4 +1,4 @@
 export enum PlayerType
 {
-  Drawer, Guesser
+  Drawer, Guesser, NotSet
 }

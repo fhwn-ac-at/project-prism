@@ -74,7 +74,7 @@ export class TestComponent
     this.apiService.ConnectToLobby("test").subscribe({next: (v) => 
     {
       console.log("received connect response!:" + v);
-      this.id = v.lobbyId;
+      this.id = v.id;
     }});
   }
 

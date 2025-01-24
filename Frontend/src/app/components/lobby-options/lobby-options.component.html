@@ -12,12 +12,12 @@
         <form class="options-form" [formGroup]="OptionsData">
             <mat-form-field class="rounds-amount">
                 <mat-label>Amount of rounds</mat-label>
-                <input (change)="OnRoundsAmountChanged($event)"  matInput type="number" formControlName="roundsAmount">
+                <input matInput type="number" formControlName="roundsAmount">
               </mat-form-field>
             
               <mat-form-field class="rounds-duration">
                 <mat-label>Duration of a round</mat-label>
-                <input (change)="OnRoundsDurationChanged($event)" matInput type="number" formControlName="roundDuration">
+                <input matInput type="number" formControlName="roundDuration">
               </mat-form-field>
         </form>
 

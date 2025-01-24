@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lobby-options',
@@ -17,7 +19,11 @@ import { MatButton } from '@angular/material/button';
 })
 export class LobbyOptionsComponent 
 {
-  public constructor(pD: PlayerDataService, lO: LobbyOptionsService)
+  public constructor
+  (
+    pD: PlayerDataService,
+    lO: LobbyOptionsService,
+  )
   {
     this.PlayerDataService = pD;
     this.LobbyOptionsService = lO;
@@ -29,6 +35,9 @@ export class LobbyOptionsComponent
         roundDuration: new FormControl(this.LobbyOptionsService.RoundDuration),
       }
     );
+
+    this.OptionsData.controls['roundsAmount'].valueChanges.subscribe((val: number) => this.LobbyOptionsService.RoundAmount.next(val));
+    this.OptionsData.controls['roundDuration'].valueChanges.subscribe((val: number) => this.LobbyOptionsService.RoundDuration.next(val));
 
     this.LobbyOptionsService.RoundAmount.subscribe((val) => this.OptionsData
     .setValue({roundsAmount: val, roundDuration: this.OptionsData.value.roundDuration}));
@@ -42,18 +51,8 @@ export class LobbyOptionsComponent
   public PlayerType: typeof PlayerType = PlayerType;
   public OptionsData: FormGroup;
 
-  public OnStartGameButtonClicked(_: MouseEvent) 
-  {  
-    this.LobbyOptionsService.StartGame();
-  }
-
-  public OnRoundsDurationChanged($event: Event) 
+  public async OnStartGameButtonClicked(_: MouseEvent) 
   {
-    this.LobbyOptionsService.RoundDuration.next(this.OptionsData.value.roundDuration);
-  }
-
-  public OnRoundsAmountChanged($event: Event) 
-  {
-    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.value.roundsAmount);
+    await this.LobbyOptionsService.StartGame();
   }
 }

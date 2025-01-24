@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { RoundData } from './RoundData';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class GameRoundService 
 {

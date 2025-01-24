@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators }
  from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { StartService } from '../../services/start/start.service';
+import { Router } from '@angular/router';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-start',
@@ -28,30 +31,47 @@ export class StartComponent
 {
   private snackbar: MatSnackBar;
 
+  private startService: StartService = inject(StartService);
+  private router: Router = inject(Router);
+
   public constructor(snackbar: MatSnackBar)
   {
     this.snackbar = snackbar;
   }
 
-  public UsernameModel: FormControl = new FormControl("",[Validators.required, Validators.minLength(4)]);
-
   public LobbyIDToJoinModel: FormControl = new FormControl("", [Validators.required, Validators.minLength(6)]);
 
-  public OnJoinGameButtonClicked(_: MouseEvent) 
+  public async OnJoinGameButtonClicked(_: MouseEvent) 
   {
-    if (this.UsernameModel.invalid || this.LobbyIDToJoinModel.invalid)
+    if (this.LobbyIDToJoinModel.invalid)
     {
       this.snackbar.open("Username and/or lobby id are not valid!","",{duration:2000});
       return;
     }
+
+    try
+    {
+      await this.startService.TryJoinGame(this.LobbyIDToJoinModel.value);
+
+      this.router.navigate(["/lobby"]);
+    }
+    catch (e: any)
+    {
+      this.snackbar.open("Something went wrong" + e,"",{duration:2000});
+    }
   }
 
-  public OnCreatePrivateRoomButtonClicked($event: MouseEvent) 
+  public async OnCreatePrivateRoomButtonClicked($event: MouseEvent) 
   {
-    if (this.UsernameModel.invalid)
+    try
     {
-      this.snackbar.open("Username is not valid!","", {duration:2000});
-      return;
+      await this.startService.TryJoinGame(uuidv4());
+
+      this.router.navigate(["/lobby"]);
+    }
+    catch (e: any)
+    {
+      this.snackbar.open("Something went wrong" + e,"",{duration:2000});
     }
   }
 }

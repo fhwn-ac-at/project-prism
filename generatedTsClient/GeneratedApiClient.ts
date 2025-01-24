@@ -268,7 +268,7 @@ export class Client {
      * @param lobbyId (optional) 
      * @return OK
      */
-    connect(lobbyId: string | undefined): Observable<string> {
+    connect(lobbyId: string | undefined): Observable<User> {
         let url_ = this.baseUrl + "/api/Lobby/connect?";
         if (lobbyId === null)
             throw new Error("The parameter 'lobbyId' cannot be null.");
@@ -291,14 +291,14 @@ export class Client {
                 try {
                     return this.processConnect(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<User>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<User>;
         }));
     }
 
-    protected processConnect(response: HttpResponseBase): Observable<string> {
+    protected processConnect(response: HttpResponseBase): Observable<User> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -309,8 +309,7 @@ export class Client {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = User.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -318,7 +317,7 @@ export class Client {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<User>(null as any);
     }
 
     /**
@@ -372,6 +371,46 @@ export class Client {
         }
         return _observableOf<void>(null as any);
     }
+}
+
+export class User implements IUser {
+    name!: string;
+    id!: string;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data;
+    }
+}
+
+export interface IUser {
+    name: string;
+    id: string;
 }
 
 export class ApiException extends Error {

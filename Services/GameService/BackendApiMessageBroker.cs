@@ -27,7 +27,7 @@
         public Task SendMessageAsync(string queue, ReadOnlyMemory<byte> bytes, uint ttl)
         {
             this.logger?.LogTrace("Sent to queue: {} with ttl: {}", queue, ttl);
-            return this.broker.SendMessageAsync("gameEx", queue, bytes, ttl);
+            return this.broker.SendMessageAsync("gameEx", queue, "game", bytes, ttl);
         }
     }
 }

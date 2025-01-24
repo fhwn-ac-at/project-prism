@@ -67,13 +67,40 @@
             {
                 if (this.connection==null||this.channel==null || !this.connection.IsOpen || !this.channel.IsOpen)
                 {
-                    await Task.Run(async () =>
+                    if (this.logger != null)
+                    {
+                        string reason = "";
+
+                        if (this.connection == null)
+                        {
+                            reason+="connection null ";
+                        }
+                        if (this.channel == null)
+                        {
+                            reason+="channel null ";
+                        }
+                        if (this.connection != null && !this.connection.IsOpen)
+                        {
+                            reason+="connection not open ";
+                        }
+                        if (this.channel != null && this.channel.IsClosed)
+                        {
+                            reason+="channel not open ";
+                        }
+
+                        this.logger?.LogTrace("Reconnecting object {} because of {}", this.GetHashCode(), reason);
+                    }
+
+                    if (this.connection == null ||!this.connection.IsOpen)
                     {
                         this.connection=await this.factory.CreateConnectionAsync();
-                        this.channel=await this.connection.CreateChannelAsync();
+                    }
 
+                    if (this.channel==null ||this.channel.IsClosed)
+                    {
+                        this.channel=await this.connection.CreateChannelAsync();
                         this.channel.CallbackExceptionAsync+=this.Channel_CallbackExceptionAsync;
-                    });
+                    }
                 }
             };
         }
@@ -93,7 +120,7 @@
             {
                 if (this.managedQueues.Contains(name))
                 {
-                    this.logger?.LogError("A queue with the name {0} already exists", name);
+                    this.logger?.LogError("A queue with the name {} already exists", name);
                     throw new ArgumentException($"A queue with the name {name} already exists");
                 }
 
@@ -107,6 +134,8 @@
 
             await this.channel.QueueBindAsync(queue: "backend."+name, exchange: "backendEx", routingKey: name);
             await this.channel.QueueBindAsync(queue: "game."+name, exchange: "gameEx", routingKey: name);
+
+            this.logger?.LogError("Created queue with the name {}", name);
         }
 
         public async Task RemoveQueueAsync(string Name)
@@ -143,22 +172,33 @@
         public async Task ConnectToQueueAsync(string name, string prefix, IMessageDistributor messageDistributor)
         {
             this.logger?.LogTrace("Connect to {}.{}", prefix, name);
+            var wasCreatedByObject = false;
+            await this.connectionTask();
             lock (this.managedQueues)
             {
-                if (!this.managedQueues.Contains(name))
+                if (this.managedQueues.Contains(name))
                 {
-                    try
-                    {
-                        // check if queue exists
-                        this.channel?.QueueDeclarePassiveAsync(name);
-                        this.managedQueues.Add(name);
-                    } catch (RabbitMQ.Client.Exceptions.OperationInterruptedException)
-                    {
-                        throw new InvalidOperationException();
-                    }
+                    wasCreatedByObject=true;
                 }
             }
-            await this.connectionTask();
+
+            if (!wasCreatedByObject)
+            {
+                try
+                {
+                    // check if queue exists
+                    await this.channel!.QueueDeclarePassiveAsync($"{prefix}.{name}");
+                    lock (this.managedQueues)
+                    {
+                        this.managedQueues.Add(name);
+                    }
+                }
+                catch (RabbitMQ.Client.Exceptions.OperationInterruptedException)
+                {
+                    this.logger?.LogError("Queue with name {}.{} doesn't exist", prefix, name);
+                    throw new InvalidOperationException();
+                }
+            }
 
             var consumer = new AsyncEventingBasicConsumer(this.channel!);
             var distributor = new AMQPMessageDistributor(messageDistributor, this.serviceProvider.GetRequiredService<ILogger<AMQPMessageDistributor>>());
@@ -178,13 +218,34 @@
             }
         }
 
-        public async Task SendMessageAsync(string exchange, string queue, ReadOnlyMemory<byte> bytes, uint ttl)
+        public async Task SendMessageAsync(string exchange, string queue, string queuePrefix, ReadOnlyMemory<byte> bytes, uint ttl)
         {
             this.logger?.LogTrace("Sending to exchange {} for queue {}", exchange, queue);
+            var wasCreatedByObject = false;
+            await this.connectionTask();
             lock (this.managedQueues)
             {
-                if (!this.managedQueues.Contains(queue))
+                if (this.managedQueues.Contains(queue))
                 {
+                    wasCreatedByObject=true;
+                }
+            }
+
+            if (!wasCreatedByObject)
+            {
+                try
+                {
+                    // check if queue exists
+                    // exchange name wizthout Ex . queueu
+                    await this.channel!.QueueDeclarePassiveAsync($"{queuePrefix}.{queue}");
+                    lock (this.managedQueues)
+                    {
+                        this.managedQueues.Add(queue);
+                    }
+                }
+                catch (RabbitMQ.Client.Exceptions.OperationInterruptedException)
+                {
+                    this.logger?.LogError("Queue with key {}.{} doesn't exist", queuePrefix, queue);
                     throw new InvalidOperationException();
                 }
             }

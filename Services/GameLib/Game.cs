@@ -222,12 +222,6 @@
             return true;
         }
 
-        public void Undo()
-        {
-            // TODO implement as on the frontend!!!
-            this.drawing.RemoveLast();
-        }
-
         private bool HaveAllGuessed()
         {
             return this.users.Values.All(x => x.Guessed);

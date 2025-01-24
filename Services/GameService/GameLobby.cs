@@ -1,7 +1,6 @@
 ﻿namespace GameService
 {
     using AMQPLib;
-    using FrenziedMarmot.DependencyInjection;
     using GameLib;
     using MessageLib;
     using MessageLib.Game;
@@ -40,6 +39,12 @@
                 }
 
                 this.messageBroker.ConnectToQueueAsync(user.Id, this.ConnectMessageDistributor(user.Id));
+
+                foreach (var knownUser in this.users)
+                {
+                    this.SendMessage(user.Id, new UserJoinedMessage(new UserJoinedMessageBody(knownUser.Value)));
+                }
+
                 this.users.Add(user.Id, user);
                 this.game?.AddUser(user.Id);
                 this.lobby.AddUser(user.Id);
@@ -57,19 +62,19 @@
             }            
         }
 
-        public void RemoveUser(User user)
+        public void RemoveUser(string userId)
         {
             lock (this.users)
             {
-                if (!this.users.ContainsKey(user.Id))
+                if (!this.users.TryGetValue(userId, out var user))
                 {
                     return;
                 }
 
-                this.game?.RemoveUser(user.Id);
-                this.lobby.RemoveUser(user.Id);
-                this.users.Remove(user.Id);
-                this.DistributeMessage(user.Id, new UserDisconnectedMessage(new UserDisconnectedMessageBody(user)));
+                this.game?.RemoveUser(userId);
+                this.lobby.RemoveUser(userId);
+                this.users.Remove(userId);
+                this.DistributeMessage(userId, new UserDisconnectedMessage(new UserDisconnectedMessageBody(user)));
             }
         }
 
@@ -207,23 +212,7 @@
 
         private void ReceivedUndoMessage(string key, EmptyMessageBody message)
         {
-
-            // TODO could we solve this different
-            if (this.game==null)
-            {
-                this.logger?.LogError("Game not started! sender: {}", key);
-                return;
-            }
-            this.game.Undo();
-            this.DistributeMessage(key, new UndoMessage());
-
-            if (this.game!=null)
-            {
-                foreach (var gameMessage in this.game.CurrentDrawing)
-                {
-                    this.DistributeMessage(null, gameMessage);
-                }
-            }
+            this.SaveAndDistributeMessage(key, new UndoMessage());
         }
 
         private void ReceivedUserScoreMessage(string key, UserScoreMessageBody message)

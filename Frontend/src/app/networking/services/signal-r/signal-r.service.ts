@@ -29,7 +29,8 @@ export class SignalRService
     .withAutomaticReconnect()
     .build();
 
-    this.signalRHub.on("Frontend", (data) => this.dataReceivedEventSub.next(data));
+    this.signalRHub.on("Frontend", (data) => {console.log(data); this.dataReceivedEventSub.next(data)});
+    this.signalRHub.on("*", (data) => console.warn(data));
   }
 
   public get DataReceivedEvent(): Observable<object>
@@ -37,11 +38,11 @@ export class SignalRService
     return this.dataReceivedEventSub.asObservable();
   }
 
-  public Connect(): Promise<void>
+  public async Connect(): Promise<void>
   {
     if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
 
-    return this.signalRHub.start();
+    await this.signalRHub.start();
   }
 
   public Stop(): Promise<void>

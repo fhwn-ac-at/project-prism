@@ -80,7 +80,7 @@ export class TestComponent
 
   public OnStartClicked($event: MouseEvent) 
   {
-    this.apiService.StartGame(this.id!).subscribe({next: (v) => 
+    this.apiService.StartGame("test").subscribe({next: (v) => 
     {
       console.log("received start response!:" + v);
     }});

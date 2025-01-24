@@ -43,11 +43,11 @@
             this.lobbies[lobbyId].AddUser(user);
         }
 
-        public void DisconnectUserFromLobby(string lobbyId, User user)
+        public void DisconnectUserFromLobby(string lobbyId, string userId)
         {
             ArgumentNullException.ThrowIfNull(lobbyId);
 
-            ArgumentNullException.ThrowIfNull(user);
+            ArgumentNullException.ThrowIfNull(userId);
 
 
             if (!this.lobbies.TryGetValue(lobbyId, out GameLobby? value))
@@ -55,7 +55,7 @@
                 throw new ArgumentException(lobbyId);
             }
 
-            value.RemoveUser(user);
+            value.RemoveUser(userId);
 
             if (value.UserCount<=0)
             {

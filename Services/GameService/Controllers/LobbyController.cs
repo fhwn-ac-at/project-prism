@@ -35,10 +35,10 @@
         }
 
         [HttpDelete("disconnectUserFromLobby")]
-        public void DisconnectUserFromLobby(User user, string lobbyId)
+        public void DisconnectUserFromLobby(string lobbyId, string userId)
         {
-            this.logger?.LogDebug("User: {} disconnected from lobby: {}", user, lobbyId);
-            this.lobbyManager.DisconnectUserFromLobby(lobbyId, user);
+            this.logger?.LogDebug("User: {} disconnected from lobby: {}", userId, lobbyId);
+            this.lobbyManager.DisconnectUserFromLobby(lobbyId, userId);
         }
     }
 }

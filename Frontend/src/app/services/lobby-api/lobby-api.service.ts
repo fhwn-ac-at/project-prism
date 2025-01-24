@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from '../../networking/services/api/api.service';
 import { map, Observable } from 'rxjs';
+import { ConnectToLobbyResponse, isConnectToLobbyResponse } from '../../networking/services/api/dto/ConnectToLobbyResponse';
 import { User } from '../../networking/dtos/shared/User';
 
 @Injectable({

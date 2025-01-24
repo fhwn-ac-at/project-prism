@@ -1,4 +1,25 @@
+import { Header } from "../shared/header";
+
 export interface RoundDurationChanged
 {
-    duration: number,
+    header: Header,
+    body:
+    {
+        duration: number,
+    }
+}
+
+export function BuildRoundDurationChanged(duration: number): RoundDurationChanged
+{
+    return {
+        header: 
+        {
+            type: "roundDurationChanged", 
+            timestamp: Date.now()
+        }, 
+        body: 
+        {
+            duration: duration
+        }
+    };
 }

@@ -6,7 +6,9 @@ import { ConfigService } from "../services/config/config.service";
 import { CountdownService } from "../services/countdown/countdown.service";
 import { ActivePlayersService } from "../services/current-players/active-players.service";
 import { GameRoundService } from "../services/game-round/game-round.service";
+import { GameApiService } from "../services/gameApi/game-api.service";
 import { HiddenWordService } from "../services/hidden-word/hidden-word.service";
+import { LobbyApiService } from "../services/lobby-api/lobby-api.service";
 import { PickWordService } from "../services/pick-word/pick-word.service";
 import { PlayerDataService } from "../services/player-data/player-data.service";
 
@@ -23,4 +25,6 @@ export const provideRootAppServices = () =>
   {provide: PickWordService, useClass: PickWordService},
   {provide: ApiService, useClass: ApiService},
   {provide: SignalRService, useClass: SignalRService},
+  {provide: LobbyApiService, useClass: LobbyApiService},
+  {provide: GameApiService, useClass: GameApiService},
 ];

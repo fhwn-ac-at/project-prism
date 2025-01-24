@@ -1,22 +1,25 @@
 import { inject, Injectable } from '@angular/core';
 import { ConfigService } from '../../../services/config/config.service';
 import * as signalR from '@microsoft/signalr';
-import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: null
 })
-export class SignalRService {
-
-  private httpClient: HttpClient = inject(HttpClient);
+export class SignalRService 
+{
   private configService: ConfigService = inject(ConfigService);
+
+  private signalRHub:signalR.HubConnection | undefined;
+
+  private dataReceivedEventSub: Subject<object> = new Subject<object>
 
   public Initialize(lobbyId: string)
   {
     const options : signalR.IHttpConnectionOptions = {
     }
 
-    this.SignalRHub = new signalR.HubConnectionBuilder()
+    this.signalRHub = new signalR.HubConnectionBuilder()
     .withUrl
     (
       this.configService.configData.api.base + this.configService.configData.api.websocket + '/' + lobbyId,
@@ -25,14 +28,33 @@ export class SignalRService {
     .configureLogging(signalR.LogLevel.Information)
     .withAutomaticReconnect()
     .build();
+
+    this.signalRHub.on("Frontend", (data) => this.dataReceivedEventSub.next(data));
   }
 
-  public SignalRHub: signalR.HubConnection | undefined;
+  public get DataReceivedEvent(): Observable<object>
+  {
+    return this.dataReceivedEventSub.asObservable();
+  }
 
-  // public Connect()
-  // {
-    // if (this.SignalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
+  public Connect(): Promise<void>
+  {
+    if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
 
-    // return this.SignalRHub.start();
-  // }
+    return this.signalRHub.start();
+  }
+
+  public Stop(): Promise<void>
+  {
+    if (this.signalRHub == undefined) return Promise.resolve();
+
+    return this.signalRHub.stop();
+  }
+
+  public SendData(data: object): Promise<void>
+  {
+    if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
+
+    return this.signalRHub.send("Backend", data);
+  }
 }

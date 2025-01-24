@@ -1,6 +1,28 @@
+import { Header } from "../../shared/header";
 import { HexColor } from "../../shared/hexColor";
 
 export interface BackgroundColor
+{   
+    header: Header,
+    body: {
+        color: HexColor
+    }
+}
+
+export function BuildBackgroundColor(color: string): BackgroundColor
 {
-    color: HexColor
+    return {
+        header: 
+        {
+            type: "bakgroundColor", 
+            timestamp: Date.now()
+        }, 
+        body: 
+        {
+            color: 
+            {
+                hexString: color
+            }
+        }
+    };
 }

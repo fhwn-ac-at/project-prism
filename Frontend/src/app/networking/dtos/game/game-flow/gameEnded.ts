@@ -1,0 +1,23 @@
+import { Header } from "../../shared/header";
+
+export interface GameEnded
+{
+    header: Header,
+    body: 
+    {    
+    }
+}
+
+export function BuildGameEnded(): GameEnded
+{
+    return {
+        header: 
+        {
+            type: "gameEnded", 
+            timestamp: Date.now()
+        }, 
+        body: 
+        {
+        }
+    };
+}

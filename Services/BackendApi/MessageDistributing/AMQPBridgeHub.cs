@@ -29,7 +29,6 @@ public class AMQPBridgeHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        this.logger?.LogError(this.GetHashCode().ToString());
         var clientId = this.Context.GetHttpContext()?.Request.RouteValues["client-id"]?.ToString();
 
         if (clientId==null)
@@ -68,7 +67,7 @@ public class AMQPBridgeHub : Hub
 
         // TODO what to do if the connection was not recreated on the request and the websocket connects????
 
-        var clientProxy = Clients.User(this.Context.ConnectionId);
+        var clientProxy = Clients.Client(this.Context.ConnectionId);
         var connector = new WebsocketToAMQPConnector(
             clientProxy,
             identifier,
@@ -119,10 +118,14 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("Invalid client id");
         }
 
-        var user = new User();
-        user.Id=identifier;
-        user.Name=this.Context.User?.ExtractDisplayName();
-        await this.generatedGameClient.DisconnectUserFromLobbyAsync(lobbyId, user);
+        try
+        {
+            await this.generatedGameClient.DisconnectUserFromLobbyAsync(lobbyId, identifier);
+        }
+        catch (Exception e)
+        {
+            this.logger?.LogError("Couldn't disconnect User from Lobby. Error message: {}", e.Message);
+        }
 
         this.connectors.Remove(this.Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);

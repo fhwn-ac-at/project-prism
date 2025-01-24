@@ -6,13 +6,13 @@
 
     public class WebsocketToAMQPConnector
     {
-        private readonly IClientProxy clientProxy;
+        private readonly ISingleClientProxy clientProxy;
         private readonly IAMQPBroker broker;
         private readonly string userId;
         private readonly Validator validator;
         private readonly ILogger<WebsocketToAMQPConnector>? logger;
 
-        public WebsocketToAMQPConnector(IClientProxy clientProxy, string userId, IAMQPBroker broker, PlainMessageDistributor messageDistributor, Validator validator, ILogger<WebsocketToAMQPConnector>? logger = null)
+        public WebsocketToAMQPConnector(ISingleClientProxy clientProxy, string userId, IAMQPBroker broker, PlainMessageDistributor messageDistributor, Validator validator, ILogger<WebsocketToAMQPConnector>? logger = null)
         {
             this.clientProxy=clientProxy;
             this.broker=broker;

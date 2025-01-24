@@ -233,15 +233,15 @@ namespace BackendApi.ApiClients
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task DisconnectUserFromLobbyAsync(string lobbyId, User body)
+        public virtual System.Threading.Tasks.Task DisconnectUserFromLobbyAsync(string lobbyId, string userId)
         {
-            return DisconnectUserFromLobbyAsync(lobbyId, body, System.Threading.CancellationToken.None);
+            return DisconnectUserFromLobbyAsync(lobbyId, userId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task DisconnectUserFromLobbyAsync(string lobbyId, User body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task DisconnectUserFromLobbyAsync(string lobbyId, string userId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -249,10 +249,6 @@ namespace BackendApi.ApiClients
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
-                    var content_ = new System.Net.Http.StringContent(json_);
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
@@ -263,6 +259,10 @@ namespace BackendApi.ApiClients
                     if (lobbyId != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("lobbyId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(lobbyId, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (userId != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("userId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     urlBuilder_.Length--;
 

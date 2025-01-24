@@ -74,13 +74,13 @@ export class TestComponent
     this.apiService.ConnectToLobby("test").subscribe({next: (v) => 
     {
       console.log("received connect response!:" + v);
-      this.id = v.lobbyId;
+      this.id = v.id;
     }});
   }
 
   public OnStartClicked($event: MouseEvent) 
   {
-    this.apiService.StartGame(this.id!).subscribe({next: (v) => 
+    this.apiService.StartGame("test").subscribe({next: (v) => 
     {
       console.log("received start response!:" + v);
     }});

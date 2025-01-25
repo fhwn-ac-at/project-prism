@@ -60,7 +60,7 @@ export class ActivePlayersService
       {
         let joined = value as UserJoined;
 
-        this.Add({Username: joined.body.user.name, Id: joined.body.user.id, Role: PlayerType.NotSet, Score: 0});     
+        this.Add({Username: joined.body.user.name, Id: joined.body.user.id, Score: 0});     
       }
       else if (isUserDisconnected(value))
       {

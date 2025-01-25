@@ -11,6 +11,8 @@ import { LobbyApiService } from "../networking/services/lobby-api/lobby-api.serv
 import { PickWordService } from "../services/pick-word/pick-word.service";
 import { PlayerDataService } from "../services/player-data/player-data.service";
 import { StartService } from "../services/start/start.service";
+import { GameIdService } from "../services/gameId/game-id.service";
+import { PlayerTypeService } from "../services/player-type/player-type.service";
 
 export const provideRootAppServices = () => 
 [
@@ -26,5 +28,7 @@ export const provideRootAppServices = () =>
   {provide: SignalRService, useClass: SignalRService},
   {provide: LobbyApiService, useClass: LobbyApiService},
   {provide: GameApiService, useClass: GameApiService},
-  {provide: StartService, useClass: StartService}
+  {provide: StartService, useClass: StartService},
+  {provide: GameIdService, useClass: GameIdService},
+  {provide: PlayerTypeService, useClass: PlayerTypeService}
 ];

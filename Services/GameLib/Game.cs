@@ -22,6 +22,7 @@
         private readonly int totalRoundAmount;
         private readonly int drawingDuration; //s
 
+        // TODO move defaults to constructor!!!
         private readonly uint wordSelectionCount = 3; 
         private readonly uint selectionDuration = 45; 
         private readonly uint maxScore = 500; 
@@ -188,6 +189,7 @@
                 this.drawingRoundScore.Add(key, score);
                 this.users[key].Score+=score;
                 this.FireUserScoredEvent(key, score);
+                this.FireWordSelectedEvent();
 
                 if (this.HaveAllGuessed())
                 {
@@ -209,7 +211,9 @@
 
                 this.selectionTimerCancellationToken.Cancel();
                 this.selectedWord=this.selectableWords.FirstOrDefault(item => item.Word==word);
-                this.FireWordSelectedEvent();
+                // TODO send guessed word to the player
+                // TODO add new event for the game and reuse the searchedWordMessage
+                this.StartDrawing();
 
                 if (selectedWord==null)
                 {
@@ -280,6 +284,7 @@
                         this.selectedWord=this.selectableWords[random.Next(0, this.selectableWords.Length)];
                         this.selectableWords=null;
                         this.FireWordSelectedEvent();
+                        this.StartDrawing();
                     }
                 }
             });
@@ -287,19 +292,22 @@
 
         private void FireWordSelectedEvent()
         {
+            // TODO split up to fire with hints logic and fire with normally
             if (this.selectedWord == null || this.SelectedWord == null)
             {
                 return;
             }
 
             this.SelectedWord.Invoke(this, this.selectedWord);
-
-            this.StartDrawing();
         }
 
         private void StartDrawing()
         {
             this.RoundStartTime = DateTime.Now;
+
+
+            // TODO add hints sent to all players
+
             Task.Run(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(this.DrawingDuration), this.drawingCancellationToken.Token);                
@@ -342,7 +350,8 @@
 
             this.DrawingEnded?.Invoke(this, new DrawingEndedEventArgs(this.totalRoundAmount - this.roundAmount + 1, this.drawingRoundScore));
             this.drawingRoundScore.Clear();
-            // TODO maby delay for showing scores
+            // TODO maybe delay for showing scores
+            // TODO make it configurable from the appsettings
             this.FireWordSelectionEvent();
         }
 

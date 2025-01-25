@@ -22,6 +22,7 @@
 
         public IEnumerable<string> Users => users;
 
+        // TODO get default values for this
         public int RoundAmount { get; set; } = 1;
 
         public int RoundDuration { get; set; } = 30;

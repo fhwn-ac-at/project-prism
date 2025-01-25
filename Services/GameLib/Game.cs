@@ -22,6 +22,7 @@
         private readonly int totalRoundAmount;
         private readonly int drawingDuration; //s
 
+        // Defaults just so you don't have to look in the appsettings.json all the time
         private readonly uint wordSelectionCount = 3; 
         private readonly uint selectionDuration = 45; 
         private readonly uint maxScore = 500; 
@@ -35,12 +36,17 @@
         private readonly double easyWordFactor = 0.5;
         private readonly double midWordFactor = 1.0;
         private readonly double hardWordFactor = 1.5;
+        private readonly ushort drawingEndedDelay = 10_000;
+        private readonly ushort minUserCount = 2;
 
         private int roundAmount;
         private int drawerCounter;
         private int guessedCounter;
         private WordListItem[]? selectableWords;
         private WordListItem? selectedWord;
+        private string? hintedWord;
+        private List<int> hintIndices = [];
+        private List<WordListItem> alreadyDrawnWords = [];
         private bool started;
         private string? drawerId;
 
@@ -52,7 +58,8 @@
         private readonly object drawerIdLock = new object();
 
         public event EventHandler<WordSelectionEventArgs>? WordSelection;
-        public event EventHandler<WordListItem>? SelectedWord;
+        public event EventHandler<WordSelectedEventArgs>? WordSelected;
+        public event EventHandler<HintEventArgs>? Hint;
         public event EventHandler<DrawingEndedEventArgs>? DrawingEnded;
         public event EventHandler<Dictionary<string, uint>>? GameEnded;
         public event EventHandler<UserScoredEventArgs>? UserScored;
@@ -77,6 +84,9 @@
             this.easyWordFactor=gameOptions.Value.EasyWordFactor;
             this.midWordFactor=gameOptions.Value.MidWordFactor;
             this.hardWordFactor=gameOptions.Value.HardWordFactor;
+            this.drawingEndedDelay = gameOptions.Value.DrawingEndedDelay;
+            this.minUserCount=gameOptions.Value.MinUserCount;
+
             this.random = new Random();
         }
 
@@ -120,7 +130,6 @@
 
             lock (this.drawerIdLock)
             {
-                //TODO verify if user is drawer
                 if (this.drawerId == key)
                 {
                     this.drawerCounter--;
@@ -131,6 +140,12 @@
             // TODO add user handle lock
             this.zombieUsers.Add(key, new(user.Score));
             this.users.Remove(key);
+
+            if (this.users.Count < this.minUserCount)
+            {
+                this.drawingCancellationToken.Cancel();
+                this.selectionTimerCancellationToken.Cancel();
+            }
         }
 
         public bool AddToDrawing<T>(string userId, Message<T> e) where T : IMessageBody
@@ -187,7 +202,7 @@
 
                 this.drawingRoundScore.Add(key, score);
                 this.users[key].Score+=score;
-                this.FireUserScoredEvent(key, score);
+                this.FireUserScoredEvent(key, score, text);
 
                 if (this.HaveAllGuessed())
                 {
@@ -209,13 +224,14 @@
 
                 this.selectionTimerCancellationToken.Cancel();
                 this.selectedWord=this.selectableWords.FirstOrDefault(item => item.Word==word);
-                this.FireWordSelectedEvent();
 
                 if (selectedWord==null)
                 {
                     return false;
                 }
 
+                this.hintedWord=new string('_', this.selectedWord.Word.Length);
+                this.FireWordSelectedEvent();
                 this.selectableWords=null;
             }
            
@@ -227,9 +243,9 @@
             return this.users.Values.All(x => x.Guessed);
         }
 
-        private void FireUserScoredEvent(string key, uint score)
+        private void FireUserScoredEvent(string key, uint score, string searchedWord)
         {
-            this.UserScored?.Invoke(this, new UserScoredEventArgs(key, score));
+            this.UserScored?.Invoke(this, new UserScoredEventArgs(key, score, searchedWord));
         }
 
         private void FireWordSelectionEvent()
@@ -248,7 +264,12 @@
                     HashSet<int> uniqueIndices = new HashSet<int>();
                     while (uniqueIndices.Count<this.wordSelectionCount)
                     {
-                        uniqueIndices.Add(this.random.Next(0, this.wordList.Words.Length));
+                        var randomIndex = this.random.Next(0, this.wordList.Words.Length);
+
+                        if (!this.alreadyDrawnWords.Contains(this.wordList.Words[randomIndex]))
+                        {
+                            uniqueIndices.Add(randomIndex);
+                        }
                     }
 
                     this.selectableWords=uniqueIndices.Select(i => this.wordList.Words[i]).ToArray();
@@ -266,11 +287,12 @@
         {
             Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(this.selectionDuration), this.selectionTimerCancellationToken.Token);
-
-                if (this.selectionTimerCancellationToken.IsCancellationRequested)
+                try
                 {
-                    return;
+                    await Task.Delay(TimeSpan.FromSeconds(this.selectionDuration), this.selectionTimerCancellationToken.Token);
+                } 
+                catch (TaskCanceledException)
+                {
                 }
 
                 lock (this.selectableWordsLock)
@@ -278,6 +300,7 @@
                     if (this.selectedWord == null && this.selectableWords != null)
                     {
                         this.selectedWord=this.selectableWords[random.Next(0, this.selectableWords.Length)];
+                        this.hintedWord=new string('_', this.selectedWord.Word.Length);
                         this.selectableWords=null;
                         this.FireWordSelectedEvent();
                     }
@@ -287,42 +310,119 @@
 
         private void FireWordSelectedEvent()
         {
-            if (this.selectedWord == null || this.SelectedWord == null)
+            if (this.selectedWord==null||this.WordSelected==null||this.drawerId==null||this.hintedWord==null)
             {
                 return;
             }
 
-            this.SelectedWord.Invoke(this, this.selectedWord);
-
+            if (this.users.Count<this.minUserCount)
+            {
+                this.FireGameEndedEvent();
+                return;
+            }
+            
+            this.alreadyDrawnWords.Add(this.selectedWord);
+            this.WordSelected.Invoke(this, new WordSelectedEventArgs { SelectedWord=this.hintedWord, TextSelectedWord=this.selectedWord.Word, Drawer=this.drawerId});
             this.StartDrawing();
         }
 
         private void StartDrawing()
         {
+
+            if (this.selectedWord==null||this.hintedWord==null)
+            {
+                return;
+            }
+
             this.RoundStartTime = DateTime.Now;
+
             Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(this.DrawingDuration), this.drawingCancellationToken.Token);                
-                this.FireDrawingEnded();
+                int maxHints = this.selectedWord.Word.Length/2;
+                int interval = this.DrawingDuration/(maxHints+1);
+                for (int hintNumber = 1; hintNumber<=maxHints; hintNumber++)
+                {
+                    try
+                    {
+                        await Task.Delay(interval*1000, this.drawingCancellationToken.Token);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        return;
+                    }
+                    
+                    int randomIndex;
+                    do
+                    {
+                        if (this.drawingCancellationToken.Token.IsCancellationRequested || this.selectedWord ==null||this.hintedWord==null)
+                        {
+                            return;
+                        }
+
+                        randomIndex=random.Next(this.selectedWord.Word.Length);
+                    } while (this.hintIndices.Contains(randomIndex));
+
+                    if (this.drawingCancellationToken.Token.IsCancellationRequested||this.selectedWord==null||this.hintedWord == null)
+                    {
+                        return;
+                    }
+
+                    this.hintIndices.Add(randomIndex);
+                    var chars = this.hintedWord.ToCharArray();
+                    chars[randomIndex] =this.selectedWord.Word[randomIndex];
+                    this.hintedWord=new string(chars);
+                    this.FireHintEvent();
+                }
+            });
+
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(this.DrawingDuration), this.drawingCancellationToken.Token);
+                } 
+                catch (TaskCanceledException)
+                {
+                }
+
+                _=this.FireDrawingEnded();
+            });
+
+        }
+
+        private void FireHintEvent()
+        {
+            if (this.Hint == null || this.hintedWord == null)
+            {
+                return;
+            }
+
+            Task.Run(() =>
+            {
+                this.Hint.Invoke(this, new HintEventArgs { Hint=this.hintedWord, Users=this.users.Where((user) => !user.Value.Guessed&&user.Key!=this.drawerId).Select(user => user.Key) });
             });
         }
 
-        private void FireDrawingEnded()
+        private async Task FireDrawingEnded()
         {
             if (this.drawerId==null)
             {
                 return;
             }
 
+            string searchedWord;
             lock (this.selectableWordsLock)
             {
+                searchedWord=this.selectedWord!.Word;
                 this.selectedWord=null;
+                this.hintedWord = null;
+                this.hintIndices.Clear();
             }
 
             var drawerScore = this.CalculateDrawerScore();
             this.drawingRoundScore.Add(this.drawerId, drawerScore);
             this.users[this.drawerId].Score+=drawerScore;
-            this.FireUserScoredEvent(this.drawerId, drawerScore);
+            this.FireUserScoredEvent(this.drawerId, drawerScore, searchedWord);
 
             this.drawerCounter++;
             this.guessedCounter=0;
@@ -334,7 +434,7 @@
                 this.drawerCounter=0;
             }
 
-            if (this.roundAmount <= 0)
+            if (this.roundAmount <= 0 ||this.users.Count<this.minUserCount)
             {
                 this.FireGameEndedEvent();
                 return;
@@ -342,7 +442,7 @@
 
             this.DrawingEnded?.Invoke(this, new DrawingEndedEventArgs(this.totalRoundAmount - this.roundAmount + 1, this.drawingRoundScore));
             this.drawingRoundScore.Clear();
-            // TODO maby delay for showing scores
+            await Task.Delay(this.drawingEndedDelay);
             this.FireWordSelectionEvent();
         }
 

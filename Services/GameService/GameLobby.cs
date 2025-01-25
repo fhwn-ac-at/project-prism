@@ -7,6 +7,7 @@
     using MessageLib.Joined;
     using MessageLib.Lobby;
     using MessageLib.SharedObjects;
+    using Microsoft.Extensions.Options;
 
     public class GameLobby : IDisposable
     {
@@ -20,11 +21,11 @@
         private bool disposedValue;
         private readonly object gameLock = new object();
 
-        public GameLobby(string id, IAMQPBroker messageBroker, IServiceProvider serviceProvider, ILogger<GameLobby>? logger = null)
+        public GameLobby(IAMQPBroker messageBroker, IServiceProvider serviceProvider, IOptions<LobbyOptions> lobbyOptions, ILogger<GameLobby>? logger = null)
         {
             this.messageBroker=messageBroker;
             this.logger=logger;
-            this.lobby=new(id, serviceProvider);
+            this.lobby=new(serviceProvider, lobbyOptions);
             this.serviceProvider=serviceProvider;
         }
 
@@ -109,7 +110,8 @@
             }
 
             this.game.WordSelection+=this.ReceivedWordSelectionEvent;
-            this.game.SelectedWord+=this.ReceivedSelectedWordEvent;
+            this.game.WordSelected+=this.ReceivedWordSelectedEvent;
+            this.game.Hint+=this.ReceivedHintEvent;
             this.game.DrawingEnded+=this.ReceivedDrawingEndedEvent;
             this.game.GameEnded+=this.ReceivedGameEndedEvent;
             this.game.UserScored+=this.ReceivedUserScoredEvent;
@@ -131,6 +133,7 @@
             }
 
             this.DistributeMessage(null, new UserScoreMessage(new UserScoreMessageBody(user, e.Score)));
+            this.SendMessage(e.UserId, new SearchedWordMessage(new SearchedWordMessageBody(e.SearchedWord)));
         }
 
         private void ReceivedGameEndedEvent(object? sender, Dictionary<string, uint> e)
@@ -146,9 +149,17 @@
             this.DistributeMessage(null, new NextRoundMessage());
         }
 
-        private void ReceivedSelectedWordEvent(object? sender, WordListItem e)
+        private void ReceivedWordSelectedEvent(object? sender, WordSelectedEventArgs e)
         {
-            this.DistributeMessage(null, new SearchedWordMessage(new SearchedWordMessageBody(e.Word)));
+            this.DistributeMessage(e.Drawer, new SearchedWordMessage(new SearchedWordMessageBody(e.SelectedWord)));
+            this.SendMessage(e.Drawer, new SearchedWordMessage(new SearchedWordMessageBody(e.TextSelectedWord)));
+        }
+        private void ReceivedHintEvent(object? sender, HintEventArgs e)
+        {
+            foreach (var user in e.Users)
+            {
+                this.SendMessage(user, new SearchedWordMessage(new SearchedWordMessageBody(e.Hint)));
+            }
         }
 
         private void ReceivedWordSelectionEvent(object? sender, WordSelectionEventArgs e)
@@ -379,16 +390,8 @@
         {
             var byteMessage = System.Text.Encoding.UTF8.GetBytes(message.SerializeToJson());
 
-            double ttl;
-            if (this.game==null||this.game.RoundStartTime==null)
-            {
-                // brauch ich das überhaupt? kann ich die queue als speicher verwenden? weil dann fehlt ja der erste teil der zeichnung...
-                ttl=TimeSpan.FromMinutes(5).TotalMilliseconds;
-            }
-            else
-            {
-                ttl=DateTime.Now.Subtract(this.game.RoundStartTime.Value).Subtract(TimeSpan.FromSeconds(this.game.DrawingDuration)).TotalMilliseconds;
-            }
+            // TODO make configurable
+            double ttl = TimeSpan.FromMinutes(1).TotalMilliseconds;
 
             var uintTTl = Convert.ToUInt32(ttl);
             this.messageBroker.SendMessageAsync(receiver, byteMessage, uintTTl);

@@ -2,6 +2,7 @@ using BackendApi.ApiClients;
 using BackendApi.MessageDistributing;
 using FrenziedMarmot.DependencyInjection;
 using Keycloak.AuthServices.Authentication;
+using LoggerLib;
 using LoggerLib.Logger;
 using MessageLib.Joined;
 using Microsoft.Extensions.Configuration;

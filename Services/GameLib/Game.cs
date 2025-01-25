@@ -37,6 +37,7 @@
         private readonly double midWordFactor = 1.0;
         private readonly double hardWordFactor = 1.5;
         private readonly ushort drawingEndedDelay = 10_000;
+        private readonly ushort minUserCount = 2;
 
         private int roundAmount;
         private int drawerCounter;
@@ -45,6 +46,7 @@
         private WordListItem? selectedWord;
         private string? hintedWord;
         private List<int> hintIndices = [];
+        private List<WordListItem> alreadyDrawnWords = [];
         private bool started;
         private string? drawerId;
 
@@ -83,6 +85,7 @@
             this.midWordFactor=gameOptions.Value.MidWordFactor;
             this.hardWordFactor=gameOptions.Value.HardWordFactor;
             this.drawingEndedDelay = gameOptions.Value.DrawingEndedDelay;
+            this.minUserCount=gameOptions.Value.MinUserCount;
 
             this.random = new Random();
         }
@@ -137,6 +140,12 @@
             // TODO add user handle lock
             this.zombieUsers.Add(key, new(user.Score));
             this.users.Remove(key);
+
+            if (this.users.Count < this.minUserCount)
+            {
+                this.drawingCancellationToken.Cancel();
+                this.selectionTimerCancellationToken.Cancel();
+            }
         }
 
         public bool AddToDrawing<T>(string userId, Message<T> e) where T : IMessageBody
@@ -255,7 +264,12 @@
                     HashSet<int> uniqueIndices = new HashSet<int>();
                     while (uniqueIndices.Count<this.wordSelectionCount)
                     {
-                        uniqueIndices.Add(this.random.Next(0, this.wordList.Words.Length));
+                        var randomIndex = this.random.Next(0, this.wordList.Words.Length);
+
+                        if (!this.alreadyDrawnWords.Contains(this.wordList.Words[randomIndex]))
+                        {
+                            uniqueIndices.Add(randomIndex);
+                        }
                     }
 
                     this.selectableWords=uniqueIndices.Select(i => this.wordList.Words[i]).ToArray();
@@ -273,11 +287,12 @@
         {
             Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(this.selectionDuration), this.selectionTimerCancellationToken.Token);
-
-                if (this.selectionTimerCancellationToken.IsCancellationRequested)
+                try
                 {
-                    return;
+                    await Task.Delay(TimeSpan.FromSeconds(this.selectionDuration), this.selectionTimerCancellationToken.Token);
+                } 
+                catch (TaskCanceledException)
+                {
                 }
 
                 lock (this.selectableWordsLock)
@@ -300,6 +315,13 @@
                 return;
             }
 
+            if (this.users.Count<this.minUserCount)
+            {
+                this.FireGameEndedEvent();
+                return;
+            }
+            
+            this.alreadyDrawnWords.Add(this.selectedWord);
             this.WordSelected.Invoke(this, new WordSelectedEventArgs { SelectedWord=this.hintedWord, TextSelectedWord=this.selectedWord.Word, Drawer=this.drawerId});
             this.StartDrawing();
         }
@@ -349,16 +371,24 @@
                     this.hintIndices.Add(randomIndex);
                     var chars = this.hintedWord.ToCharArray();
                     chars[randomIndex] =this.selectedWord.Word[randomIndex];
-                    this.hintedWord=chars.ToString();
+                    this.hintedWord=new string(chars);
                     this.FireHintEvent();
                 }
             });
 
             Task.Run(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(this.DrawingDuration), this.drawingCancellationToken.Token);                
-                _ = this.FireDrawingEnded();
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(this.DrawingDuration), this.drawingCancellationToken.Token);
+                } 
+                catch (TaskCanceledException)
+                {
+                }
+
+                _=this.FireDrawingEnded();
             });
+
         }
 
         private void FireHintEvent()
@@ -370,7 +400,7 @@
 
             Task.Run(() =>
             {
-                this.Hint.Invoke(this, new HintEventArgs { Hint=this.hintedWord, Users=this.users.Where((user) => !user.Value.Guessed).Select(user => user.Key) });
+                this.Hint.Invoke(this, new HintEventArgs { Hint=this.hintedWord, Users=this.users.Where((user) => !user.Value.Guessed&&user.Key!=this.drawerId).Select(user => user.Key) });
             });
         }
 
@@ -405,7 +435,7 @@
                 this.drawerCounter=0;
             }
 
-            if (this.roundAmount <= 0)
+            if (this.roundAmount <= 0 ||this.users.Count<this.minUserCount)
             {
                 this.FireGameEndedEvent();
                 return;

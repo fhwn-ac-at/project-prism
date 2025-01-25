@@ -390,16 +390,8 @@
         {
             var byteMessage = System.Text.Encoding.UTF8.GetBytes(message.SerializeToJson());
 
-            double ttl;
-            if (this.game==null||this.game.RoundStartTime==null)
-            {
-                // brauch ich das überhaupt? kann ich die queue als speicher verwenden? weil dann fehlt ja der erste teil der zeichnung...
-                ttl=TimeSpan.FromMinutes(5).TotalMilliseconds;
-            }
-            else
-            {
-                ttl=DateTime.Now.Subtract(this.game.RoundStartTime.Value).Subtract(TimeSpan.FromSeconds(this.game.DrawingDuration)).TotalMilliseconds;
-            }
+            // TODO make configurable
+            double ttl = TimeSpan.FromMinutes(1).TotalMilliseconds;
 
             var uintTTl = Convert.ToUInt32(ttl);
             this.messageBroker.SendMessageAsync(receiver, byteMessage, uintTTl);

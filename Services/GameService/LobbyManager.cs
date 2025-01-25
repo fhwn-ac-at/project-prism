@@ -2,8 +2,10 @@
 {
     using AMQPLib;
     using FrenziedMarmot.DependencyInjection;
+    using GameLib;
     using MessageLib;
     using MessageLib.SharedObjects;
+    using Microsoft.Extensions.Options;
     using System;
 
 
@@ -31,9 +33,9 @@
                 this.lobbies.Add(
                     lobbyId,
                     new GameLobby(
-                        lobbyId,
                         this.serviceProvider.GetRequiredService<IAMQPBroker>(),
                         this.serviceProvider,
+                        this.serviceProvider.GetRequiredService<IOptions<LobbyOptions>>(),
                         this.serviceProvider.GetRequiredService<ILogger<GameLobby>>()
                         )
                     );

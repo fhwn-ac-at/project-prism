@@ -24,17 +24,18 @@ public sealed class ColorConsoleLogger : ILogger
 {
     private readonly Func<ColorConsoleLoggerConfiguration> getCurrentConfig;
     private readonly string name;
-    private readonly object lockObject = new();
+    private readonly LoggerLockObject lockObject;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorConsoleLogger"/> class.
     /// </summary>
     /// <param name="name">The name of the logger.</param>
     /// <param name="getCurrentConfig">The configuration of the logger.</param>
-    public ColorConsoleLogger(string name, Func<ColorConsoleLoggerConfiguration> getCurrentConfig)
+    public ColorConsoleLogger(string name, Func<ColorConsoleLoggerConfiguration> getCurrentConfig, LoggerLockObject lockObject)
     {
         this.name=name;
         this.getCurrentConfig=getCurrentConfig;
+        this.lockObject=lockObject;
     }
 
     /// <inheritdoc/>
@@ -66,7 +67,7 @@ public sealed class ColorConsoleLogger : ILogger
         ColorConsoleLoggerConfiguration config = this.getCurrentConfig();
         if (config.EventId==0||config.EventId==eventId.Id)
         {
-            lock (lockObject)
+            lock (this.lockObject)
             {
                 ConsoleColor originalColor = Console.ForegroundColor;
 
@@ -88,6 +89,7 @@ public sealed class ColorConsoleLogger : ILogger
 public sealed class ColorConsoleLoggerProvider : ILoggerProvider
 {
     private readonly IDisposable? onChangeToken;
+    private readonly LoggerLockObject lockObject;
     private readonly ConcurrentDictionary<string, ColorConsoleLogger> loggers =
         new(StringComparer.OrdinalIgnoreCase);
 
@@ -98,16 +100,17 @@ public sealed class ColorConsoleLoggerProvider : ILoggerProvider
     /// </summary>
     /// <param name="config">The configuration of the logger.</param>
     public ColorConsoleLoggerProvider(
-        IOptionsMonitor<ColorConsoleLoggerConfiguration> config)
+        IOptionsMonitor<ColorConsoleLoggerConfiguration> config, LoggerLockObject lockObject)
     {
         this.currentConfig=config.CurrentValue;
         this.onChangeToken=config.OnChange(updatedConfig => this.currentConfig=updatedConfig);
+        this.lockObject = lockObject;
     }
 
     /// <inheritdoc>/>.
     public ILogger CreateLogger(string categoryName)
     {
-        return this.loggers.GetOrAdd(categoryName, name => new ColorConsoleLogger(name, this.GetCurrentConfig));
+        return this.loggers.GetOrAdd(categoryName, name => new ColorConsoleLogger(name, this.GetCurrentConfig, lockObject));
     }
 
     /// <inheritdoc>/>.

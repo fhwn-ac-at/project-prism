@@ -44,12 +44,13 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("Missing client id");
         }
 
-        if (!this.clientStore.ContainsKey(clientId))
+        if (!this.clientStore.TryGetValue(clientId, out KnownClientInfo? clientInfo))
         {
             this.logger?.LogError("Websocket connected on unknown client id: {}", clientId);
             throw new BadHttpRequestException("Unknown client id");
         }
 
+        clientInfo.token.Cancel();
 
         if (this.Context.User==null)
         {
@@ -57,8 +58,8 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("No Token");
         }
 
-        this.logger?.LogInformation(this.Context.User?.ExtractDisplayName());
-        this.logger?.LogInformation(this.Context.User?.ExtractIdentifier());
+        this.logger?.LogTrace("Extracted display name: {}", this.Context.User?.ExtractDisplayName());
+        this.logger?.LogTrace("Extracted user identifier: {}", this.Context.User?.ExtractIdentifier());
 
         var identifier = this.Context.User?.ExtractIdentifier();
 
@@ -99,7 +100,7 @@ public class AMQPBridgeHub : Hub
             throw new BadHttpRequestException("Missing client id");
         }
 
-        if (!this.clientStore.TryGetValue(clientId, out string? lobbyId))
+        if (!this.clientStore.TryGetValue(clientId, out KnownClientInfo? clientInfo))
         {
             this.logger?.LogError("Websocket connected on unknown client id: {} Exception: {}", clientId, exception);
             throw new BadHttpRequestException("Unknown client id");
@@ -127,7 +128,7 @@ public class AMQPBridgeHub : Hub
 
         try
         {
-            await this.generatedGameClient.DisconnectUserFromLobbyAsync(lobbyId, identifier);
+            await this.generatedGameClient.DisconnectUserFromLobbyAsync(clientInfo.lobbyId, identifier);
         }
         catch (Exception e)
         {

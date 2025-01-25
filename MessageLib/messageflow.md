@@ -63,9 +63,11 @@ von lobby zu game http get request start game von einem Client
 
 ### searchedWord
     Das wort welches gezeichnet werden soll
-    Frontend zeigt die anzahl der Buchstaben als _ an also wort = _ _ _ _
     Mit dieser Message startet das Zeichnen und raten 
     Am besten anzeigen wie lange noch zeit ist zum zeichnen
+    Diese Nachricht kann wärend dem Zeichnen auch immer wieder gesendet werden um hinweise anzuzeigen.
+    Das wort wird als _____ übertragen und ein heinweis in einem wort wäre ___b__
+    Es wird auch die nachricht mit dem wort in klartext gesendet, wenn ein user das wort erraten hat und an den der zeichnet am anfang
 
 ### chatMessage:
     von client zu Backend von Backend zu den anderen clients
@@ -81,7 +83,6 @@ von lobby zu game http get request start game von einem Client
     vom backen nur an alle client
     Sagt aus das ein User das wort eraten hat.
     Dieser user becommt auch einen score für das eraten
-    wenn die nachricht erhalten wird wird das gesuchte wort in klartext angezeigt stat _ _ _ ...
     zeichner bekommt die nachricht ganz am ende wenn zeit abgelaufen oder alle eraten haben hat keine auswirkung auf ihn
 
     nach dem der zeichner den score erhalten hat bekommt das fronten als nächstes eine nextRoundMessage oder gameEnded message

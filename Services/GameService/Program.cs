@@ -1,4 +1,5 @@
 using FrenziedMarmot.DependencyInjection;
+using LoggerLib;
 using LoggerLib.Logger;
 
 internal class Program

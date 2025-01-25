@@ -64,5 +64,13 @@ internal class Program
         WordList list = new WordList(Options.Create(new WordListOptions() { Location ="./wordlist.json" }), deserialzier, new FileOpener(Options.Create(new FileOpenerOptions()), null));
 
         Console.WriteLine(list);
+
+        var longestWord = list.Words.Max((item) => item.Word.Length);
+        var splitWords = list.Words.Any((item) => item.Word.Contains(' '));
+        var dashedWords = list.Words.Any((item) => item.Word.Contains('-'));
+
+        Console.WriteLine(longestWord);
+        Console.WriteLine(splitWords);
+        Console.WriteLine(dashedWords);
     }
 }

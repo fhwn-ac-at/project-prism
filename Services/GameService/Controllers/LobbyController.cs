@@ -1,5 +1,6 @@
 ﻿namespace GameService.Controllers
 {
+    using AMQPLib;
     using MessageLib.SharedObjects;
     using Microsoft.AspNetCore.Mvc;
 
@@ -9,36 +10,54 @@
     {
         private readonly LobbyManager lobbyManager;
 
+        private readonly IAMQPQueueManager manager;
         private readonly ILogger<LobbyController>? logger;
 
-        public LobbyController(LobbyManager lobbyManager, ILogger<LobbyController>? logger = null)
+        public LobbyController(LobbyManager lobbyManager, IAMQPQueueManager manager, ILogger<LobbyController>? logger = null)
         {
             this.lobbyManager = lobbyManager;
+            this.manager = manager;
             this.logger=logger;
         }
 
         [HttpPost("connectUserToLobby")]
-        public void ConnectUserToLobby(User user, string lobbyId)
+        public async Task ConnectUserToLobby(User user, string lobbyId)
         {
+            try
+            {
+                await this.manager.CreateQueueAsync(user.Id);
+            }
+            catch (ArgumentException)
+            {
+                this.logger?.LogInformation("Connected to existing queue id: {}", user.Id);
+            }
+
             this.logger?.LogDebug("User: {} connected to lobby: {}", user, lobbyId);
             this.lobbyManager.ConnectUserToLobby(lobbyId, user);
         }
 
         [HttpPost("startGame")]
-        public void StartGame(string lobbyId)
+        public IActionResult StartGame(string lobbyId)
         {
-            this.logger?.LogDebug("Start game for lobby: {}", lobbyId);
             if (!this.lobbyManager.StartGame(lobbyId))
             {
-                throw new BadHttpRequestException("Not enough player");
+                this.logger?.LogWarning("Not enough players for lobby: {}", lobbyId);
+                return this.BadRequest("Not enough player");
             }
+
+
+            this.logger?.LogDebug("Started game for lobby: {}", lobbyId);
+            return this.Ok();
         }
 
         [HttpDelete("disconnectUserFromLobby")]
-        public void DisconnectUserFromLobby(string lobbyId, string userId)
+        public async Task DisconnectUserFromLobby(string lobbyId, string userId)
         {
+            var removeQueueTask = this.manager.RemoveQueueAsync(userId);
+
             this.logger?.LogDebug("User: {} disconnected from lobby: {}", userId, lobbyId);
             this.lobbyManager.DisconnectUserFromLobby(lobbyId, userId);
+            await removeQueueTask;
         }
     }
 }

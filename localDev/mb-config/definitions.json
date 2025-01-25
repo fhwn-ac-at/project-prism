@@ -68,16 +68,16 @@
         {
             "user": "game",
             "vhost": "external",
-            "configure": "^$",
-            "write": "^gameEx$",
-            "read": "^backend\\..+$"
+            "configure": "^(game|backend)\\..+$",
+            "write": "^(gameEx|(backend|game)\\..+)$",
+            "read": "^(backend\\..+|(backend|game)Ex)$"
         },
         {
             "user": "backend",
             "vhost": "external",
-            "configure": "^(game|backend)\\..+$",
-            "write": "^(backendEx|(backend|game)\\..+)$",
-            "read": "^(game\\..+|(backend|game)Ex)$"
+            "configure": "^$",
+            "write": "^backendEx$",
+            "read": "^game\\..+$"
         }
     ],
     "topic_permissions": [],

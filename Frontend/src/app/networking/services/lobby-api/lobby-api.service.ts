@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ConfigService } from '../../../services/config/config.service';
 import { map, Observable } from 'rxjs';
-import { isUser } from '../../dtos/shared/User.guard';
 import { User } from '../../dtos/shared/User';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { isUser } from '../../dtos/shared/User.guard';
+import { ConfigService } from '../../../services/config/config.service';
 
 @Injectable({
   providedIn: null
 })
-export class ApiService 
+export class LobbyApiService 
 {
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);

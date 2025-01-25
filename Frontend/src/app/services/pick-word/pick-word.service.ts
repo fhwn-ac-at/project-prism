@@ -1,33 +1,38 @@
-import { Injectable } from '@angular/core';
-import { PartialObserver, Subject, Subscription } from 'rxjs';
-import { WordPickedEvent } from './events/WordPicked';
+import { inject, Injectable } from '@angular/core';
+import { filter, Observable, Subject } from 'rxjs';
 import { WordsToPickEvent } from './events/WordsToPick';
+import { GameApiService } from '../../networking/services/game-api/game-api.service';
+import { isSetDrawer } from '../../networking/dtos/game/game-flow/setDrawer.guard';
+import { SetDrawer } from '../../networking/dtos/game/game-flow/setDrawer';
 
 @Injectable({
   providedIn: null,
 })
 export class PickWordService 
 {
-  private wordPickedSubject: Subject<WordPickedEvent> = new Subject<WordPickedEvent>();
+  private gameApiService: GameApiService = inject(GameApiService);
+
   private wordsToPickSubject: Subject<WordsToPickEvent> = new Subject<WordsToPickEvent>();
-
-  public SubscribeWordPicked(obs: PartialObserver<WordPickedEvent>): Subscription
+  
+  public constructor()
   {
-    return this.wordPickedSubject.subscribe(obs);
+    this.gameApiService.ObserveGameFlowEvent().
+      pipe(filter((val) => isSetDrawer(val)))
+      .subscribe(this.OnSetDrawer);
   }
 
-  public SubscribeOnWordToPick(obs: PartialObserver<WordsToPickEvent>): Subscription
+  private OnSetDrawer(val: SetDrawer): void
   {
-    return this.wordsToPickSubject.subscribe(obs);
+    this.wordsToPickSubject.next({Words: val.body.words});
   }
 
-  public TriggerWordPicked(word: string)
+  public ObserveWordsToPickEvent(): Observable<WordsToPickEvent>
   {
-    this.wordPickedSubject.next(new WordPickedEvent(word));
+    return this.wordsToPickSubject.asObservable();
   }
 
-  public LetUserPickWord(words: string[]): void
+  public SendWordPicked(word: string): Promise<void>
   {
-    this.wordsToPickSubject.next(new WordsToPickEvent(words));
+    return this.gameApiService.SendSelectedWord(word);
   }
 }

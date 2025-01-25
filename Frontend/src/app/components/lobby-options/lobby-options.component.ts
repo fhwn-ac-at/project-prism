@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import { PlayerType } from '../../services/player-data/PlayerType';
-import { LobbyOptionsService } from '../../services/lobby-options/lobby-options.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { MatCard } from '@angular/material/card';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,14 +19,18 @@ import { Router } from '@angular/router';
 })
 export class LobbyOptionsComponent 
 {
+  private snackbar: MatSnackBar;
+  
   public constructor
   (
     pD: PlayerDataService,
-    lO: LobbyOptionsService,
+    lO: LobbyService,
+    snackBar: MatSnackBar
   )
   {
     this.PlayerDataService = pD;
     this.LobbyOptionsService = lO;
+    this.snackbar = snackBar;
 
     this.OptionsData = new FormGroup
     (
@@ -47,12 +51,18 @@ export class LobbyOptionsComponent
   }
 
   public PlayerDataService: PlayerDataService;
-  public LobbyOptionsService: LobbyOptionsService;
+  public LobbyOptionsService: LobbyService;
   public PlayerType: typeof PlayerType = PlayerType;
   public OptionsData: FormGroup;
 
   public async OnStartGameButtonClicked(_: MouseEvent) 
   {
-    await this.LobbyOptionsService.StartGame();
+    this.LobbyOptionsService
+    .StartGame()
+    .then
+    (
+      () => { this.snackbar.open("Game started","", {duration: 2000}); },
+      (err) => { this.snackbar.open("Failed to start game: " + err, "", {duration: 2000}); }
+    );
   }
 }

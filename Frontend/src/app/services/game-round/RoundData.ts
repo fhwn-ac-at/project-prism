@@ -1,5 +1,6 @@
 export interface RoundData
 {
-    CurrentRound: bigint,
-    TotalRounds: bigint
+    CurrentRound: number,
+    TotalRounds: number
+    RoundDuration: number,
 }

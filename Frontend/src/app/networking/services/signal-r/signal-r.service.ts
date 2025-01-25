@@ -5,6 +5,9 @@ import { Observable, Subject } from 'rxjs';
 import { AngularSignalRHttpClient } from './signal-r-http-client';
 import Keycloak, { KeycloakAdapter, KeycloakTokenParsed } from 'keycloak-js';
 import { KEYCLOAK_EVENT_SIGNAL } from 'keycloak-angular';
+import { Closed } from './events/Closed';
+import { Reconnecting } from './events/Reconnecting';
+import { Connected } from './events/Connected';
 
 @Injectable({
   providedIn: null
@@ -17,10 +20,8 @@ export class SignalRService
 
   private signalRHub:signalR.HubConnection | undefined;
 
-  private dataReceivedEventSub: Subject<object> = new Subject<object>
-  constructor() {
-    
-  }
+  private dataReceivedEventSub: Subject<object> = new Subject<object>;
+  private connectionEventSub: Subject<Closed | Reconnecting | Connected> = new Subject();
 
   public Initialize(lobbyId: string)
   {
@@ -39,8 +40,17 @@ export class SignalRService
     .withAutomaticReconnect()
     .build();
 
+    this.signalRHub.onclose((error?: Error) => this.connectionEventSub.next(new Closed(error)));
+    this.signalRHub.onreconnecting((error?: Error) => this.connectionEventSub.next(new Reconnecting(error)));
+    this.signalRHub.onreconnected((id?: string) => this.connectionEventSub.next(new Connected(id)));
+    
     this.signalRHub.on("Frontend", (data) => {console.log(data); this.dataReceivedEventSub.next(data)});
     this.signalRHub.on("*", (data) => console.warn(data));
+  }
+
+  public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>
+  {
+    return this.connectionEventSub.asObservable();
   }
 
   public get DataReceivedEvent(): Observable<object>
@@ -53,6 +63,8 @@ export class SignalRService
     if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
 
     await this.signalRHub.start();
+
+    this.connectionEventSub.next(new Connected());
   }
 
   public Stop(): Promise<void>

@@ -7,7 +7,7 @@ import { TopBarComponent } from "../../components/top-bar/top-bar.component";
 import { ChatComponent } from "../../components/chat/chat.component";
 import { DrawableCanvasComponent } from "../../components/drawable-canvas/component/drawable-canvas.component";
 import { LobbyOptionsComponent } from "../../components/lobby-options/lobby-options.component";
-import { LobbyOptionsService } from '../../services/lobby-options/lobby-options.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,15 +17,15 @@ import { Router } from '@angular/router';
   styleUrl: './lobby.component.css',
   providers: 
   [
-    {provide: LobbyOptionsService, useClass: LobbyOptionsService}
+    {provide: LobbyService, useClass: LobbyService}
   ]
 })
 export class LobbyComponent 
 {  
-  private lobbyService: LobbyOptionsService;
+  private lobbyService: LobbyService;
   router: Router;
 
-  public constructor(lobby: LobbyOptionsService, router: Router)
+  public constructor(lobby: LobbyService, router: Router)
   {
     this.lobbyService = lobby;
     this.router = router;

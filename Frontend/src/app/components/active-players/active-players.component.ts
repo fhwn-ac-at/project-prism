@@ -21,7 +21,7 @@ export class ActivePlayersComponent
 
     this.CurrentPlayers = this.currentPlayersService.CurrentPlayers;
 
-    this.currentPlayersService.Subscribe({next: this.OnCurrentPlayersMessageReceived})
+    this.currentPlayersService.ObserveCurrentPlayersEvent().subscribe({next: this.OnCurrentPlayersMessageReceived})
   }
 
   public CurrentPlayers: PlayerData[];

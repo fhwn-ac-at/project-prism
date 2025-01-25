@@ -1,19 +1,33 @@
-import { Injectable } from '@angular/core';
-import { map, Observer, Subject, Subscription, takeWhile, timer } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { filter, map, Observable, Observer, Subject, Subscription, takeWhile, timer } from 'rxjs';
 import { CountdownEvent } from './CountdownEvent';
+import { GameApiService } from '../../networking/services/game-api/game-api.service';
+import { isSearchedWord } from '../../networking/dtos/game/game-flow/searchedWord.guard';
+import { SearchedWord } from '../../networking/dtos/game/game-flow/searchedWord';
+import { GameRoundService } from '../game-round/game-round.service';
 
 @Injectable({
   providedIn: null
 })
 export class CountdownService 
 {
+  private gameApiService: GameApiService = inject(GameApiService);
+  private roundService: GameRoundService = inject(GameRoundService);
+
   private timerSubject: Subject<CountdownEvent> = new Subject<CountdownEvent>();
 
   private timerSubscription: Subscription | null = null;
 
-  public SubscribeEvent(observer: Partial<Observer<CountdownEvent>>): Subscription
+  public constructor()
   {
-    return this.timerSubject.subscribe(observer);
+    this.gameApiService.ObserveGameFlowEvent()
+      .pipe(filter(isSearchedWord))
+      .subscribe(this.OnSearchedWordEvent);
+  }
+
+  public ObserveTimerEvent(): Observable<CountdownEvent>
+  {
+    return this.timerSubject.asObservable();
   }
 
   public IsRunning() : boolean
@@ -21,8 +35,7 @@ export class CountdownService
     return this.timerSubscription != null;
   }
 
-
-  public StartTimer(startNumber: number, delayInMs: number): void
+  private StartTimer(startNumber: number, delayInMs: number): void
   {
     if (!Number.isInteger(startNumber) || startNumber < 0) 
     {
@@ -58,7 +71,7 @@ export class CountdownService
     );
   }
 
-  public StopTimer(): void
+  private StopTimer(): void
   {
     if (this.timerSubscription == null) 
     {
@@ -67,5 +80,12 @@ export class CountdownService
 
     this.timerSubscription.unsubscribe();
     this.timerSubscription = null;
+  }
+
+  private OnSearchedWordEvent(_: SearchedWord) 
+  {
+    if (this.roundService.RoundsObject.value == undefined) return;
+
+    this.StartTimer(this.roundService.RoundsObject.value.RoundDuration, 1000);
   }
 }

@@ -1,22 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DrawableCanvasComponent } from '../../components/drawable-canvas/component/drawable-canvas.component';
 import { TopBarComponent } from '../../components/top-bar/top-bar.component';
-import { CountdownService } from '../../services/countdown/countdown.service';
-import { PlayerDataService } from '../../services/player-data/player-data.service';
-import { HiddenWordService } from '../../services/hidden-word/hidden-word.service';
-import { ActivePlayersService } from '../../services/current-players/active-players.service';
 import { ChatComponent } from "../../components/chat/chat.component";
 import { ActivePlayersComponent } from "../../components/active-players/active-players.component";
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { Dialog } from '@angular/cdk/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { PickWordComponent } from '../../components/pick-word/pick-word.component';
 import { PickWordService } from '../../services/pick-word/pick-word.service';
 import { WordsToPickEvent } from '../../services/pick-word/events/WordsToPick';
@@ -40,7 +27,7 @@ export class GamePageComponent
   {
     this.pickWordService = pickWordService;
 
-    this.pickWordService.SubscribeOnWordToPick({next: this.OnWordsToPick})
+    this.pickWordService.ObserveWordsToPickEvent().subscribe({next: this.OnWordsToPick})
   }
 
   private OnWordsToPick = (event: WordsToPickEvent) =>
@@ -53,7 +40,6 @@ export class GamePageComponent
 
     dialogRef
       .afterClosed()
-      .subscribe(() => this.pickWordService.TriggerWordPicked(dialogRef.componentInstance.ChosenWord));
+      .subscribe(() => this.pickWordService.SendWordPicked(dialogRef.componentInstance.ChosenWord));
   }
 }
-

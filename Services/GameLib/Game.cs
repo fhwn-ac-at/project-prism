@@ -338,9 +338,8 @@
 
             Task.Run(async () =>
             {
-
                 int maxHints = this.selectedWord.Word.Length/2;
-                int interval = this.DrawingDuration/maxHints;
+                int interval = this.DrawingDuration/(maxHints+1);
                 for (int hintNumber = 1; hintNumber<=maxHints; hintNumber++)
                 {
                     try

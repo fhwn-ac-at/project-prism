@@ -8,24 +8,23 @@
     {
         private readonly HashSet<string> users = [];
 
-        private readonly string id;
-
         private readonly IServiceProvider serviceProvider;
 
-        public Lobby(string id, IServiceProvider serviceProvider)
+        public Lobby(IServiceProvider serviceProvider, IOptions<LobbyOptions> lobbyOptions)
         {
-            this.id = id;
+            ArgumentNullException.ThrowIfNull(nameof(lobbyOptions));
             this.serviceProvider = serviceProvider;
+            this.RoundAmount=lobbyOptions.Value.DefaultRoundAmount;
+            this.RoundDuration=lobbyOptions.Value.DefaultRoundDuration;
         }
 
         public int UserCount => users.Count;
 
         public IEnumerable<string> Users => users;
 
-        // TODO get default values for this
-        public int RoundAmount { get; set; } = 1;
+        public int RoundAmount { get; set; }
 
-        public int RoundDuration { get; set; } = 30;
+        public int RoundDuration { get; set; }
 
         public bool AddUser(string key)
         {

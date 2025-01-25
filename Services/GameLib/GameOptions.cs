@@ -12,11 +12,12 @@
         public double MinFactor { get; init; }
         public double OrderReduction { get; init; } 
         public double OrderFactorStartPoint { get; init; }
-        public uint MaxDrawerScoreTimeScore { get; internal set; }
-        public uint MinDrawerScoreTimeScore { get; internal set; }
-        public double AmountGuessedMaxFactor { get; internal set; }
-        public double EasyWordFactor { get; internal set; }
-        public double MidWordFactor { get; internal set; }
-        public double HardWordFactor { get; internal set; }
+        public uint MaxDrawerScoreTimeScore { get; init; }
+        public uint MinDrawerScoreTimeScore { get; init; }
+        public double AmountGuessedMaxFactor { get; init; }
+        public double EasyWordFactor { get; init; }
+        public double MidWordFactor { get; init; }
+        public double HardWordFactor { get; init; }
+        public ushort DrawingEndedDelay { get; init ; }
     }
 }

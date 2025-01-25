@@ -4,16 +4,16 @@ using Microsoft.Extensions.Options;
 public class GeneratedGameClientFactory
 {
     private string baseUrl;
-    private HttpClient client;
+    private IHttpClientFactory httpClientFactory;
 
-    public GeneratedGameClientFactory(IOptions<GameClientOptions> options, HttpClient httpClient)
+    public GeneratedGameClientFactory(IOptions<GameClientOptions> options, IHttpClientFactory httpClientFactory)
     {
         this.baseUrl = options.Value.BaseUrl;
-        this.client = httpClient;   
+        this.httpClientFactory=httpClientFactory;   
     }
 
     public GeneratedGameClient Generate()
     {
-        return new GeneratedGameClient(this.baseUrl, this.client);
+        return new GeneratedGameClient(this.baseUrl, this.httpClientFactory.CreateClient());
     }
 }

@@ -135,38 +135,47 @@
             await this.channel.QueueBindAsync(queue: "backend."+name, exchange: "backendEx", routingKey: name);
             await this.channel.QueueBindAsync(queue: "game."+name, exchange: "gameEx", routingKey: name);
 
-            this.logger?.LogError("Created queue with the name {}", name);
+            this.logger?.LogDebug("Created queue with the name {}", name);
         }
 
-        public async Task RemoveQueueAsync(string Name)
+        public async Task RemoveQueueAsync(string name)
         {
             lock (this.managedQueues)
             {
-                if (!this.managedQueues.Contains(Name))
+                if (!this.managedQueues.Contains(name))
                 {
+                    this.logger?.LogWarning("Deleted queue doesn't exist {}", name);
                     return;
                 }
 
-                this.managedQueues.Remove(Name);
+                this.managedQueues.Remove(name);
             }
 
             await this.connectionTask();
 
-            var gameDeletionTask = this.channel!.QueueDeleteAsync(queue: "game."+Name, false, false);
-            var backendDeletionTask = this.channel.QueueDeleteAsync(queue: "backend."+Name, false, false);
+            var gameDeletionTask = this.channel!.QueueDeleteAsync(queue: "game."+name, false, false);
+            var backendDeletionTask = this.channel.QueueDeleteAsync(queue: "backend."+name, false, false);
 
             string? consumerTag;
+            Task? cancelTask = null;
             lock (this.consumerTags)
             {
-                if (!this.consumerTags.TryGetValue(Name, out consumerTag))
+                if (this.consumerTags.TryGetValue(name, out consumerTag))
                 {
-                    return;
+                    cancelTask= this.channel!.BasicCancelAsync(consumerTag);
                 }
             }
-
-            await this.channel!.BasicCancelAsync(consumerTag);
+            
+            if (cancelTask != null)
+            {
+                await cancelTask;
+            }
+            
             await gameDeletionTask;
             await backendDeletionTask;
+
+
+            this.logger?.LogDebug("Deleted queue with the name {}", name);
         }
 
         public async Task ConnectToQueueAsync(string name, string prefix, IMessageDistributor messageDistributor)

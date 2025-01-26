@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ConfigService } from '../config/config.service';
-import { BehaviorSubject, firstValueFrom, Subject } from 'rxjs';
+import { BehaviorSubject, filter, firstValueFrom, Subject } from 'rxjs';
 import { LobbyApiService } from '../../networking/services/lobby-api/lobby-api.service';
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
 import { GameIdService } from '../gameId/game-id.service';
@@ -44,13 +44,14 @@ export class LobbyService
     this.RoundAmount.subscribe((val => this.gameApiService.SendRoundAmount(val)));
     this.RoundDuration.subscribe((val => this.gameApiService.SendRoundDuration(val)));
 
-    this.gameApiService.ObserveLobbyEvent().subscribe(this.OnLobbyEvent)
+    this.gameApiService.ObserveLobbyEvent()
+      .pipe(filter((val) => isRoundAmountChanged(val) || isRoundDurationChanged(val)))
+      .subscribe(this.OnLobbyEvent)
   }
 
   public RoundAmount: BehaviorSubject<number>;
   public RoundDuration: BehaviorSubject<number>;
-  public GameStarted: Subject<void> = new Subject();
-  
+
   public async StartGame(): Promise<void>
   {
     if (this.gameIdService.GameId.value == undefined) return Promise.reject(new Error("no game id"));
@@ -58,10 +59,9 @@ export class LobbyService
     await firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value));
 
     this.roundsService.Initialize(this.RoundAmount.value, this.RoundDuration.value)
-    this.GameStarted.next();
   }
 
-  private OnLobbyEvent(data: GameStarted | RoundAmountChanged | RoundDurationChanged) : void
+  private OnLobbyEvent(data: RoundAmountChanged | RoundDurationChanged) : void
   {
     if (isRoundAmountChanged(data)) 
     {
@@ -70,10 +70,6 @@ export class LobbyService
     else if (isRoundDurationChanged(data)) 
     {
       this.RoundDuration.next(data.body.duration);
-    }
-    else if (isGameStarted(data))
-    {
-      this.GameStarted.next();
     }
     else
     {

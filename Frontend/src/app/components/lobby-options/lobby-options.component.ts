@@ -66,10 +66,10 @@ export class LobbyOptionsComponent
     );
   }
 
-  public OnRoundsAmountChanged(_: any) 
+  public async OnRoundsAmountChanged(_: any) 
   {
     if (this.OptionsData.controls["roundsAmount"].invalid) return;
-
+    
     this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
   }
 

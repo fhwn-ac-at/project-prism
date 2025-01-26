@@ -10,6 +10,9 @@ import { LobbyOptionsComponent } from "../../components/lobby-options/lobby-opti
 import { LobbyService } from '../../services/lobby/lobby.service';
 import { Router } from '@angular/router';
 import { GameIdComponent } from "../../components/game-id/game-id.component";
+import { GameApiService } from '../../networking/services/game-api/game-api.service';
+import { isGameStarted } from '../../networking/dtos/lobby/gameStarted.guard';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-lobby',
@@ -23,17 +26,19 @@ import { GameIdComponent } from "../../components/game-id/game-id.component";
 })
 export class LobbyComponent 
 {  
-  private lobbyService: LobbyService;
+  private gameApiService: GameApiService;
   private router: Router;
 
-  public constructor(lobby: LobbyService, router: Router)
+  public constructor(gameApi: GameApiService, router: Router)
   {
-    this.lobbyService = lobby;
+    this.gameApiService = gameApi;
     this.router = router;
     
-    this.lobbyService.GameStarted.subscribe((() => 
-    {
-      this.router.navigate(["/game"]);
-    }));
+    this.gameApiService.ObserveLobbyEvent()
+      .pipe(filter(isGameStarted))
+      .subscribe((() => 
+      {
+        this.router.navigate(["/game"]);
+      }));
   }
 }

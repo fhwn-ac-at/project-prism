@@ -189,21 +189,21 @@ export class GameApiService
     return this.gameFlowEventSub.asObservable()
   }
 
-  public SendRoundAmount(roundAmount: number): Promise<void>
+  public async SendRoundAmount(roundAmount: number): Promise<void>
   {
     const roundAmountChanged = BuildRoundAmountChanged(roundAmount);
 
     return this.signalRService.SendData(roundAmountChanged);
   }
 
-  public SendRoundDuration(roundDuration: number): Promise<void>
+  public async SendRoundDuration(roundDuration: number): Promise<void>
   {
     const roundDurationChanged = BuildRoundDurationChanged(roundDuration);
 
     return this.signalRService.SendData(roundDurationChanged);
   }
 
-  public SendChatMessage(message: string): Promise<void>
+  public async SendChatMessage(message: string): Promise<void>
   {
     if (this.playerDataService.PlayerData.value.isNone()) return Promise.reject(new Error("No userdata present!"));
 
@@ -218,51 +218,51 @@ export class GameApiService
     return this.signalRService.SendData(roundDurationChanged);
   }
 
-  public SendBackgroundColor(color: string): Promise<void>
+  public async SendBackgroundColor(color: string): Promise<void>
   {
     const backgroundColor = BuildBackgroundColor(color);
 
     return this.signalRService.SendData(backgroundColor);
   }
 
-  public SendDrawingSize(size: number): Promise<void>
+  public async SendDrawingSize(size: number): Promise<void>
   {
     const drawingSize = BuildDrawingSizeChanged(size);
 
     return this.signalRService.SendData(drawingSize);
   }
 
-  public SendUndo(): Promise<void>
+  public async SendUndo(): Promise<void>
   {
     return this.signalRService.SendData(BuildUndo());
   }
 
-  public SendClear(): Promise<void>
+  public async SendClear(): Promise<void>
   {
     return this.signalRService.SendData(BuildClear());
   }
 
-  public SendClosePath(): Promise<void>
+  public async SendClosePath(): Promise<void>
   {
     return this.signalRService.SendData(BuildClosePath());
   }
 
-  public SendLineTo(pos: Position2d, color: string): Promise<void>
+  public async SendLineTo(pos: Position2d, color: string): Promise<void>
   {
     return this.signalRService.SendData(BuildLineTo(pos, color));
   }
 
-  public SendMoveTo(pos: Position2d): Promise<void>
+  public async SendMoveTo(pos: Position2d): Promise<void>
   {
     return this.signalRService.SendData(BuildMoveTo(pos));
   }
 
-  public SendPoint(point: Position2d, radius: number, color: string): Promise<void>
+  public async SendPoint(point: Position2d, radius: number, color: string): Promise<void>
   {
     return this.signalRService.SendData(BuildPoint(point, radius, color))
   }
 
-  public SendSelectedWord(word: string): Promise<void>
+  public async SendSelectedWord(word: string): Promise<void>
   {
     return this.signalRService.SendData(BuildSelectWord(word));
   }

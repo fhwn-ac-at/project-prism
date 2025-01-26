@@ -12,7 +12,7 @@
     public class GameLobby : IDisposable
     {
         private readonly Lobby lobby;
-        private Dictionary<string, User> users = [];
+        private readonly Dictionary<string, User> users = [];
         private Game? game;
         private readonly IAMQPBroker messageBroker;
         private readonly IServiceProvider serviceProvider;

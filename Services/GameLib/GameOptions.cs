@@ -1,6 +1,7 @@
 ﻿namespace GameLib
 {
     using FrenziedMarmot.DependencyInjection;
+    using Microsoft.Extensions.Logging;
 
     [InjectableOptions("GameOptions")]
     public class GameOptions
@@ -20,5 +21,6 @@
         public required double HardWordFactor { get; init; }
         public required ushort DrawingEndedDelay { get; init ; }
         public required ushort MinUserCount { get; init; }
+        public required Dictionary<ushort, ushort> MinWordLengthToMaxWrongCharsForCloseGuessed { get; init; }
     }
 }

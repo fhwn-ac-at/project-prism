@@ -39,7 +39,7 @@
         private readonly double hardWordFactor = 1.5;
         private readonly ushort drawingEndedDelay = 10_000;
         private readonly ushort minUserCount = 2;
-        private readonly ushort maxCharsAwayForClose = 2;
+        private readonly Dictionary<ushort, ushort> maxCharsAwayForClose;
 
         private int roundAmount;
         private int drawerCounter;
@@ -90,6 +90,7 @@
             this.hardWordFactor=gameOptions.Value.HardWordFactor;
             this.drawingEndedDelay = gameOptions.Value.DrawingEndedDelay;
             this.minUserCount=gameOptions.Value.MinUserCount;
+            this.maxCharsAwayForClose=gameOptions.Value.MinWordLengthToMaxWrongCharsForCloseGuessed;
 
             this.random = new Random();
         }
@@ -216,7 +217,7 @@
 
                 distance+=maxLength-minLength;
 
-                if (distance <= this.maxCharsAwayForClose)
+                if (distance <= this.GetMaxWordDistance(currentSelectedWord.Length))
                 {
                     this.FireGuessCloseEvent(text, distance, key);
                 }
@@ -274,6 +275,19 @@
             }
            
             return true;
+        }
+
+        private int GetMaxWordDistance(int wordLength)
+        {
+            var lowerKeys = this.maxCharsAwayForClose.Keys.Where(key => key<=wordLength);
+
+            if (!lowerKeys.Any() )
+            {
+                return 0;
+            }
+
+            var minKey = lowerKeys.Min();
+            return this.maxCharsAwayForClose[minKey];
         }
 
         private void FireGuessCloseEvent(string word, int distance, string userId)

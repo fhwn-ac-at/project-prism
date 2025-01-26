@@ -11,7 +11,7 @@ export class StringToWordPartsConverter
   
         for(let i = 0; i < word.length; i++)
         {
-            wp.push(new WordPart(word[i], false));
+          wp.push(new WordPart(word[i], false));
         }
   
         return wp;

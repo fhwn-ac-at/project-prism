@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, filter } from 'rxjs';
 import { PlayerData } from './PlayerData';
-import { Maybe, none } from '@sweet-monads/maybe';
+import { just, Maybe, none } from '@sweet-monads/maybe';
 
 @Injectable({
   providedIn: null

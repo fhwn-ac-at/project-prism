@@ -23,7 +23,8 @@ export class CountdownComponent
   {
     this.countDownService = countdownService;
 
-    this.countDownService.SubscribeEvent
+    this.countDownService.ObserveTimerEvent().
+    subscribe
     (
       {
         next: (event) => 

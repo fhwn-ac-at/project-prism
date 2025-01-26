@@ -12,6 +12,9 @@ export function isNextRound(obj: unknown): obj is NextRound {
             typeof typedObj === "object" ||
             typeof typedObj === "function") &&
         isHeader(typedObj["header"]) as boolean &&
-        typedObj.header.type === "nextRound"
+        typeof typedObj.body.round === "number" &&
+        typeof typedObj.body.word === "string" &&
+        typeof typedObj.body.score === "object" &&
+        typedObj.header.type === "nextRound" 
     )
 }

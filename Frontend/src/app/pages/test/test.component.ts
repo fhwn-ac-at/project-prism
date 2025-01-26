@@ -8,13 +8,8 @@ import { GameRoundService } from '../../services/game-round/game-round.service';
 import { PickWordService } from '../../services/pick-word/pick-word.service';
 import { HiddenWordService } from '../../services/hidden-word/hidden-word.service';
 import { ActivePlayersService } from '../../services/current-players/active-players.service';
-import { ApiService } from '../../networking/services/api/api.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import * as signalR from '@microsoft/signalr';
-import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
-import { SignalRService } from '../../networking/services/signal-r/signal-r.service';
-import { LobbyApiService } from '../../services/lobby-api/lobby-api.service';
-import { GameApiService } from '../../services/gameApi/game-api.service';
+import { LobbyApiService } from '../../networking/services/lobby-api/lobby-api.service';
+import { GameApiService } from '../../networking/services/game-api/game-api.service';
 
 @Component({
   selector: 'app-test',
@@ -40,21 +35,7 @@ export class TestComponent
       just({ Username: "TestUser", Role: PlayerType.Drawer, Score: 0, Id: "testId"})
     );
 
-    this.countdownService.StartTimer(50, 1000);
-    this.roundsService.Initialize(3n);
-
-    this.pickWordService.LetUserPickWord(["a", "b", "c", "d"]);
-
-    this.pickWordService.SubscribeWordPicked({next: (ev) => {console.log(ev)}});
-
-    this.hiddenWordService.SetWord("Hyponysenadresom");
-
-    for(let i = 0; i < 50; i++)
-    {
-      this.activePlayersService.Add(
-        {Username: "TestName" + i, Role:Math.round( Math.random()), Score: Math.round(Math.random() * 100), Id: "testId"}
-      );
-    }
+    this.roundsService.Initialize(3, 10000);
   }
 
   public OnLobbyPageClicked(_: MouseEvent) 

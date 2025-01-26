@@ -1,10 +1,14 @@
 .Top-Bar
 {
+    background-color: rgb(0, 54, 54);
+}
+
+.second-row
+{
     display: flex;
     flex-direction: row;
-    align-items: stretch;
     justify-content: space-between;
-    background-color: rgb(0, 54, 54);
+    margin: auto;
 }
 
 .countdown
@@ -22,5 +26,10 @@
 .hidden-word
 {
     margin: 0.5%;
-    width: 60%;
+
+}
+
+.game-id
+{
+    margin: auto;
 }

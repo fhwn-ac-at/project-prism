@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideAppInitializer } from '@angular/core';
-import { provideRootAppServices } from './init/provide-root-app-services';
-import { provideMiddleware } from './init/provide-middleware';
-import { FetchConfig } from './init/fetch-config';
+import { provideRootAppServices } from './provide-root-app-services';
+import { provideMiddleware } from './provide-middleware';
+import { FetchConfig } from './fetch-config';
 
 export const appConfig: ApplicationConfig = {
   providers: 

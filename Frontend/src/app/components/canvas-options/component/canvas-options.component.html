@@ -1,11 +1,11 @@
 
-@if (PlayerDataService.PlayerData.value.isNone())
+@if (PlayerTypeService.PlayerType.value == PlayerType.NotSet)
 {
     <mat-card  class="CanvasOptions-Container">
         <mat-card-title>Player role not set!</mat-card-title>
     </mat-card>
 }
-@else if (PlayerDataService.PlayerData.value.isJust() && PlayerDataService.PlayerData.value.value!.Role == 1)
+@else if (PlayerTypeService.PlayerType.value == PlayerType.Guesser)
 {
     <mat-card  class="CanvasOptions-Container">
         <mat-card-title>Someone else's turn to draw!</mat-card-title>

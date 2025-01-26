@@ -16,7 +16,7 @@ export function isUserDisconnected(obj: unknown): obj is UserDisconnected {
         (typedObj["body"] !== null &&
             typeof typedObj["body"] === "object" ||
             typeof typedObj["body"] === "function") &&
-        isUser(typedObj["body"]["user"]) as boolean &&
+        isUser(typedObj["body"]["user"]) as boolean &&    
         typedObj.header.type === "userDisconnected"
     )
 }

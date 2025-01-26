@@ -21,18 +21,15 @@ import { NgStyle } from '@angular/common';
 })
 export class ChatComponent 
 {
-
   private chatMessagesService: ChatMessagesService;
-  private playerDataService: PlayerDataService;
   
-  public constructor(chatMessages: ChatMessagesService, playerDataService: PlayerDataService)
+  public constructor(chatMessages: ChatMessagesService)
   {
     this.chatMessagesService = chatMessages;
-    this.playerDataService = playerDataService;
 
-    this.ChatMessages = this.chatMessagesService.ChatMessages.GetItems();
+    this.ChatMessages = this.chatMessagesService.ChatMessages;
 
-    this.chatMessagesService.ChatMessages.SubscribeEvent({next: this.OnChatMessagesChanged})
+    this.chatMessagesService.ObserveChatMessages().subscribe({next: this.OnChatMessagesChanged});
   }
 
   public ChatMessageInputModel: string = "";
@@ -40,20 +37,13 @@ export class ChatComponent
   public ChatMessages: ChatMessage[];
 
   public OnKeyPressed(_: globalThis.Event) 
-  {
-    this.chatMessagesService.ChatMessages.Push(
-    {
-      Username: this.playerDataService.PlayerData.value.value?.Username || "NO_USERNAME_SET", 
-      Message: this.ChatMessageInputModel,
-      Color: "red",
-    });
-    
+  {   
     this.ChatMessageInputModel = "";
   }
 
-  private OnChatMessagesChanged = (_: Event): void =>
+  private OnChatMessagesChanged = (_: ChatMessage): void =>
   {
-    this.ChatMessages = [...this.chatMessagesService.ChatMessages.GetItems()];
+    this.ChatMessages = this.chatMessagesService.ChatMessages;
   }
 }
 

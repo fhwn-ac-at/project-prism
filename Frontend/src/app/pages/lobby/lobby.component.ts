@@ -7,8 +7,12 @@ import { TopBarComponent } from "../../components/top-bar/top-bar.component";
 import { ChatComponent } from "../../components/chat/chat.component";
 import { DrawableCanvasComponent } from "../../components/drawable-canvas/component/drawable-canvas.component";
 import { LobbyOptionsComponent } from "../../components/lobby-options/lobby-options.component";
-import { LobbyOptionsService } from '../../services/lobby-options/lobby-options.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { Router } from '@angular/router';
+import { GameIdComponent } from "../../components/game-id/game-id.component";
+import { GameApiService } from '../../networking/services/game-api/game-api.service';
+import { isGameStarted } from '../../networking/dtos/lobby/gameStarted.guard';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-lobby',
@@ -17,22 +21,24 @@ import { Router } from '@angular/router';
   styleUrl: './lobby.component.css',
   providers: 
   [
-    {provide: LobbyOptionsService, useClass: LobbyOptionsService}
+    {provide: LobbyService, useClass: LobbyService}
   ]
 })
 export class LobbyComponent 
 {  
-  private lobbyService: LobbyOptionsService;
-  router: Router;
+  private gameApiService: GameApiService;
+  private router: Router;
 
-  public constructor(lobby: LobbyOptionsService, router: Router)
+  public constructor(gameApi: GameApiService, router: Router)
   {
-    this.lobbyService = lobby;
+    this.gameApiService = gameApi;
     this.router = router;
     
-    this.lobbyService.GameStarted.subscribe((() => 
-    {
-      this.router.navigate(["/game"]);
-    }));
+    this.gameApiService.ObserveLobbyEvent()
+      .pipe(filter(isGameStarted))
+      .subscribe((() => 
+      {
+        this.router.navigate(["/game"]);
+      }));
   }
 }

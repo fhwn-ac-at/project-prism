@@ -4,10 +4,15 @@ import { Header } from "../../shared/header";
 export interface NextRound
 {
     header: Header,
-    body: {}
+    body: 
+    {   
+        word: string,
+        round: number,
+        score: Map<string,number>
+    }
 }
 
-export function BuildNextRound(): NextRound
+export function BuildNextRound(round: number, word: string, score: Map<string, number>): NextRound
 {
     return {
         header: 
@@ -16,7 +21,10 @@ export function BuildNextRound(): NextRound
             timestamp: DateTime.now()
         }, 
         body: 
-        {
+        {  
+            round: round,
+            score: score,
+            word: word
         }
     };
 }

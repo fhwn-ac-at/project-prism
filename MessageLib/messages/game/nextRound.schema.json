@@ -6,7 +6,7 @@
       "header": {
         "allOf": [
             {
-                "$ref": "../global.definitions.schema.json#definitions/messsageHeader"
+                "$ref": "../global.definitions.schema.json#/definitions/messsageHeader"
             },
             {
                 "type": "object",
@@ -29,7 +29,7 @@
             "minimum": 1
           },
           "score": {
-            "$ref": "../global.definitions.schema.json#definitions/score"
+            "$ref": "../global.definitions.schema.json#/definitions/score"
           }
         },
         "required": [

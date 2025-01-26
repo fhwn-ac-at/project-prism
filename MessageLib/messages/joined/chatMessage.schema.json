@@ -6,7 +6,7 @@
       "header": {
         "allOf": [
             {
-                "$ref": "../global.definitions.schema.json#definitions/messsageHeader"
+                "$ref": "../global.definitions.schema.json#/definitions/messsageHeader"
             },
             {
                 "type": "object",
@@ -25,7 +25,7 @@
                 "type": "string"
             },
             "user": {
-                "$ref": "../global.definitions.schema.json#definitions/user"
+                "$ref": "../global.definitions.schema.json#/definitions/user"
             }
         },
         "required": [

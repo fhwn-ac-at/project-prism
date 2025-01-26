@@ -14,6 +14,7 @@
     {
         private readonly ILogger<Validator>? logger = logger;
         private readonly Deserializer deserializer = deserializer;
+        private readonly bool useNewtonsoft = false;
 
         private readonly Dictionary<string, JSchema> knownSchemas = [];
         private readonly CustomJSchemaResolver resolver = new CustomJSchemaResolver(loggerFactory?.CreateLogger<CustomJSchemaResolver>());
@@ -50,29 +51,54 @@
                     return false;
                 }
 
-                JSchema schema;
-                if (this.knownSchemas.TryGetValue(schemaPath, out JSchema? value))
+                if (this.useNewtonsoft)
                 {
-                    schema=value;
-                }
-                else
-                {
-                    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
-                    schema=JSchema.Parse(File.ReadAllText(filePath), this.resolver);
+                    JSchema schema;
+                    if (this.knownSchemas.TryGetValue(schemaPath, out JSchema? value))
+                    {
+                        schema=value;
+                    }
+                    else
+                    {
+                        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
+                        string fileText = File.ReadAllText(filePath);
+                        schema=JSchema.Parse(fileText.Replace("json#/", "json#"), this.resolver);
+                    }
+
+                    bool valid = jsonObject.IsValid(schema, out IList<ValidationError> errors);
+
+                    if (errors.Count>0)
+                    {
+                        this.logger?.LogInformation("Message not valid! Message: {}", json);
+                        foreach (ValidationError error in errors)
+                        {
+                            this.logger?.LogInformation(error.Message);
+                        }
+                    }
+
+                    return valid;
                 }
 
-                bool valid = jsonObject.IsValid(schema, out IList<ValidationError> errors);
 
-                if (errors.Count>0)
+                string nFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
+                var schemaTask = NJsonSchema.JsonSchema.FromFileAsync(nFilePath);
+                schemaTask.Wait();
+
+                var nSchema = schemaTask.Result;
+
+                var nErrors = nSchema.Validate(json);
+
+                if (nErrors!= null && nErrors.Count>0)
                 {
                     this.logger?.LogInformation("Message not valid! Message: {}", json);
-                    foreach (ValidationError error in errors)
+                    foreach (NJsonSchema.Validation.ValidationError error in nErrors)
                     {
-                        this.logger?.LogInformation(error.Message);
+                        this.logger?.LogInformation(message: error.ToString());
                     }
+                    return false;
                 }
 
-                return valid;
+                return true;
             }
             catch (JsonReaderException ex)
             {

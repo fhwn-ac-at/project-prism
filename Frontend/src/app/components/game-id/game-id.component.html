@@ -1,0 +1,12 @@
+<mat-card class="game-id-root">
+    <mat-card-title>
+        @if (IdService.GameId.value == undefined)
+        {
+            Game ID : Game ID not set!
+        }
+        @else 
+        {
+            Game ID : {{IdService.GameId.value}}
+        }
+    </mat-card-title>
+</mat-card>

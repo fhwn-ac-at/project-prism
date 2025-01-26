@@ -2,32 +2,24 @@ import { inject, Injectable } from '@angular/core';
 import { PlayerDataService } from '../player-data/player-data.service';
 import { CountdownService } from '../countdown/countdown.service';
 import { PlayerType } from '../player-data/PlayerType';
+import { PlayerTypeService } from '../player-type/player-type.service';
 
 @Injectable({
   providedIn: null
 })
 export class CanDrawService 
 {
-  private playerDataService: PlayerDataService = inject(PlayerDataService);
+  private playerTypeService: PlayerTypeService = inject(PlayerTypeService);
   private countdownService: CountdownService = inject(CountdownService);
 
   public IsDrawer(): boolean
   {
-    if(this.playerDataService.PlayerData.value.isNone()) return false;
-
-    return this.playerDataService.PlayerData.value.value.Role == PlayerType.Drawer;
+    return this.playerTypeService.PlayerType.value == PlayerType.Drawer;
   }
 
   public CanUseCanvas(): boolean
   {
-      if (this.playerDataService.PlayerData.value.isNone()) return false;
-
-      if (this.playerDataService.PlayerData.value.value.Role != PlayerType.Drawer || !this.countdownService.IsRunning()) 
-      {
-          return false;
-      }
-
-      return true;
+    return this.playerTypeService.PlayerType.value == PlayerType.Drawer && this.countdownService.IsRunning();
   }
 
   public IsCountdownRunning(): boolean

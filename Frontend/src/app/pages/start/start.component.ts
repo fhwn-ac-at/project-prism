@@ -51,7 +51,7 @@ export class StartComponent
 
     try
     {
-      await this.startService.TryJoinGame(this.LobbyIDToJoinModel.value);
+      await this.startService.TryJoinOrStartGame(this.LobbyIDToJoinModel.value, false);
 
       this.router.navigate(["/lobby"]);
     }
@@ -65,7 +65,7 @@ export class StartComponent
   {
     try
     {
-      await this.startService.TryJoinGame(uuidv4());
+      await this.startService.TryJoinOrStartGame(uuidv4(), true);
 
       this.router.navigate(["/lobby"]);
     }

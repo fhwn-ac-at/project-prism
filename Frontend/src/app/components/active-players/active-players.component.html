@@ -7,14 +7,6 @@
         @for (item of CurrentPlayers; track item)
         {
             <mat-list-item >
-                @if (item.Role == 0) 
-                {
-                    <img matListItemAvatar  src="./assets/pen.jpg" alt="Drawer Image">
-                }
-                @else 
-                {
-                    <img matListItemAvatar src="./assets/qm.jpg" alt="Guesser Image">
-                }
                 <h3 matListItemTitle class="username">
                     {{item.Username}}
                 </h3>

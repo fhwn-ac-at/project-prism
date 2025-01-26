@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import { PlayerType } from '../../services/player-data/PlayerType';
-import { LobbyOptionsService } from '../../services/lobby-options/lobby-options.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { MatCard } from '@angular/material/card';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,8 @@ import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LobbyUserType } from '../../services/lobby-user-type/LobbyUserType';
+import { LobbyUserTypeService } from '../../services/lobby-user-type/lobby-user-type.service';
 
 @Component({
   selector: 'app-lobby-options',
@@ -19,14 +21,18 @@ import { Router } from '@angular/router';
 })
 export class LobbyOptionsComponent 
 {
+  private snackbar: MatSnackBar;
+  
   public constructor
   (
-    pD: PlayerDataService,
-    lO: LobbyOptionsService,
+    lS: LobbyUserTypeService,
+    lO: LobbyService,
+    snackBar: MatSnackBar
   )
   {
-    this.PlayerDataService = pD;
+    this.LobbyUserTypeService = lS;
     this.LobbyOptionsService = lO;
+    this.snackbar = snackBar;
 
     this.OptionsData = new FormGroup
     (
@@ -36,9 +42,6 @@ export class LobbyOptionsComponent
       }
     );
 
-    this.OptionsData.controls['roundsAmount'].valueChanges.subscribe((val: number) => this.LobbyOptionsService.RoundAmount.next(val));
-    this.OptionsData.controls['roundDuration'].valueChanges.subscribe((val: number) => this.LobbyOptionsService.RoundDuration.next(val));
-
     this.LobbyOptionsService.RoundAmount.subscribe((val) => this.OptionsData
     .setValue({roundsAmount: val, roundDuration: this.OptionsData.value.roundDuration}));
 
@@ -46,13 +49,34 @@ export class LobbyOptionsComponent
     .setValue({roundsAmount: this.OptionsData.value.roundsAmount, roundDuration: val}));
   }
 
-  public PlayerDataService: PlayerDataService;
-  public LobbyOptionsService: LobbyOptionsService;
-  public PlayerType: typeof PlayerType = PlayerType;
+  public LobbyUserTypeService: LobbyUserTypeService;
+  public LobbyOptionsService: LobbyService;
   public OptionsData: FormGroup;
+
+  public LobbyUserType: typeof LobbyUserType = LobbyUserType;
 
   public async OnStartGameButtonClicked(_: MouseEvent) 
   {
-    await this.LobbyOptionsService.StartGame();
+    this.LobbyOptionsService
+    .StartGame()
+    .then
+    (
+      () => { this.snackbar.open("Game started","", {duration: 2000}); },
+      (err) => { this.snackbar.open("Failed to start game: " + err, "", {duration: 2000}); }
+    );
+  }
+
+  public async OnRoundsAmountChanged(_: any) 
+  {
+    if (this.OptionsData.controls["roundsAmount"].invalid) return;
+    
+    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
+  }
+
+  public OnDurationChanged(_: any) 
+  {
+    if (this.OptionsData.controls["roundsAmount"].invalid) return;
+
+    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
   }
 }

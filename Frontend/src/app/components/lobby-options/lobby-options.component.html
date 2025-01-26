@@ -1,6 +1,6 @@
-@if (PlayerDataService.PlayerData.value.isNone()) 
+@if (LobbyUserTypeService.LobbyUserType.value == LobbyUserType.Unknown) 
 {
-    <h1>Error: no value set for player data</h1>
+    <h1>Lobby User Type has not been set!</h1>
 }
 @else 
 {
@@ -12,18 +12,26 @@
         <form class="options-form" [formGroup]="OptionsData">
             <mat-form-field class="rounds-amount">
                 <mat-label>Amount of rounds</mat-label>
-                <input matInput type="number" formControlName="roundsAmount">
+                <input 
+                    matInput 
+                    [readonly]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner"
+                    (change)="OnRoundsAmountChanged($event)" type="number" formControlName="roundsAmount"
+                >
               </mat-form-field>
             
               <mat-form-field class="rounds-duration">
                 <mat-label>Duration of a round</mat-label>
-                <input matInput type="number" formControlName="roundDuration">
+                <input 
+                    matInput 
+                    [readonly]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner" 
+                    (change)="OnDurationChanged($event)" type="number" formControlName="roundDuration"
+                >
               </mat-form-field>
         </form>
 
         <mat-divider class="divider"/>
 
-        <button mat-raised-button class="start-game-button" (click)="OnStartGameButtonClicked($event)">
+        <button mat-raised-button [disabled]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner" class="start-game-button" (click)="OnStartGameButtonClicked($event)">
             Start Game
         </button>
     </mat-card>

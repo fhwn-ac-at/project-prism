@@ -6,7 +6,8 @@ import {MatButtonModule} from "@angular/material/button";
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { CanDrawService } from '../../../services/can-draw/can-draw.service';
-import { PlayerDataService } from '../../../services/player-data/player-data.service';
+import { PlayerTypeService } from '../../../services/player-type/player-type.service';
+import { PlayerType } from '../../../services/player-data/PlayerType';
 
 @Component({
   selector: 'app-canvas-options',
@@ -16,18 +17,19 @@ import { PlayerDataService } from '../../../services/player-data/player-data.ser
 })
 export class CanvasOptionsComponent
 {
-  private canvasState: CanvasStateService;
+  private canvasState: CanvasStateService = inject(CanvasStateService);
   private canDrawService: CanDrawService = inject(CanDrawService);
 
-  public constructor(canvasService: CanvasStateService)
+  public constructor()
   {
-    this.canvasState = canvasService;
     this.Color = this.canvasState.StrokeColor.value;
     this.StrokeSize = this.canvasState.StrokeWidth.value;
   }
 
-  public PlayerDataService: PlayerDataService = inject(PlayerDataService);
+  public PlayerTypeService: PlayerTypeService = inject(PlayerTypeService);
   
+  public PlayerType: typeof PlayerType = PlayerType;
+
   public Color: string;
   public StrokeSize: number;
 

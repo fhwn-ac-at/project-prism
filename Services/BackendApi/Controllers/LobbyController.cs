@@ -70,7 +70,7 @@
 
             CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-            this.clientStore.Add(identifier, new KnownClientInfo { lobbyId=lobbyId, token=tokenSource });
+            this.clientStore.TryAdd(identifier, new KnownClientInfo { lobbyId=lobbyId, token=tokenSource });
 
             _=Task.Run(async () =>
             {
@@ -93,7 +93,10 @@
                 {
                     this.logger?.LogError("Could not disconnect user {} from lobby {} because of {}", user.Id, lobbyId, ex.Message);
                 }
-                this.clientStore.Remove(identifier);
+                if (!this.clientStore.Remove(identifier, out KnownClientInfo? value))
+                {
+                    this.logger?.LogWarning("Couldn't remove User {} from known clients", identifier);
+                }
                 this.logger?.LogTrace("User {} disconnected", user.Id);
             });
             return user;

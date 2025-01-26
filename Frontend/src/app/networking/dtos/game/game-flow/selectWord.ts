@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface SelectWord
@@ -14,7 +15,7 @@ export function BuildSelectWord(word: string): SelectWord
         header: 
         {
             type: "selectWord", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

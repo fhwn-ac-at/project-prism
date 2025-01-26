@@ -40,7 +40,6 @@ export class SignalRService
     .build();
 
     this.signalRHub.on("Frontend", (data) => {console.log(data); this.dataReceivedEventSub.next(data)});
-    this.signalRHub.on("*", (data) => console.warn(data));
   }
 
   public get DataReceivedEvent(): Observable<object>
@@ -66,6 +65,6 @@ export class SignalRService
   {
     if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
 
-    return this.signalRHub.send("Backend", data);
+    return this.signalRHub.send("Backend", JSON.stringify(data));
   }
 }

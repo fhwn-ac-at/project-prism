@@ -56,6 +56,7 @@
         private readonly object startedLock = new object();
         private readonly object selectableWordsLock = new object();
         private readonly object drawerIdLock = new object();
+        private readonly object userLock = new object();
 
         public event EventHandler<WordSelectionEventArgs>? WordSelection;
         public event EventHandler<WordSelectedEventArgs>? WordSelected;
@@ -111,40 +112,45 @@
 
         public void AddUser(string key)
         {
-            if (!this.zombieUsers.TryGetValue(key, out var user))
+            lock (this.userLock)
             {
-                this.users.Add(key, new());
-                return;
-            }
+                if (!this.zombieUsers.TryGetValue(key, out var user))
+                {
+                    this.users.Add(key, new());
+                    return;
+                }
 
-            this.zombieUsers.Remove(key);
-            this.users.Add(key, new(user.Score));   
+                this.zombieUsers.Remove(key);
+                this.users.Add(key, new(user.Score));
+            }
         }
 
         public void RemoveUser(string key)
         {
-            if (!this.users.TryGetValue(key, out var user))
+            lock (this.userLock)
             {
-                return;
-            }
-
-            lock (this.drawerIdLock)
-            {
-                if (this.drawerId == key)
+                if (!this.users.TryGetValue(key, out var user))
                 {
-                    this.drawerCounter--;
-                    this.drawingCancellationToken.Cancel();
+                    return;
                 }
-            }
 
-            // TODO add user handle lock
-            this.zombieUsers.Add(key, new(user.Score));
-            this.users.Remove(key);
+                lock (this.drawerIdLock)
+                {
+                    if (this.drawerId==key)
+                    {
+                        this.drawerCounter--;
+                        this.drawingCancellationToken.Cancel();
+                    }
+                }
 
-            if (this.users.Count < this.minUserCount)
-            {
-                this.drawingCancellationToken.Cancel();
-                this.selectionTimerCancellationToken.Cancel();
+                this.zombieUsers.Add(key, new(user.Score));
+                this.users.Remove(key);
+
+                if (this.users.Count<this.minUserCount)
+                {
+                    this.drawingCancellationToken.Cancel();
+                    this.selectionTimerCancellationToken.Cancel();
+                }
             }
         }
 
@@ -166,9 +172,13 @@
 
         public bool GuessWord(string text, string key)
         {
-            if (!this.users.TryGetValue(key, out var user))
+            UserGameState? user;
+            lock (this.userLock)
             {
-                return false;
+                if (!this.users.TryGetValue(key, out user))
+                {
+                    return false;
+                }
             }
 
             lock (user)
@@ -252,34 +262,38 @@
         {
             lock (this.selectableWordsLock)
             {
-                lock (this.drawerIdLock)
+               
+                if (this.WordSelection==null||this.selectableWords!=null)
                 {
-                    if (this.WordSelection==null||this.selectableWords!=null)
-                    {
-                        return;
-                    }
-
-                    this.drawerId=this.users.Keys.ElementAt(this.users.Keys.Count-1-this.drawerCounter);
-
-                    HashSet<int> uniqueIndices = [];
-                    while (uniqueIndices.Count<this.wordSelectionCount)
-                    {
-                        var randomIndex = this.random.Next(0, this.wordList.Words.Length);
-
-                        if (!this.alreadyDrawnWords.Contains(this.wordList.Words[randomIndex]))
-                        {
-                            uniqueIndices.Add(randomIndex);
-                        }
-                    }
-
-                    this.selectableWords=uniqueIndices.Select(i => this.wordList.Words[i]).ToArray();
-
-                    Task.Run(() =>
-                    {
-                        this.WordSelection.Invoke(this, new WordSelectionEventArgs(this.selectableWords, this.drawerId));
-                        this.StartWordSelectionTimer();
-                    });
+                    return;
                 }
+
+                lock (this.userLock)
+                {
+                    lock (this.drawerIdLock)
+                    {
+                        this.drawerId=this.users.Keys.ElementAt(this.users.Keys.Count-1-this.drawerCounter);
+                    }
+                }
+
+                HashSet<int> uniqueIndices = [];
+                while (uniqueIndices.Count<this.wordSelectionCount)
+                {
+                    var randomIndex = this.random.Next(0, this.wordList.Words.Length);
+
+                    if (!this.alreadyDrawnWords.Contains(this.wordList.Words[randomIndex]))
+                    {
+                        uniqueIndices.Add(randomIndex);
+                    }
+                }
+
+                this.selectableWords=uniqueIndices.Select(i => this.wordList.Words[i]).ToArray();
+
+                Task.Run(() =>
+                {
+                    this.WordSelection.Invoke(this, new WordSelectionEventArgs(this.selectableWords, this.drawerId));
+                    this.StartWordSelectionTimer();
+                });
             }
         }
 
@@ -315,10 +329,13 @@
                 return;
             }
 
-            if (this.users.Count<this.minUserCount)
+            lock (this.userLock)
             {
-                this.FireGameEndedEvent(this.selectedWord.Word);
-                return;
+                if (this.users.Count<this.minUserCount)
+                {
+                    this.FireGameEndedEvent(this.selectedWord.Word);
+                    return;
+                }
             }
             
             this.alreadyDrawnWords.Add(this.selectedWord);
@@ -399,7 +416,10 @@
 
             Task.Run(() =>
             {
-                this.Hint.Invoke(this, new HintEventArgs { Hint=this.hintedWord, Users=this.users.Where((user) => !user.Value.Guessed&&user.Key!=this.drawerId).Select(user => user.Key) });
+                lock (this.userLock)
+                {
+                    this.Hint.Invoke(this, new HintEventArgs { Hint=this.hintedWord, Users=this.users.Where((user) => !user.Value.Guessed&&user.Key!=this.drawerId).Select(user => user.Key) });
+                }
             });
         }
 
@@ -421,30 +441,41 @@
 
             var drawerScore = this.CalculateDrawerScore();
             this.drawingRoundScore.Add(this.drawerId, drawerScore);
-            this.users[this.drawerId].Score+=drawerScore;
+
+            lock (this.userLock)
+            {
+                if (this.users.TryGetValue(this.drawerId, out UserGameState? value))
+                {
+                    value.Score+=drawerScore;
+                }
+            }
+
             this.FireUserScoredEvent(this.drawerId, drawerScore, searchedWord);
 
             this.drawerCounter++;
             this.guessedCounter=0;
             this.ClearDrawing();
 
-            if (this.drawerCounter >= this.users.Count)
+            lock (this.userLock)
             {
-                this.roundAmount--;
-                this.drawerCounter=0;
-            }
-
-            if (this.roundAmount <= 0 ||this.users.Count<this.minUserCount)
-            {
-                this.FireGameEndedEvent(searchedWord);
-                return;
-            }
-
-            foreach (var user in this.users)
-            {
-                if (!this.drawingRoundScore.ContainsKey(user.Key))
+                if (this.drawerCounter>=this.users.Count)
                 {
-                    this.drawingRoundScore.Add(user.Key, 0);
+                    this.roundAmount--;
+                    this.drawerCounter=0;
+                }
+
+                if (this.roundAmount <= 0 ||this.users.Count<this.minUserCount)
+                {
+                    this.FireGameEndedEvent(searchedWord);
+                    return;
+                }
+
+                foreach (var user in this.users)
+                {
+                    if (!this.drawingRoundScore.ContainsKey(user.Key))
+                    {
+                        this.drawingRoundScore.Add(user.Key, 0);
+                    }
                 }
             }
 
@@ -456,7 +487,10 @@
 
         private void FireGameEndedEvent(string word)
         {
-            this.GameEnded?.Invoke(this, new GameEndedEventArgs(this.users.ToDictionary(pair => pair.Key, pair => pair.Value.Score), word));
+            lock (this.userLock)
+            {
+                this.GameEnded?.Invoke(this, new GameEndedEventArgs(this.users.ToDictionary(pair => pair.Key, pair => pair.Value.Score), word));
+            }
         }
 
         private uint CalculateScore()

@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface GameEnded
@@ -14,7 +15,7 @@ export function BuildGameEnded(): GameEnded
         header: 
         {
             type: "gameEnded", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

@@ -75,6 +75,10 @@ export class TestComponent
     {
       console.log("received connect response!:" + v);
       this.id = v.id;
+      this.playerDataService.PlayerData.next
+    (
+      just({ Username: v.name, Role: PlayerType.Drawer, Score: 0, Id: v.id})
+    );
     }});
   }
 

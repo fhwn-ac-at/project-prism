@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../shared/header";
 
 export interface RoundAmountChanged
@@ -15,7 +16,7 @@ export function BuildRoundAmountChanged(rounds: number): RoundAmountChanged
         header: 
         {
             type: "roundAmountChanged", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

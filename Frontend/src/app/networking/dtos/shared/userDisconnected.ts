@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "./header";
 import { User } from "./User";
 
@@ -16,7 +17,7 @@ export function BuildUserDisconnected(user: User): UserDisconnected
         header: 
         {
             type: "userDisconnected", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

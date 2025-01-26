@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface SearchedWord
@@ -14,7 +15,7 @@ export function BuildSearchedWord(word: string): SearchedWord
         header: 
         {
             type: "searchedWord", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface NextRound
@@ -12,7 +13,7 @@ export function BuildNextRound(): NextRound
         header: 
         {
             type: "nextRound", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

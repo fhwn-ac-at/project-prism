@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface SetDrawer
@@ -15,7 +16,7 @@ export function BuildSetDrawer(words: {word: string, difficulty: number}[]): Set
         header: 
         {
             type: "setDrawer", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

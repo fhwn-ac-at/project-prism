@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Position2d } from "../../../../../lib/Position2d";
 import { Header } from "../../shared/header";
 import { HexColor } from "../../shared/hexColor";
@@ -20,7 +21,7 @@ export function BuildPoint(point: Position2d, radius: number, color: string): Po
         header: 
         {
             type: "point", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

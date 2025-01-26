@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface DrawingSizeChanged
@@ -15,7 +16,7 @@ export function BuildDrawingSizeChanged(size: number): DrawingSizeChanged
         header: 
         {
             type: "drawingSizeChanged", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

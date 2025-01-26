@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface ClosePath
@@ -14,7 +15,7 @@ export function BuildClosePath(): ClosePath
         header: 
         {
             type: "closePath", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

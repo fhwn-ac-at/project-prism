@@ -32,7 +32,7 @@ namespace MessageLib
         public event EventHandler<EmptyMessageBody>? ReceivedGameStartedMessage;
         public event EventHandler<LineToMessageBody>? ReceivedLineToMessage;
         public event EventHandler<MoveToMessageBody>? ReceivedMoveToMessage;
-        public event EventHandler<EmptyMessageBody>? ReceivedNextRoundMessage;
+        public event EventHandler<NextRoundMessageBody>? ReceivedNextRoundMessage;
         public event EventHandler<PointMessageBody>? ReceivedPointMessage;
         public event EventHandler<SearchedWordMessageBody>? ReceivedSearchedWordMessage;
         public event EventHandler<SelectWordMessageBody>? ReceivedSelectWordMessage;
@@ -116,7 +116,7 @@ namespace MessageLib
                     this.FireEvent<MoveToMessage, MoveToMessageBody>(this.ReceivedMoveToMessage, message);
                     break;
                 case MessageType.nextRound:
-                    this.FireEvent<NextRoundMessage, EmptyMessageBody>(this.ReceivedNextRoundMessage, message);
+                    this.FireEvent<NextRoundMessage, NextRoundMessageBody>(this.ReceivedNextRoundMessage, message);
                     break;
                 case MessageType.point:
                     this.FireEvent<PointMessage, PointMessageBody>(this.ReceivedPointMessage, message);

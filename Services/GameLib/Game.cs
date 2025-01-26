@@ -440,7 +440,7 @@
                 return;
             }
 
-            this.DrawingEnded?.Invoke(this, new DrawingEndedEventArgs(this.totalRoundAmount - this.roundAmount + 1, this.drawingRoundScore));
+            this.DrawingEnded?.Invoke(this, new DrawingEndedEventArgs(this.totalRoundAmount - this.roundAmount + 1, this.drawingRoundScore, searchedWord));
             this.drawingRoundScore.Clear();
             await Task.Delay(this.drawingEndedDelay);
             this.FireWordSelectionEvent();

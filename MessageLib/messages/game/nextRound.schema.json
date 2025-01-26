@@ -18,8 +18,21 @@
             }
         ]
       },
-      "body" : {
+      "body": {
         "type": "object",
+        "properties": {
+          "word": {
+            "type": "string"
+          },
+          "round": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "word",
+          "round"
+        ],
         "additionalProperties": false
       }
     },

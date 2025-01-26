@@ -146,7 +146,7 @@
         private void ReceivedDrawingEndedEvent(object? sender, DrawingEndedEventArgs e)
         {
             // TODO do we want to send intermediate result / ist this even the right message
-            this.DistributeMessage(null, new NextRoundMessage());
+            this.DistributeMessage(null, new NextRoundMessage(new NextRoundMessageBody(e.SearchedWord, e.Round)));
         }
 
         private void ReceivedWordSelectedEvent(object? sender, WordSelectedEventArgs e)
@@ -339,7 +339,7 @@
             this.logger?.LogWarning("Got Searched Word Message from sender: {}", key);
         }
 
-        private void ReceivedNextRoundMessage(string key, EmptyMessageBody message)
+        private void ReceivedNextRoundMessage(string key, NextRoundMessageBody message)
         {
             // should not get it
             this.logger?.LogWarning("Got Next Round Message from sender: {}", key);

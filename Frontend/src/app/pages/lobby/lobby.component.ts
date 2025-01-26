@@ -9,6 +9,7 @@ import { DrawableCanvasComponent } from "../../components/drawable-canvas/compon
 import { LobbyOptionsComponent } from "../../components/lobby-options/lobby-options.component";
 import { LobbyService } from '../../services/lobby/lobby.service';
 import { Router } from '@angular/router';
+import { GameIdComponent } from "../../components/game-id/game-id.component";
 
 @Component({
   selector: 'app-lobby',
@@ -23,7 +24,7 @@ import { Router } from '@angular/router';
 export class LobbyComponent 
 {  
   private lobbyService: LobbyService;
-  router: Router;
+  private router: Router;
 
   public constructor(lobby: LobbyService, router: Router)
   {

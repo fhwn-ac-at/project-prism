@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface Clear
@@ -14,7 +15,7 @@ export function BuildClear(): Clear
         header: 
         {
             type: "clear", 
-            timestamp: Date.now()
+            timestamp: DateTime.now(),
         }, 
         body: 
         {

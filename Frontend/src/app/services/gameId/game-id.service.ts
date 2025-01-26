@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Maybe, none } from '@sweet-monads/maybe';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -7,5 +6,5 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class GameIdService 
 {
-  public GameId: BehaviorSubject<Maybe<string>> = new BehaviorSubject<Maybe<string>>(none());
+  public GameId: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
 }

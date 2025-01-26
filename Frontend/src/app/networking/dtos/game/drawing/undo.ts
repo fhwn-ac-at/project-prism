@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface Undo
@@ -14,7 +15,7 @@ export function BuildUndo(): Undo
         header: 
         {
             type: "undo", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

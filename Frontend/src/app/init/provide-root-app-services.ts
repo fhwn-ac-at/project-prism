@@ -13,6 +13,9 @@ import { PlayerDataService } from "../services/player-data/player-data.service";
 import { StartService } from "../services/start/start.service";
 import { GameIdService } from "../services/gameId/game-id.service";
 import { PlayerTypeService } from "../services/player-type/player-type.service";
+import { inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { LobbyUserTypeService } from "../services/lobby-user-type/lobby-user-type.service";
 
 export const provideRootAppServices = () => 
 [
@@ -30,5 +33,6 @@ export const provideRootAppServices = () =>
   {provide: GameApiService, useClass: GameApiService},
   {provide: StartService, useClass: StartService},
   {provide: GameIdService, useClass: GameIdService},
-  {provide: PlayerTypeService, useClass: PlayerTypeService}
+  {provide: PlayerTypeService, useClass: PlayerTypeService},
+  {provide: LobbyUserTypeService, useClass: LobbyUserTypeService}
 ];

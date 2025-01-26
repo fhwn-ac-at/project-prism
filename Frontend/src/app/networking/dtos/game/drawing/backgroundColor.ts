@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 import { HexColor } from "../../shared/hexColor";
 
@@ -15,7 +16,7 @@ export function BuildBackgroundColor(color: string): BackgroundColor
         header: 
         {
             type: "bakgroundColor", 
-            timestamp: Date.now()
+            timestamp: DateTime.now(),
         }, 
         body: 
         {

@@ -53,9 +53,9 @@ export class LobbyService
   
   public async StartGame(): Promise<void>
   {
-    if (this.gameIdService.GameId.value.isNone()) return Promise.reject(new Error("no game id"));
+    if (this.gameIdService.GameId.value == undefined) return Promise.reject(new Error("no game id"));
 
-    await firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value.value));
+    await firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value));
 
     this.roundsService.Initialize(this.RoundAmount.value, this.RoundDuration.value)
     this.GameStarted.next();

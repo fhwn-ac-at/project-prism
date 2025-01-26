@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Position2d } from "../../../../../lib/Position2d";
 import { Header } from "../../shared/header";
 import { HexColor } from "../../shared/hexColor";
@@ -19,7 +20,7 @@ export function BuildLineTo(point: Position2d, color: string): LineTo
         header: 
         {
             type: "lineTo", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

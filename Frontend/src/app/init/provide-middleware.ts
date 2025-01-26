@@ -4,7 +4,7 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { provideRouter, withComponentInputBinding } from "@angular/router"
 import { AutoRefreshTokenService, UserActivityService, includeBearerTokenInterceptor, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG, KeycloakService } from "keycloak-angular"
-import { routes } from "../app.routes"
+import { routes } from "./app.routes"
 import { urlCondition } from "./keycloak/url-condition"
 
 export const provideMiddleware = () =>

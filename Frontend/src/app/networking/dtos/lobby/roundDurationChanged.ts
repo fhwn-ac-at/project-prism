@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../shared/header";
 
 export interface RoundDurationChanged
@@ -15,7 +16,7 @@ export function BuildRoundDurationChanged(duration: number): RoundDurationChange
         header: 
         {
             type: "roundDurationChanged", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

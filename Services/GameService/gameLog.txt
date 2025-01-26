@@ -1,0 +1,120 @@
+[Critical] [GameService] [2025-01-26T01:26:19.429 +01:00] critical
+[Error] [GameService] [2025-01-26T01:26:19.439 +01:00] error
+[Warning] [GameService] [2025-01-26T01:26:19.440 +01:00] warning
+[Information] [GameService] [2025-01-26T01:26:19.440 +01:00] information
+[Debug] [GameService] [2025-01-26T01:26:19.440 +01:00] debug
+[Trace] [GameService] [2025-01-26T01:26:19.440 +01:00] trace
+[Information] [Microsoft.Hosting.Lifetime] [2025-01-26T01:26:19.564 +01:00] Now listening on: http://localhost:5157
+[Information] [Microsoft.Hosting.Lifetime] [2025-01-26T01:26:19.592 +01:00] Application started. Press Ctrl+C to shut down.
+[Information] [Microsoft.Hosting.Lifetime] [2025-01-26T01:26:19.592 +01:00] Hosting environment: Development
+[Information] [Microsoft.Hosting.Lifetime] [2025-01-26T01:26:19.593 +01:00] Content root path: C:\Dev\repos\project-prism\Services\GameService
+[Warning] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] [2025-01-26T01:29:02.029 +01:00] Failed to determine the https port for redirect.
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:29:02.066 +01:00] Reconnecting object 15705074 because of connection null channel null 
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:29:02.244 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:29:02.245 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: f545000a-c3ea-4a00-8ff2-a0894703d00e
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:29:02.250 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:29:02.251 +01:00] Reconnecting object 45195296 because of connection null channel null 
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:29:32.493 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: f545000a-c3ea-4a00-8ff2-a0894703d00e
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:29:32.583 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:31:11.749 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:31:11.749 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 890c249b-7f18-4fa0-a6d3-1827d5aeb0d2
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:31:11.750 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:31:42.479 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 890c249b-7f18-4fa0-a6d3-1827d5aeb0d2
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:31:42.575 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:32:30.712 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:32:30.713 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 7d5a7b64-869c-4f17-b794-622e34e5c012
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:32:30.714 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:33:01.474 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 7d5a7b64-869c-4f17-b794-622e34e5c012
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:33:01.576 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:35:23.940 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:35:23.940 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 6cbcc34d-abd3-4899-9dd3-c5c7fd6993e2
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:35:23.941 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:35:48.215 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 6cbcc34d-abd3-4899-9dd3-c5c7fd6993e2
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:35:48.336 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:37:56.257 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:37:56.258 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: d9b004f8-76bb-4e91-a170-0d14f510fa84
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:37:56.258 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:38:09.366 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: d9b004f8-76bb-4e91-a170-0d14f510fa84
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:38:09.517 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:38:30.455 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:38:30.455 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 7bb4a152-bbdb-4ba3-9384-340820b6e2c2
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:38:30.455 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:38:48.360 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 7bb4a152-bbdb-4ba3-9384-340820b6e2c2
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:38:48.482 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:40:33.099 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:40:33.099 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 20805b4d-7049-4f79-96b0-3869b344fa8b
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:40:33.100 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:41:12.036 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 20805b4d-7049-4f79-96b0-3869b344fa8b
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:41:12.161 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:41:38.535 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:41:38.535 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 32008213-6e3a-435b-8acc-303109781e59
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:41:38.535 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:42:36.251 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 32008213-6e3a-435b-8acc-303109781e59
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:42:36.368 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:42:38.259 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:42:38.259 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: f562219b-ada2-49c8-8b6e-298e382134c6
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T01:42:38.259 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T01:42:52.150 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: f562219b-ada2-49c8-8b6e-298e382134c6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T01:42:52.265 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:07:48.821 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:07:48.821 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 4677ae90-b626-483b-bff1-70d92c2bd8c2
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T02:07:48.822 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:08:20.644 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 4677ae90-b626-483b-bff1-70d92c2bd8c2
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:08:20.766 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:14:36.266 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:14:36.266 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: ab14b82b-38db-438f-a7a7-84c0dce9331d
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T02:14:36.267 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:15:13.271 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: ab14b82b-38db-438f-a7a7-84c0dce9331d
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:15:13.388 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:33:35.157 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:33:35.158 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: fff47d9c-1f21-4521-bc31-356548df268c
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T02:33:35.158 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:34:32.127 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: fff47d9c-1f21-4521-bc31-356548df268c
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:34:32.235 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:42:31.226 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:42:31.226 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: b52029e7-3258-4f1c-a4f8-7955a023262f
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T02:42:31.227 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:43:01.262 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: b52029e7-3258-4f1c-a4f8-7955a023262f
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:43:01.371 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:43:07.115 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:43:07.115 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: d671ad09-b11b-4977-bb07-faae3744612f
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T02:43:07.116 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T02:44:04.520 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: d671ad09-b11b-4977-bb07-faae3744612f
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T02:44:04.632 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:09:49.338 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:09:49.338 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 27f42c5f-e5fe-4cdd-a832-951d367886e2
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T03:09:49.339 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:12:29.848 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 27f42c5f-e5fe-4cdd-a832-951d367886e2
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:12:29.970 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:12:36.070 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:12:36.070 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 328078e8-d395-4a5f-928f-46bc12e7e164
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T03:12:36.070 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:12:40.206 +01:00] Not enough players for lobby: 328078e8-d395-4a5f-928f-46bc12e7e164
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:14:27.887 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 328078e8-d395-4a5f-928f-46bc12e7e164
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:14:28.008 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:22:40.452 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:22:40.453 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: e5325bd4-8f58-4ee0-b4df-6e020ba59878
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T03:22:40.453 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:23:42.468 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: e5325bd4-8f58-4ee0-b4df-6e020ba59878
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:23:42.566 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:24:33.654 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:24:33.655 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 52d003fd-375d-4dc4-982c-0e4587bee5bf
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T03:24:33.655 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:25:57.729 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 52d003fd-375d-4dc4-982c-0e4587bee5bf
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:25:57.852 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:34:28.420 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:34:28.420 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: 2fd0e70f-c543-474c-9a2f-36e5935ff28c
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T03:34:28.421 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:34:51.618 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: 2fd0e70f-c543-474c-9a2f-36e5935ff28c
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:34:51.737 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:49:31.128 +01:00] Created queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:49:31.128 +01:00] User: {name: Testname, id: b9e88f28-54e5-4458-b7ad-591b4f043fb6} connected to lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Trace] [AMQPLib.AMQPBroker] [2025-01-26T03:49:31.128 +01:00] Connect to backend.b9e88f28-54e5-4458-b7ad-591b4f043fb6
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:49:38.301 +01:00] Not enough players for lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:49:50.924 +01:00] Not enough players for lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:50:16.332 +01:00] Not enough players for lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:51:15.254 +01:00] Not enough players for lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:51:58.416 +01:00] Not enough players for lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Warning] [GameService.Controllers.LobbyController] [2025-01-26T03:53:46.823 +01:00] Not enough players for lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Debug] [GameService.Controllers.LobbyController] [2025-01-26T03:59:29.051 +01:00] User: b9e88f28-54e5-4458-b7ad-591b4f043fb6 disconnected from lobby: e23976b1-a0b4-43d4-ba8b-9089c2b4116e
+[Debug] [AMQPLib.AMQPBroker] [2025-01-26T03:59:29.160 +01:00] Deleted queue with the name b9e88f28-54e5-4458-b7ad-591b4f043fb6

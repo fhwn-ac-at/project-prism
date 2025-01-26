@@ -1,21 +1,30 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface NextRound
 {
     header: Header,
-    body: {}
+    body: 
+    {   
+        word: string,
+        round: number,
+        score: Map<string,number>
+    }
 }
 
-export function BuildNextRound(): NextRound
+export function BuildNextRound(round: number, word: string, score: Map<string, number>): NextRound
 {
     return {
         header: 
         {
             type: "nextRound", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
-        {
+        {  
+            round: round,
+            score: score,
+            word: word
         }
     };
 }

@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
 export interface SetNotDrawer
@@ -14,7 +15,7 @@ export function BuildSetNotDrawer(): SetNotDrawer
         header: 
         {
             type: "setNotDrawer", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

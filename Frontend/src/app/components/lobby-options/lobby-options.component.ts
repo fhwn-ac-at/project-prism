@@ -10,6 +10,8 @@ import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LobbyUserType } from '../../services/lobby-user-type/LobbyUserType';
+import { LobbyUserTypeService } from '../../services/lobby-user-type/lobby-user-type.service';
 
 @Component({
   selector: 'app-lobby-options',
@@ -23,12 +25,12 @@ export class LobbyOptionsComponent
   
   public constructor
   (
-    pD: PlayerDataService,
+    lS: LobbyUserTypeService,
     lO: LobbyService,
     snackBar: MatSnackBar
   )
   {
-    this.PlayerDataService = pD;
+    this.LobbyUserTypeService = lS;
     this.LobbyOptionsService = lO;
     this.snackbar = snackBar;
 
@@ -40,9 +42,6 @@ export class LobbyOptionsComponent
       }
     );
 
-    this.OptionsData.controls['roundsAmount'].valueChanges.subscribe((val: number) => this.LobbyOptionsService.RoundAmount.next(val));
-    this.OptionsData.controls['roundDuration'].valueChanges.subscribe((val: number) => this.LobbyOptionsService.RoundDuration.next(val));
-
     this.LobbyOptionsService.RoundAmount.subscribe((val) => this.OptionsData
     .setValue({roundsAmount: val, roundDuration: this.OptionsData.value.roundDuration}));
 
@@ -50,10 +49,11 @@ export class LobbyOptionsComponent
     .setValue({roundsAmount: this.OptionsData.value.roundsAmount, roundDuration: val}));
   }
 
-  public PlayerDataService: PlayerDataService;
+  public LobbyUserTypeService: LobbyUserTypeService;
   public LobbyOptionsService: LobbyService;
-  public PlayerType: typeof PlayerType = PlayerType;
   public OptionsData: FormGroup;
+
+  public LobbyUserType: typeof LobbyUserType = LobbyUserType;
 
   public async OnStartGameButtonClicked(_: MouseEvent) 
   {
@@ -64,5 +64,19 @@ export class LobbyOptionsComponent
       () => { this.snackbar.open("Game started","", {duration: 2000}); },
       (err) => { this.snackbar.open("Failed to start game: " + err, "", {duration: 2000}); }
     );
+  }
+
+  public OnRoundsAmountChanged(_: any) 
+  {
+    if (this.OptionsData.controls["roundsAmount"].invalid) return;
+
+    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
+  }
+
+  public OnDurationChanged(_: any) 
+  {
+    if (this.OptionsData.controls["roundsAmount"].invalid) return;
+
+    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
   }
 }

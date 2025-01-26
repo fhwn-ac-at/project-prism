@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 import { User } from "../../shared/User";
 
@@ -16,7 +17,7 @@ export function BuildUserScore(score: number, user: User): UserScore
         header: 
         {
             type: "userScore", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

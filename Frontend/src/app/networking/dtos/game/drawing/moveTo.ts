@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Position2d } from "../../../../../lib/Position2d";
 import { Header } from "../../shared/header";
 import { RelativePoint } from "../../shared/relativePoint";
@@ -17,7 +18,7 @@ export function BuildMoveTo(point: Position2d): MoveTo
         header: 
         {
             type: "moveTo", 
-            timestamp: Date.now()
+            timestamp: DateTime.now()
         }, 
         body: 
         {

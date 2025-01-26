@@ -16,9 +16,19 @@
         }
     }
 
-    public class GameEndedMessageBody(Dictionary<string, uint> score) : IMessageBody
+    public class GameEndedMessageBody(string word, Dictionary<string, uint> score) : IMessageBody
     {
+        private readonly string word = word;
         private readonly Dictionary<string, uint> score = score;
+
+        [JsonProperty("word")]
+        public string Word
+        {
+            get
+            {
+                return this.word;
+            }
+        }
 
         [JsonProperty("score")]
         public Dictionary<string, uint> Score

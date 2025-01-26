@@ -136,10 +136,10 @@
             this.SendMessage(e.UserId, new SearchedWordMessage(new SearchedWordMessageBody(e.SearchedWord)));
         }
 
-        private void ReceivedGameEndedEvent(object? sender, Dictionary<string, uint> e)
+        private void ReceivedGameEndedEvent(object? sender, GameEndedEventArgs e)
         {
             // TODO do ew want to send end result
-            this.DistributeMessage(null, new GameEndedMessage(new GameEndedMessageBody(e)));
+            this.DistributeMessage(null, new GameEndedMessage(new GameEndedMessageBody(e.SearchedWord, e.DrawingRoundScore)));
             this.game=null;
         }
 

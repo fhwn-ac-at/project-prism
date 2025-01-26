@@ -61,7 +61,7 @@
         public event EventHandler<WordSelectedEventArgs>? WordSelected;
         public event EventHandler<HintEventArgs>? Hint;
         public event EventHandler<DrawingEndedEventArgs>? DrawingEnded;
-        public event EventHandler<Dictionary<string, uint>>? GameEnded;
+        public event EventHandler<GameEndedEventArgs>? GameEnded;
         public event EventHandler<UserScoredEventArgs>? UserScored;
 
         internal Game(HashSet<string> users, int roundAmount, int drawingDuration, WordList wordList, IOptions<GameOptions> gameOptions)
@@ -317,7 +317,7 @@
 
             if (this.users.Count<this.minUserCount)
             {
-                this.FireGameEndedEvent();
+                this.FireGameEndedEvent(this.selectedWord.Word);
                 return;
             }
             
@@ -436,8 +436,16 @@
 
             if (this.roundAmount <= 0 ||this.users.Count<this.minUserCount)
             {
-                this.FireGameEndedEvent();
+                this.FireGameEndedEvent(searchedWord);
                 return;
+            }
+
+            foreach (var user in this.users)
+            {
+                if (!this.drawingRoundScore.ContainsKey(user.Key))
+                {
+                    this.drawingRoundScore.Add(user.Key, 0);
+                }
             }
 
             this.DrawingEnded?.Invoke(this, new DrawingEndedEventArgs(this.totalRoundAmount - this.roundAmount + 1, this.drawingRoundScore, searchedWord));
@@ -446,9 +454,9 @@
             this.FireWordSelectionEvent();
         }
 
-        private void FireGameEndedEvent()
+        private void FireGameEndedEvent(string word)
         {
-            this.GameEnded?.Invoke(this, this.users.ToDictionary(pair => pair.Key, pair => pair.Value.Score));
+            this.GameEnded?.Invoke(this, new GameEndedEventArgs(this.users.ToDictionary(pair => pair.Key, pair => pair.Value.Score), word));
         }
 
         private uint CalculateScore()

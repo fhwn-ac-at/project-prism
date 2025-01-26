@@ -90,7 +90,7 @@ internal class Program
         var TestNextRoundMessageDe = deserialzier.DeserializeTo<NextRoundMessage>(testNextRoundMessage);
         Console.WriteLine(TestNextRoundMessageDe);
 
-        GameEndedMessage gameEndedMessage = new GameEndedMessage(new GameEndedMessageBody(new Dictionary<string, uint>
+        GameEndedMessage gameEndedMessage = new GameEndedMessage(new GameEndedMessageBody("test", new Dictionary<string, uint>
         {
             { "key1", 1 },
             { "key2", 2 }

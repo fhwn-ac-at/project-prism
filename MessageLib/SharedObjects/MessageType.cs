@@ -24,6 +24,7 @@
         setNotDrawer,
         undo,
         userScore,
-        gameStarted
+        gameStarted,
+        guessClose
     }
 }

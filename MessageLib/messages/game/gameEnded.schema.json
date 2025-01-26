@@ -20,6 +20,18 @@
       },
       "body" : {
         "type": "object",
+        "properties": {
+          "word": {
+            "type": "string"
+          },
+          "score": {
+            "$ref": "../global.definitions.schema.json#definitions/score"
+          }
+        },
+        "required": [
+          "word",
+          "score"
+        ],
         "additionalProperties": false
       }
     },

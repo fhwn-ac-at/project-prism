@@ -12,29 +12,25 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "const": "nextRound"
+                        "const": "guessClose"
                     }
                 }
             }
         ]
       },
-      "body": {
+      "body" : {
         "type": "object",
         "properties": {
-          "word": {
+          "guess": {
             "type": "string"
           },
-          "round": {
+          "distance": {
             "type": "integer",
-            "minimum": 1
-          },
-          "score": {
-            "$ref": "../global.definitions.schema.json#definitions/score"
+            "minimum": 0
           }
         },
         "required": [
-          "word",
-          "round"
+          "guess"
         ],
         "additionalProperties": false
       }

@@ -1,11 +1,11 @@
 ﻿namespace BackendApi
 {
     using FrenziedMarmot.DependencyInjection;
+    using System.Collections.Concurrent;
 
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
-    public class KnownClientStore : Dictionary<string, KnownClientInfo>
+    public class KnownClientStore : ConcurrentDictionary<string, KnownClientInfo>
     {
-        // TODO make thread safe if needed
     }
 
     public class KnownClientInfo

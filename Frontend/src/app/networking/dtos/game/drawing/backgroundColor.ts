@@ -16,7 +16,7 @@ export function BuildBackgroundColor(color: string): BackgroundColor
         header: 
         {
             type: "bakgroundColor", 
-            timestamp: DateTime.now(),
+            timestamp: DateTime.now()
         }, 
         body: 
         {

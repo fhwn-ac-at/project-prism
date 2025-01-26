@@ -43,7 +43,7 @@
                     return false;
                 }
 
-                string? schemaPath = this.getSchemaPath(messageType.Value);
+                string? schemaPath = this.GetSchemaPath(messageType.Value);
 
                 if (schemaPath==null)
                 {
@@ -83,7 +83,7 @@
             return false;
         }
 
-        private string? getSchemaPath(MessageType type)
+        private string? GetSchemaPath(MessageType type)
         {
             return type switch
             {
@@ -103,6 +103,7 @@
                 MessageType.drawingSizeChanged => "game/drawingSizeChanged.schema.json",
                 MessageType.gameEnded => "game/gameEnded.schema.json",
                 MessageType.gameStarted => "game/gameStarted.schema.json",
+                MessageType.guessClose => "game/guessClose.schema.json",
                 MessageType.lineTo => "game/lineTo.schema.json",
                 MessageType.moveTo => "game/moveTo.schema.json",
                 MessageType.nextRound => "game/nextRound.schema.json",

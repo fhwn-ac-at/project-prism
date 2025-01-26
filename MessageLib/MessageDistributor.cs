@@ -28,11 +28,12 @@ namespace MessageLib
         public event EventHandler<EmptyMessageBody>? ReceivedClearMessage;
         public event EventHandler<EmptyMessageBody>? ReceivedClosePathMessage;
         public event EventHandler<DrawingSizeChangedMessageBody>? ReceivedDrawingSizeChangedMessage;
-        public event EventHandler<EmptyMessageBody>? ReceivedGameEndedMessage;
+        public event EventHandler<GameEndedMessageBody>? ReceivedGameEndedMessage;
         public event EventHandler<EmptyMessageBody>? ReceivedGameStartedMessage;
+        public event EventHandler<GuessCloseMessageBody>? ReceivedGuessCloseMessage;
         public event EventHandler<LineToMessageBody>? ReceivedLineToMessage;
         public event EventHandler<MoveToMessageBody>? ReceivedMoveToMessage;
-        public event EventHandler<EmptyMessageBody>? ReceivedNextRoundMessage;
+        public event EventHandler<NextRoundMessageBody>? ReceivedNextRoundMessage;
         public event EventHandler<PointMessageBody>? ReceivedPointMessage;
         public event EventHandler<SearchedWordMessageBody>? ReceivedSearchedWordMessage;
         public event EventHandler<SelectWordMessageBody>? ReceivedSelectWordMessage;
@@ -104,7 +105,10 @@ namespace MessageLib
                     this.FireEvent<DrawingSizeChangedMessage, DrawingSizeChangedMessageBody>(this.ReceivedDrawingSizeChangedMessage, message);
                     break;
                 case MessageType.gameEnded:
-                    this.FireEvent<GameEndedMessage, EmptyMessageBody>(this.ReceivedGameEndedMessage, message);
+                    this.FireEvent<GameEndedMessage, GameEndedMessageBody>(this.ReceivedGameEndedMessage, message);
+                    break;
+                case MessageType.guessClose:
+                    this.FireEvent<GuessCloseMessage, GuessCloseMessageBody>(this.ReceivedGuessCloseMessage, message);
                     break;
                 case MessageType.gameStarted:
                     this.FireEvent<GameStartedMessage, EmptyMessageBody>(this.ReceivedGameStartedMessage, message);
@@ -116,7 +120,7 @@ namespace MessageLib
                     this.FireEvent<MoveToMessage, MoveToMessageBody>(this.ReceivedMoveToMessage, message);
                     break;
                 case MessageType.nextRound:
-                    this.FireEvent<NextRoundMessage, EmptyMessageBody>(this.ReceivedNextRoundMessage, message);
+                    this.FireEvent<NextRoundMessage, NextRoundMessageBody>(this.ReceivedNextRoundMessage, message);
                     break;
                 case MessageType.point:
                     this.FireEvent<PointMessage, PointMessageBody>(this.ReceivedPointMessage, message);

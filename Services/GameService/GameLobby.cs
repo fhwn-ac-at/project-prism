@@ -115,9 +115,15 @@
             this.game.DrawingEnded+=this.ReceivedDrawingEndedEvent;
             this.game.GameEnded+=this.ReceivedGameEndedEvent;
             this.game.UserScored+=this.ReceivedUserScoredEvent;
+            this.game.GuessClose+=this.ReceivedGuessCloseEvent;
 
             await Task.Delay(100);
             this.game.Start();
+        }
+
+        private void ReceivedGuessCloseEvent(object? sender, GuessCloseEventArgs e)
+        {
+            this.SendMessage(e.User, new GuessCloseMessage(new GuessCloseMessageBody(e.Guess, e.Distance)));
         }
 
         private void ReceivedUserScoredEvent(object? sender, UserScoredEventArgs e)
@@ -136,17 +142,17 @@
             this.SendMessage(e.UserId, new SearchedWordMessage(new SearchedWordMessageBody(e.SearchedWord)));
         }
 
-        private void ReceivedGameEndedEvent(object? sender, Dictionary<string, uint> e)
+        private void ReceivedGameEndedEvent(object? sender, GameEndedEventArgs e)
         {
             // TODO do ew want to send end result
-            this.DistributeMessage(null, new GameEndedMessage());
+            this.DistributeMessage(null, new GameEndedMessage(new GameEndedMessageBody(e.SearchedWord, e.DrawingRoundScore)));
             this.game=null;
         }
 
         private void ReceivedDrawingEndedEvent(object? sender, DrawingEndedEventArgs e)
         {
             // TODO do we want to send intermediate result / ist this even the right message
-            this.DistributeMessage(null, new NextRoundMessage());
+            this.DistributeMessage(null, new NextRoundMessage(new NextRoundMessageBody(e.SearchedWord, e.Round, e.DrawingRoundScore)));
         }
 
         private void ReceivedWordSelectedEvent(object? sender, WordSelectedEventArgs e)
@@ -176,6 +182,8 @@
             messageDistributor.ReceivedNextRoundMessage+=(_, message) => this.ReceivedNextRoundMessage(key, message);
             messageDistributor.ReceivedSearchedWordMessage+=(_, message) => this.ReceivedSearchedWordMessage(key, message);
             messageDistributor.ReceivedGameEndedMessage+=(_, message) => this.ReceivedGameEndedMessage(key, message);
+            messageDistributor.ReceivedGameStartedMessage+=(_, message) => this.ReceivedGameStartedMessage(key, message);
+            messageDistributor.ReceivedGuessCloseMessage+=(_, message) => this.ReceivedGuessCloseMessage(key, message);
             messageDistributor.ReceivedRoundAmountChangedMessage+=(_, message) => this.ReceivedRoundAmountChangedMessage(key, message);
             messageDistributor.ReceivedRoundDurationChangedMessage+=(_, message) => this.ReceivedRoundDurationChangedMessage(key, message);
             messageDistributor.ReceivedSelectWordMessage+=(_, message) => this.ReceivedSelectWordMessage(key, message);
@@ -242,6 +250,18 @@
         private void ReceivedUndoMessage(string key, EmptyMessageBody message)
         {
             this.SaveAndDistributeMessage(key, new UndoMessage());
+        }
+
+        private void ReceivedGuessCloseMessage(string key, GuessCloseMessageBody message)
+        {
+            // should not get it
+            this.logger?.LogWarning("Got Guess Close Message from sender: {}", key);
+        }
+
+        private void ReceivedGameStartedMessage(string key, EmptyMessageBody message)
+        {
+            // should not get it
+            this.logger?.LogWarning("Got Game Started Message from sender: {}", key);
         }
 
         private void ReceivedUserScoreMessage(string key, UserScoreMessageBody message)
@@ -327,7 +347,7 @@
             this.DistributeMessage(key, new RoundAmountChangedMessage(message));
         }
 
-        private void ReceivedGameEndedMessage(string key, EmptyMessageBody message)
+        private void ReceivedGameEndedMessage(string key, GameEndedMessageBody message)
         {
             // should not get it
             this.logger?.LogWarning("Got Game Ended Message from sender: {}", key);
@@ -339,7 +359,7 @@
             this.logger?.LogWarning("Got Searched Word Message from sender: {}", key);
         }
 
-        private void ReceivedNextRoundMessage(string key, EmptyMessageBody message)
+        private void ReceivedNextRoundMessage(string key, NextRoundMessageBody message)
         {
             // should not get it
             this.logger?.LogWarning("Got Next Round Message from sender: {}", key);

@@ -2,9 +2,10 @@
 {
     using BackendApi.MessageDistributing;
     using FrenziedMarmot.DependencyInjection;
+    using System.Collections.Concurrent;
 
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
-    public class KnownConnectionsStore : Dictionary<string, WebsocketToAMQPConnector>
+    public class KnownConnectionsStore : ConcurrentDictionary<string, WebsocketToAMQPConnector>
     {
     }
 }

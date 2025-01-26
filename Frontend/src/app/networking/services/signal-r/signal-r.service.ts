@@ -45,7 +45,6 @@ export class SignalRService
     this.signalRHub.onreconnected((id?: string) => this.connectionEventSub.next(new Connected(id)));
     
     this.signalRHub.on("Frontend", (data) => {console.log(data); this.dataReceivedEventSub.next(data)});
-    this.signalRHub.on("*", (data) => console.warn(data));
   }
 
   public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>
@@ -78,6 +77,6 @@ export class SignalRService
   {
     if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
 
-    return this.signalRHub.send("Backend", data);
+    return this.signalRHub.send("Backend", JSON.stringify(data));
   }
 }

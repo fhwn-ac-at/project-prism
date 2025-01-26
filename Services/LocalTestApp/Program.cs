@@ -72,5 +72,44 @@ internal class Program
         Console.WriteLine(longestWord);
         Console.WriteLine(splitWords);
         Console.WriteLine(dashedWords);
+
+        NextRoundMessage nextRoundMessage = new NextRoundMessage(new NextRoundMessageBody("test", 1, new Dictionary<string, uint>
+        {
+            { "key1", 1 },
+            { "key2", 2 }
+        }));
+
+        Console.WriteLine(nextRoundMessage.SerializeToJson());
+        Console.WriteLine(test.Validate(nextRoundMessage.SerializeToJson(), out MessageType? nextRoundMessageType));
+        Console.WriteLine(nextRoundMessageType);
+
+        string testNextRoundMessage = "{\"header\":{\"type\":\"nextRound\",\"timestamp\":\"2025-01-26T14:16:33.4445654+01:00\"},\"body\":{\"word\":\"test\",\"round\":1,\"score\":{1:1,\"key2\":2}}}";
+
+        Console.WriteLine(test.Validate(testNextRoundMessage, out MessageType? testNextRoundMessageType));
+        Console.WriteLine(testNextRoundMessageType);
+        var TestNextRoundMessageDe = deserialzier.DeserializeTo<NextRoundMessage>(testNextRoundMessage);
+        Console.WriteLine(TestNextRoundMessageDe);
+
+        GameEndedMessage gameEndedMessage = new GameEndedMessage(new GameEndedMessageBody("test", new Dictionary<string, uint>
+        {
+            { "key1", 1 },
+            { "key2", 2 }
+        }));
+
+        Console.WriteLine(gameEndedMessage.SerializeToJson());
+        Console.WriteLine(test.Validate(gameEndedMessage.SerializeToJson(), out MessageType? gameEndedMessageType));
+        Console.WriteLine(gameEndedMessageType);
+
+        var TestGameEndedMessageDe = deserialzier.DeserializeTo<NextRoundMessage>(gameEndedMessage.SerializeToJson());
+        Console.WriteLine(TestGameEndedMessageDe);
+
+        GuessCloseMessage guessCloseMessage = new GuessCloseMessage(new GuessCloseMessageBody("test", 2));
+
+        Console.WriteLine(guessCloseMessage.SerializeToJson());
+        Console.WriteLine(test.Validate(guessCloseMessage.SerializeToJson(), out MessageType? guessCloseMessageType));
+        Console.WriteLine(guessCloseMessageType);
+
+        var guessCloseMessageDe = deserialzier.DeserializeTo<GuessCloseMessage>(guessCloseMessage.SerializeToJson());
+        Console.WriteLine(guessCloseMessageDe);
     }
 }

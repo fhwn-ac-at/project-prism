@@ -139,14 +139,14 @@
         private void ReceivedGameEndedEvent(object? sender, Dictionary<string, uint> e)
         {
             // TODO do ew want to send end result
-            this.DistributeMessage(null, new GameEndedMessage());
+            this.DistributeMessage(null, new GameEndedMessage(new GameEndedMessageBody(e)));
             this.game=null;
         }
 
         private void ReceivedDrawingEndedEvent(object? sender, DrawingEndedEventArgs e)
         {
             // TODO do we want to send intermediate result / ist this even the right message
-            this.DistributeMessage(null, new NextRoundMessage(new NextRoundMessageBody(e.SearchedWord, e.Round)));
+            this.DistributeMessage(null, new NextRoundMessage(new NextRoundMessageBody(e.SearchedWord, e.Round, e.DrawingRoundScore)));
         }
 
         private void ReceivedWordSelectedEvent(object? sender, WordSelectedEventArgs e)
@@ -327,7 +327,7 @@
             this.DistributeMessage(key, new RoundAmountChangedMessage(message));
         }
 
-        private void ReceivedGameEndedMessage(string key, EmptyMessageBody message)
+        private void ReceivedGameEndedMessage(string key, GameEndedMessageBody message)
         {
             // should not get it
             this.logger?.LogWarning("Got Game Ended Message from sender: {}", key);

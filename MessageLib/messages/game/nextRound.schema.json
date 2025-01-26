@@ -27,6 +27,9 @@
           "round": {
             "type": "integer",
             "minimum": 1
+          },
+          "score": {
+            "$ref": "../global.definitions.schema.json#definitions/score"
           }
         },
         "required": [

@@ -261,7 +261,7 @@
 
                     this.drawerId=this.users.Keys.ElementAt(this.users.Keys.Count-1-this.drawerCounter);
 
-                    HashSet<int> uniqueIndices = new HashSet<int>();
+                    HashSet<int> uniqueIndices = [];
                     while (uniqueIndices.Count<this.wordSelectionCount)
                     {
                         var randomIndex = this.random.Next(0, this.wordList.Words.Length);

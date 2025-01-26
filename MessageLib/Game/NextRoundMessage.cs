@@ -17,10 +17,11 @@
         }
     }
 
-    public class NextRoundMessageBody(string word, int round) : IMessageBody
+    public class NextRoundMessageBody(string word, int round, Dictionary<string, uint> score) : IMessageBody
     {
         private readonly string word = word;
         private readonly int round = round;
+        private readonly Dictionary<string, uint> score = score;
 
         [JsonProperty("word")]
         public string Word
@@ -38,6 +39,15 @@
             get
             {
                 return this.round;
+            }
+        }
+
+        [JsonProperty("score")]
+        public Dictionary<string, uint> Score
+        {
+            get
+            {
+                return this.score;
             }
         }
     }

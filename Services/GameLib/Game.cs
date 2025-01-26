@@ -5,6 +5,7 @@
     using Microsoft.Extensions.Options;
     using System;
     using System.Linq;
+    using System.Runtime.ExceptionServices;
     using System.Threading;
 
     public class Game
@@ -38,6 +39,7 @@
         private readonly double hardWordFactor = 1.5;
         private readonly ushort drawingEndedDelay = 10_000;
         private readonly ushort minUserCount = 2;
+        private readonly ushort maxCharsAwayForClose = 2;
 
         private int roundAmount;
         private int drawerCounter;
@@ -64,6 +66,7 @@
         public event EventHandler<DrawingEndedEventArgs>? DrawingEnded;
         public event EventHandler<GameEndedEventArgs>? GameEnded;
         public event EventHandler<UserScoredEventArgs>? UserScored;
+        public event EventHandler<GuessCloseEventArgs>? GuessClose;
 
         internal Game(HashSet<string> users, int roundAmount, int drawingDuration, WordList wordList, IOptions<GameOptions> gameOptions)
         {
@@ -190,10 +193,35 @@
             }
 
             bool guessed;
+            string currentSelectedWord;
             lock (this.selectableWordsLock)
             {
-                guessed = this.selectedWord != null && string.Equals(text, this.selectedWord.Word, StringComparison.OrdinalIgnoreCase);
+                if (this.selectedWord==null)
+                {
+                    return false;
+                }
+
+                currentSelectedWord=this.selectedWord.Word;
             }
+
+            guessed = string.Equals(text, currentSelectedWord, StringComparison.OrdinalIgnoreCase);
+
+            if (!guessed)
+            {
+                int minLength = Math.Min(currentSelectedWord.Length, text.Length);
+                int maxLength = Math.Max(currentSelectedWord.Length, text.Length);
+
+                int distance = Enumerable.Range(0, minLength)
+                                            .Count(i => currentSelectedWord[i]!=text[i]);
+
+                distance+=maxLength-minLength;
+
+                if (distance <= this.maxCharsAwayForClose)
+                {
+                    this.FireGuessCloseEvent(text, distance, key);
+                }
+            }
+            
 
             if (guessed)
             {
@@ -246,6 +274,13 @@
             }
            
             return true;
+        }
+
+        private void FireGuessCloseEvent(string word, int distance, string userId)
+        {
+            Task.Run(() => { 
+                this.GuessClose?.Invoke(this, new GuessCloseEventArgs { Guess=word, Distance=distance, User=userId });
+            });
         }
 
         private bool HaveAllGuessed()

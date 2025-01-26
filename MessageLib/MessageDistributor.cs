@@ -30,6 +30,7 @@ namespace MessageLib
         public event EventHandler<DrawingSizeChangedMessageBody>? ReceivedDrawingSizeChangedMessage;
         public event EventHandler<GameEndedMessageBody>? ReceivedGameEndedMessage;
         public event EventHandler<EmptyMessageBody>? ReceivedGameStartedMessage;
+        public event EventHandler<GuessCloseMessageBody>? ReceivedGuessCloseMessage;
         public event EventHandler<LineToMessageBody>? ReceivedLineToMessage;
         public event EventHandler<MoveToMessageBody>? ReceivedMoveToMessage;
         public event EventHandler<NextRoundMessageBody>? ReceivedNextRoundMessage;
@@ -105,6 +106,9 @@ namespace MessageLib
                     break;
                 case MessageType.gameEnded:
                     this.FireEvent<GameEndedMessage, GameEndedMessageBody>(this.ReceivedGameEndedMessage, message);
+                    break;
+                case MessageType.guessClose:
+                    this.FireEvent<GuessCloseMessage, GuessCloseMessageBody>(this.ReceivedGuessCloseMessage, message);
                     break;
                 case MessageType.gameStarted:
                     this.FireEvent<GameStartedMessage, EmptyMessageBody>(this.ReceivedGameStartedMessage, message);

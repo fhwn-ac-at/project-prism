@@ -115,9 +115,15 @@
             this.game.DrawingEnded+=this.ReceivedDrawingEndedEvent;
             this.game.GameEnded+=this.ReceivedGameEndedEvent;
             this.game.UserScored+=this.ReceivedUserScoredEvent;
+            this.game.GuessClose+=this.ReceivedGuessCloseEvent;
 
             await Task.Delay(100);
             this.game.Start();
+        }
+
+        private void ReceivedGuessCloseEvent(object? sender, GuessCloseEventArgs e)
+        {
+            this.SendMessage(e.User, new GuessCloseMessage(new GuessCloseMessageBody(e.Guess, e.Distance)));
         }
 
         private void ReceivedUserScoredEvent(object? sender, UserScoredEventArgs e)
@@ -176,6 +182,8 @@
             messageDistributor.ReceivedNextRoundMessage+=(_, message) => this.ReceivedNextRoundMessage(key, message);
             messageDistributor.ReceivedSearchedWordMessage+=(_, message) => this.ReceivedSearchedWordMessage(key, message);
             messageDistributor.ReceivedGameEndedMessage+=(_, message) => this.ReceivedGameEndedMessage(key, message);
+            messageDistributor.ReceivedGameStartedMessage+=(_, message) => this.ReceivedGameStartedMessage(key, message);
+            messageDistributor.ReceivedGuessCloseMessage+=(_, message) => this.ReceivedGuessCloseMessage(key, message);
             messageDistributor.ReceivedRoundAmountChangedMessage+=(_, message) => this.ReceivedRoundAmountChangedMessage(key, message);
             messageDistributor.ReceivedRoundDurationChangedMessage+=(_, message) => this.ReceivedRoundDurationChangedMessage(key, message);
             messageDistributor.ReceivedSelectWordMessage+=(_, message) => this.ReceivedSelectWordMessage(key, message);
@@ -242,6 +250,18 @@
         private void ReceivedUndoMessage(string key, EmptyMessageBody message)
         {
             this.SaveAndDistributeMessage(key, new UndoMessage());
+        }
+
+        private void ReceivedGuessCloseMessage(string key, GuessCloseMessageBody message)
+        {
+            // should not get it
+            this.logger?.LogWarning("Got Guess Close Message from sender: {}", key);
+        }
+
+        private void ReceivedGameStartedMessage(string key, EmptyMessageBody message)
+        {
+            // should not get it
+            this.logger?.LogWarning("Got Game Started Message from sender: {}", key);
         }
 
         private void ReceivedUserScoreMessage(string key, UserScoreMessageBody message)

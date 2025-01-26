@@ -102,5 +102,14 @@ internal class Program
 
         var TestGameEndedMessageDe = deserialzier.DeserializeTo<NextRoundMessage>(gameEndedMessage.SerializeToJson());
         Console.WriteLine(TestGameEndedMessageDe);
+
+        GuessCloseMessage guessCloseMessage = new GuessCloseMessage(new GuessCloseMessageBody("test", 2));
+
+        Console.WriteLine(guessCloseMessage.SerializeToJson());
+        Console.WriteLine(test.Validate(guessCloseMessage.SerializeToJson(), out MessageType? guessCloseMessageType));
+        Console.WriteLine(guessCloseMessageType);
+
+        var guessCloseMessageDe = deserialzier.DeserializeTo<GuessCloseMessage>(guessCloseMessage.SerializeToJson());
+        Console.WriteLine(guessCloseMessageDe);
     }
 }

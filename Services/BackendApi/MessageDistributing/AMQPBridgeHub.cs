@@ -31,12 +31,7 @@ public class AMQPBridgeHub : Hub
     public override async Task OnConnectedAsync()
     {
         var httpContext = this.Context.GetHttpContext();
-        var clientId = httpContext?.Request.RouteValues["client-id"]?.ToString();
-
-        if (clientId == null)
-        {
-            clientId=httpContext?.Request.Path.Value?.Split('/').Last();
-        }
+        var clientId = httpContext?.Request.RouteValues["client-id"]?.ToString() ?? httpContext?.Request.Path.Value?.Split('/').Last();
 
         if (clientId==null)
         {
@@ -96,7 +91,7 @@ public class AMQPBridgeHub : Hub
             this.logger?.LogWarning("Couldn't store connector with id {}", this.Context.ConnectionId);
         };
 
-        this.logger?.LogTrace("Stored connector with id {}", this.Context.ConnectionId);
+        this.logger?.LogTrace("Stored connector with id {} to {}", this.Context.ConnectionId, this.connectors.ConnectionId);
         await base.OnConnectedAsync();
     }
 
@@ -153,10 +148,14 @@ public class AMQPBridgeHub : Hub
             this.logger?.LogError("Couldn't disconnect User from Lobby. Error message: {}", e.Message);
         }
 
-        if (this.connectors.Remove(this.Context.ConnectionId, out var _))
+        if (!this.connectors.Remove(this.Context.ConnectionId, out var _))
         {
-            this.logger?.LogWarning("Couldn't remove connector {} from Dictionary", this.Context.ConnectionId);
+            this.logger?.LogWarning("Couldn't remove connector {} from Dictionary {}", this.Context.ConnectionId, this.connectors.ConnectionId);
+        } else
+        {
+            this.logger?.LogTrace("Removed connector {} from Dictionary {}", this.Context.ConnectionId, this.connectors.ConnectionId);
         }
+
         await base.OnDisconnectedAsync(exception);
     }
 

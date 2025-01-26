@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ConfigService } from '../../../services/config/config.service';
 import * as signalR from '@microsoft/signalr';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { AngularSignalRHttpClient } from './signal-r-http-client';
 import Keycloak, { KeycloakAdapter, KeycloakTokenParsed } from 'keycloak-js';
 import { KEYCLOAK_EVENT_SIGNAL } from 'keycloak-angular';
@@ -20,8 +20,8 @@ export class SignalRService
 
   private signalRHub:signalR.HubConnection | undefined;
 
-  private dataReceivedEventSub: Subject<object> = new Subject<object>;
-  private connectionEventSub: Subject<Closed | Reconnecting | Connected> = new Subject();
+  private dataReceivedEventSub: Subject<object> = new ReplaySubject<object>(5);
+  private connectionEventSub: Subject<Closed | Reconnecting | Connected> = new ReplaySubject(5);
 
   public Initialize(lobbyId: string)
   {
@@ -40,11 +40,11 @@ export class SignalRService
     .withAutomaticReconnect()
     .build();
 
-    this.signalRHub.onclose((error?: Error) => this.connectionEventSub.next(new Closed(error)));
-    this.signalRHub.onreconnecting((error?: Error) => this.connectionEventSub.next(new Reconnecting(error)));
-    this.signalRHub.onreconnected((id?: string) => this.connectionEventSub.next(new Connected(id)));
+    this.signalRHub.onclose((error?: Error) => this.OnConnectionStatusChanged(new Closed(error)));
+    this.signalRHub.onreconnecting((error?: Error) =>this.OnConnectionStatusChanged(new Reconnecting(error)));
+    this.signalRHub.onreconnected((id?: string) => this.OnConnectionStatusChanged(new Connected(id)));
     
-    this.signalRHub.on("Frontend", (data) => {console.log(data); this.dataReceivedEventSub.next(data)});
+    this.signalRHub.on("Frontend", this.OnDataReceived);
   }
 
   public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>
@@ -63,7 +63,7 @@ export class SignalRService
 
     await this.signalRHub.start();
 
-    this.connectionEventSub.next(new Connected());
+    this.OnConnectionStatusChanged(new Connected());
   }
 
   public Stop(): Promise<void>
@@ -75,8 +75,28 @@ export class SignalRService
 
   public SendData(data: object): Promise<void>
   {
-    if (this.signalRHub == undefined) return Promise.reject(new Error("Not initialized!"));
+    if (this.signalRHub == undefined) 
+    {
+      return Promise.reject(new Error("Not initialized!"));
+    }
 
-    return this.signalRHub.send("Backend", JSON.stringify(data));
+    let dataAsString: string = JSON.stringify(data);
+
+    console.log("Sending data over signal-r: " + dataAsString);
+
+    return this.signalRHub.send("Backend", dataAsString);
+  }
+
+  private OnConnectionStatusChanged = (event: Closed | Reconnecting | Connected): void =>
+  {
+    console.log("SignalR Hub Connection status changed: " + event.constructor.name);
+
+    this.connectionEventSub.next(event);
+  }
+
+  private OnDataReceived = (data: any): void => 
+  {
+    console.log("Received data in signal-r-client: " + JSON.stringify(data)); 
+    this.dataReceivedEventSub.next(data)
   }
 }

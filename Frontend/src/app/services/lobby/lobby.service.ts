@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ConfigService } from '../config/config.service';
-import { BehaviorSubject, filter, firstValueFrom, Subject } from 'rxjs';
+import { BehaviorSubject, filter, firstValueFrom, Observable, Subject } from 'rxjs';
 import { LobbyApiService } from '../../networking/services/lobby-api/lobby-api.service';
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
 import { GameIdService } from '../gameId/game-id.service';
@@ -23,6 +23,9 @@ export class LobbyService
   private gameIdService: GameIdService;
   private roundsService: GameRoundService;
 
+  private roundAmount: BehaviorSubject<number>;
+  private roundDuration: BehaviorSubject<number>;
+
   public constructor
   (
     configService: ConfigService,
@@ -38,19 +41,33 @@ export class LobbyService
     this.gameIdService = gameIdService;
     this.roundsService = roundsService;
     
-    this.RoundAmount = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundAmount);
-    this.RoundDuration = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundDuration);
-
-    this.RoundAmount.subscribe((val => this.gameApiService.SendRoundAmount(val)));
-    this.RoundDuration.subscribe((val => this.gameApiService.SendRoundDuration(val)));
+    this.roundAmount = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundAmount);
+    this.roundDuration = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundDuration);
 
     this.gameApiService.ObserveLobbyEvent()
       .pipe(filter((val) => isRoundAmountChanged(val) || isRoundDurationChanged(val)))
       .subscribe(this.OnLobbyEvent)
   }
 
-  public RoundAmount: BehaviorSubject<number>;
-  public RoundDuration: BehaviorSubject<number>;
+  public ObserveRoundAmount(): Observable<number>
+  {
+    return this.roundAmount.asObservable();
+  }
+
+  public ObserveRoundDuration(): Observable<number>
+  {
+    return this.roundDuration.asObservable();
+  }
+
+  public async SendRoundAmount(roundAmount: number): Promise<void>
+  {
+    return this.gameApiService.SendRoundAmount(roundAmount);
+  }
+
+  public async SendRoundDuration(duration: number): Promise<void>
+  {
+    return this.gameApiService.SendRoundDuration(duration);
+  }
 
   public async StartGame(): Promise<void>
   {
@@ -58,18 +75,18 @@ export class LobbyService
 
     await firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value));
 
-    this.roundsService.Initialize(this.RoundAmount.value, this.RoundDuration.value)
+    this.roundsService.Initialize(this.roundAmount.value, this.roundDuration.value)
   }
 
-  private OnLobbyEvent(data: RoundAmountChanged | RoundDurationChanged) : void
+  private OnLobbyEvent = (data: RoundAmountChanged | RoundDurationChanged) : void =>
   {
     if (isRoundAmountChanged(data)) 
     {
-      this.RoundAmount.next(data.body.rounds);
+      this.roundAmount.next(data.body.rounds);
     }
     else if (isRoundDurationChanged(data)) 
     {
-      this.RoundDuration.next(data.body.duration);
+      this.roundDuration.next(data.body.duration);
     }
     else
     {

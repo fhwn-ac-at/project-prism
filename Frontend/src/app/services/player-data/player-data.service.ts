@@ -8,5 +8,5 @@ import { just, Maybe, none } from '@sweet-monads/maybe';
 })
 export class PlayerDataService 
 {
-  public PlayerData: BehaviorSubject<Maybe<PlayerData>> = new BehaviorSubject<Maybe<PlayerData>>(none());
+  public PlayerData: BehaviorSubject<PlayerData | undefined> = new BehaviorSubject<PlayerData | undefined>(undefined);
 }

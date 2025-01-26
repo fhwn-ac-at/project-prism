@@ -38,6 +38,13 @@ export class ChatComponent
 
   public OnKeyPressed(_: globalThis.Event) 
   {   
+    if(this.ChatMessageInputModel == "")
+    {
+      return;
+    }
+
+    this.chatMessagesService.AddAndSendChatMessage(this.ChatMessageInputModel);
+
     this.ChatMessageInputModel = "";
   }
 

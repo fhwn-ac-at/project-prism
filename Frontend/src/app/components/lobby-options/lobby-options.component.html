@@ -5,7 +5,16 @@
 @else 
 {
     <mat-card>
-        <h1 mat-card-header class="card-header">Choose values</h1>
+        <h1 mat-card-header class="card-header">
+            @if (LobbyUserTypeService.LobbyUserType.value == LobbyUserType.Owner)
+            {
+                Choose values
+            }
+            @else
+            {
+                Waiting for Lobby Owner to start..
+            }
+        </h1>
 
         <mat-divider class="divider"/>
 
@@ -15,7 +24,7 @@
                 <input 
                     matInput 
                     [readonly]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner"
-                    (change)="OnRoundsAmountChanged($event)" type="number" formControlName="roundsAmount"
+                    (input)="OnRoundsAmountChanged($event)" type="number" formControlName="roundsAmount"
                 >
               </mat-form-field>
             
@@ -24,7 +33,7 @@
                 <input 
                     matInput 
                     [readonly]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner" 
-                    (change)="OnDurationChanged($event)" type="number" formControlName="roundDuration"
+                    (input)="OnDurationChanged($event)" type="number" formControlName="roundDuration"
                 >
               </mat-form-field>
         </form>

@@ -11,6 +11,6 @@ export function isHeader(obj: unknown): obj is Header {
             typeof typedObj === "object" ||
             typeof typedObj === "function") &&
         typeof typedObj["type"] === "string" &&
-        typeof typedObj["timestamp"] === "object"
+        typeof typedObj["timestamp"] === "string"
     )
 }

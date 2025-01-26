@@ -32,7 +32,7 @@ export class TestComponent
   {
     this.playerDataService.PlayerData.next
     (
-      just({ Username: "TestUser", Role: PlayerType.Drawer, Score: 0, Id: "testId"})
+      { Username: "TestUser", Score: 0, Id: "testId"}
     );
 
     this.roundsService.Initialize(3, 10000);
@@ -42,7 +42,7 @@ export class TestComponent
   {
     this.playerDataService.PlayerData.next
     (
-      just({ Username: "TestUser", Role: PlayerType.Drawer, Score: 0, Id: "testId"})
+      { Username: "TestUser", Score: 0, Id: "testId"}
     );
   }
 
@@ -58,7 +58,7 @@ export class TestComponent
       this.id = v.id;
       this.playerDataService.PlayerData.next
     (
-      just({ Username: v.name, Role: PlayerType.Drawer, Score: 0, Id: v.id})
+      { Username: v.name,  Score: 0, Id: v.id}
     );
     }});
   }

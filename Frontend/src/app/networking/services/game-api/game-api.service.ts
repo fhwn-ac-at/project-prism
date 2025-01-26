@@ -146,8 +146,10 @@ export class GameApiService
 
   public constructor()
   {
+    console.log(this.headerTypeToDecoderFunctionsMap);
     this.signalRService.DataReceivedEvent.subscribe(this.OnDataReceived);
     this.signalRService.ConnectionObservable.subscribe(this.OnConnectionEvent);
+    console.log(this.headerTypeToDecoderFunctionsMap);
   }
 
   public Start(userId: string): Promise<void>
@@ -272,11 +274,14 @@ export class GameApiService
   {
     if (!hasHeaderAndBody(data))
     {
-      console.log("Received data without header and body: " + data);
+      console.log("Received data without header and body: " + JSON.stringify(data));
       return;
     }
 
+    console.log(data.header.type);
+    console.log(this);
     const decoderFunction: ((data: unknown) => void) | undefined = this.headerTypeToDecoderFunctionsMap.get(data.header.type);
+    console.log(decoderFunction);
 
     if (decoderFunction == undefined)
     {

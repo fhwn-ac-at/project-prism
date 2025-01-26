@@ -16,7 +16,7 @@ export function BuildRoundAmountChanged(rounds: number): RoundAmountChanged
         header: 
         {
             type: "roundAmountChanged", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

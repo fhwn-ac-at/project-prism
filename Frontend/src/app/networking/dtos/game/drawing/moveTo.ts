@@ -18,7 +18,7 @@ export function BuildMoveTo(point: Position2d): MoveTo
         header: 
         {
             type: "moveTo", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

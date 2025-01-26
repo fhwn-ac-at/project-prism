@@ -15,7 +15,7 @@ export function BuildGameEnded(): GameEnded
         header: 
         {
             type: "gameEnded", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

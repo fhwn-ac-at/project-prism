@@ -67,7 +67,7 @@ namespace MessageLib
 
             var headerDiffMillis = DateTime.Now.Subtract(header.Timestamp.ToLocalTime()).TotalMilliseconds;
 
-            if (headerDiffMillis<0||headerDiffMillis>TimeSpan.FromMinutes(1).TotalMilliseconds)
+            if (headerDiffMillis<0||headerDiffMillis>TimeSpan.FromSeconds(5).TotalMilliseconds)
             {
                 this.logger?.LogWarning("Message to old! Message: {}", message);
                 return false;

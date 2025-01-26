@@ -16,7 +16,7 @@ export function BuildRoundDurationChanged(duration: number): RoundDurationChange
         header: 
         {
             type: "roundDurationChanged", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

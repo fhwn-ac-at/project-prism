@@ -17,7 +17,7 @@ export function BuildUserScore(score: number, user: User): UserScore
         header: 
         {
             type: "userScore", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

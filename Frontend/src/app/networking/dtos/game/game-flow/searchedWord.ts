@@ -15,7 +15,7 @@ export function BuildSearchedWord(word: string): SearchedWord
         header: 
         {
             type: "searchedWord", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

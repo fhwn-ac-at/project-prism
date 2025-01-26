@@ -17,7 +17,7 @@ export function BuildUserDisconnected(user: User): UserDisconnected
         header: 
         {
             type: "userDisconnected", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

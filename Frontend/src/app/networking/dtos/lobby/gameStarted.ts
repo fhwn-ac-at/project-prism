@@ -15,7 +15,7 @@ export function BuildGameStarted(): GameStarted
         header: 
         {
             type: "gameStarted", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

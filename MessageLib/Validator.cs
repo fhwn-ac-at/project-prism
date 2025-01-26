@@ -13,7 +13,6 @@
     public class Validator(Deserializer deserializer, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
     {
         private readonly ILogger<Validator>? logger = logger;
-        private readonly ILoggerFactory? loggerFactory = loggerFactory;
         private readonly Deserializer deserializer = deserializer;
 
         private readonly Dictionary<string, JSchema> knownSchemas = [];

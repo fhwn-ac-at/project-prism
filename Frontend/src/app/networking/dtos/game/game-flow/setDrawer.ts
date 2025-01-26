@@ -16,7 +16,7 @@ export function BuildSetDrawer(words: {word: string, difficulty: number}[]): Set
         header: 
         {
             type: "setDrawer", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

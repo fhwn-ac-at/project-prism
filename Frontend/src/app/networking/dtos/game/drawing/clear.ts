@@ -15,7 +15,7 @@ export function BuildClear(): Clear
         header: 
         {
             type: "clear", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

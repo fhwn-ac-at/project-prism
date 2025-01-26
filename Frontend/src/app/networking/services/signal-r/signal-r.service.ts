@@ -20,7 +20,7 @@ export class SignalRService
 
   private signalRHub:signalR.HubConnection | undefined;
 
-  private dataReceivedEventSub: Subject<object> = new Subject<object>;
+  private dataReceivedEventSub: Subject<object> = new Subject<object>();
   private connectionEventSub: Subject<Closed | Reconnecting | Connected> = new Subject();
 
   public Initialize(lobbyId: string)
@@ -44,7 +44,7 @@ export class SignalRService
     this.signalRHub.onreconnecting((error?: Error) => this.connectionEventSub.next(new Reconnecting(error)));
     this.signalRHub.onreconnected((id?: string) => this.connectionEventSub.next(new Connected(id)));
     
-    this.signalRHub.on("Frontend", (data) => {console.log(data); this.dataReceivedEventSub.next(data)});
+    this.signalRHub.on("Frontend", (data) => {console.log(JSON.parse(data)); this.dataReceivedEventSub.next(JSON.parse(data))});
   }
 
   public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>

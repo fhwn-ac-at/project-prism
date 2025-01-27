@@ -12,7 +12,7 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "const": "bakgroundColor"
+                        "const": "backgroundColor"
                     }
                 }
             }

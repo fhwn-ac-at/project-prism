@@ -47,6 +47,8 @@ export class CanvasComponent implements OnInit, OnChanges
   ngOnChanges(changes: SimpleChanges): void {
     this.Canvas().nativeElement.width = this.CanvasWidth();
     this.Canvas().nativeElement.height = this.CanvasHeight();
+
+    // TODO redraw
   }
   
   // events

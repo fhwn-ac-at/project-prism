@@ -5,11 +5,13 @@ export interface GameEnded
 {
     header: Header,
     body: 
-    {    
+    {
+        word: string,
+        score: object    
     }
 }
 
-export function BuildGameEnded(): GameEnded
+export function BuildGameEnded(word: string, score: object): GameEnded
 {
     return {
         header: 
@@ -19,6 +21,8 @@ export function BuildGameEnded(): GameEnded
         }, 
         body: 
         {
+            word: word,
+            score: score
         }
     };
 }

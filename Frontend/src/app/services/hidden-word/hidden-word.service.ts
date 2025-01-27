@@ -62,7 +62,7 @@ export class HiddenWordService
     );
   }
 
-  private OnSearchedWordEvent(value: SearchedWord) 
+  private OnSearchedWordEvent = (value: SearchedWord) =>
   {
     if (this.wordParts === undefined)
     {

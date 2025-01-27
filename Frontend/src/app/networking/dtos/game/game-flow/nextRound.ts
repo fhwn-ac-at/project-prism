@@ -8,11 +8,11 @@ export interface NextRound
     {   
         word: string,
         round: number,
-        score: Map<string,number>
+        score: object
     }
 }
 
-export function BuildNextRound(round: number, word: string, score: Map<string, number>): NextRound
+export function BuildNextRound(round: number, word: string, score: object): NextRound
 {
     return {
         header: 

@@ -1,1 +1,26 @@
-<p>show-scores works!</p>
+<h1 mat-dialog-title>Score</h1>
+
+<div mat-dialog-content>
+
+
+    <mat-list>
+      @for (item of PlayerData; track $index) 
+      {
+          <mat-list-item class="item">
+              <h2 matListItemTitle >
+                  {{item.Username}}
+              </h2>
+
+              <h2 matListItemLine>
+                  Score: {{item.Score}}
+              </h2>
+            </mat-list-item>
+      }
+    </mat-list>
+</div>
+
+<div mat-dialog-actions class="actions">
+    <h1>The word was: {{ Word }}</h1>
+
+    <button mat-raised-button mat-dialog-close>Close</button>
+</div>

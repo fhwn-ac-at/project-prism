@@ -2,11 +2,11 @@
  * Generated type guards for "gameEnded.ts".
  * WARNING: Do not manually change this file.
  */
-import { isHeader } from "../../shared/header.guard";
-import { GameEnded } from "./gameEnded";
+import { isHeader } from "../../shared/header.guard"
+import { GuessClose } from "./guessClose"
 
-export function isGameEnded(obj: unknown): obj is GameEnded {
-    const typedObj = obj as GameEnded
+export function isGuessClose(obj: unknown): obj is GuessClose {
+    const typedObj = obj as GuessClose
     return (
         (   
             typedObj !== null &&
@@ -18,8 +18,8 @@ export function isGameEnded(obj: unknown): obj is GameEnded {
             typeof typedObj.body === "object" ||
             typeof typedObj.body === "function"
         ) &&
-        typeof typedObj.body.score === "number" &&
-        typeof typedObj.body.word === "string" &&
-        typedObj.header.type === "gameEnded"
+        typeof typedObj.body.guess === "string" &&
+        typeof typedObj.body.distance === "number" &&
+        typedObj.header.type === "guessClose"
     )
 }

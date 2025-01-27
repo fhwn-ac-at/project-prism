@@ -48,7 +48,7 @@ export class LobbyService
       .pipe(filter((val) => isRoundAmountChanged(val) || isRoundDurationChanged(val)))
       .subscribe(this.OnLobbyEvent)
   }
-
+  
   public ObserveRoundAmount(): Observable<number>
   {
     return this.roundAmount.asObservable();
@@ -73,9 +73,7 @@ export class LobbyService
   {
     if (this.gameIdService.GameId.value == undefined) return Promise.reject(new Error("no game id"));
 
-    await firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value));
-
-    this.roundsService.Initialize(this.roundAmount.value, this.roundDuration.value)
+    return firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value));
   }
 
   private OnLobbyEvent = (data: RoundAmountChanged | RoundDurationChanged) : void =>
@@ -87,6 +85,10 @@ export class LobbyService
     else if (isRoundDurationChanged(data)) 
     {
       this.roundDuration.next(data.body.duration);
+    }
+    else if (isGameStarted(data))
+    {
+      this.roundsService.Initialize(this.roundAmount.value, this.roundDuration.value);
     }
     else
     {

@@ -3,6 +3,8 @@ import { BehaviorSubject, filter, Observable } from 'rxjs';
 import { RoundData } from './RoundData';
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
 import { isNextRound } from '../../networking/dtos/game/game-flow/nextRound.guard';
+import { NextRound } from '../../networking/dtos/game/game-flow/nextRound';
+import { isGameStarted } from '../../networking/dtos/lobby/gameStarted.guard';
 
 @Injectable({
   providedIn: null
@@ -10,12 +12,12 @@ import { isNextRound } from '../../networking/dtos/game/game-flow/nextRound.guar
 export class GameRoundService 
 {
   private gameApiSerive: GameApiService = inject(GameApiService);
-
+  
   public constructor()
   {
     this.gameApiSerive.ObserveGameFlowEvent()
       .pipe(filter(isNextRound))
-      .subscribe(() => this.IncrementRound);
+      .subscribe(() => this.OnNextRoundReceived);
   }
 
   public RoundsObject: BehaviorSubject<RoundData | undefined> = new BehaviorSubject<RoundData | undefined>(undefined);
@@ -25,7 +27,7 @@ export class GameRoundService
     this.RoundsObject.next({CurrentRound: 1, TotalRounds: totalRounds, RoundDuration: roundDuration});
   }
 
-  private IncrementRound(): void
+  private OnNextRoundReceived = (val: NextRound): void =>
   {
     if (this.RoundsObject.value == undefined) return;
 
@@ -34,7 +36,7 @@ export class GameRoundService
     this.RoundsObject.next
     (
       {
-        CurrentRound: this.RoundsObject.value.CurrentRound + 1,
+        CurrentRound: val.body.round,
         TotalRounds: this.RoundsObject.value.TotalRounds,
         RoundDuration: this.RoundsObject.value.RoundDuration
       }

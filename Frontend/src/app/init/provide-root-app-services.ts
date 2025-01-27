@@ -16,6 +16,7 @@ import { PlayerTypeService } from "../services/player-type/player-type.service";
 import { inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { LobbyUserTypeService } from "../services/lobby-user-type/lobby-user-type.service";
+import { ShowScoresService } from "../services/show-scores/show-scores.service";
 
 export const provideRootAppServices = () => 
 [
@@ -34,5 +35,6 @@ export const provideRootAppServices = () =>
   {provide: StartService, useClass: StartService},
   {provide: GameIdService, useClass: GameIdService},
   {provide: PlayerTypeService, useClass: PlayerTypeService},
-  {provide: LobbyUserTypeService, useClass: LobbyUserTypeService}
+  {provide: LobbyUserTypeService, useClass: LobbyUserTypeService},
+  {provide: ShowScoresService, useClass: ShowScoresService},
 ];

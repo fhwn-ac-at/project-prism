@@ -84,7 +84,10 @@ export class CountdownService
 
   private OnSearchedWordEvent = (_: SearchedWord) =>
   {
-    if (this.roundService.RoundsObject.value == undefined) return;
+    if (this.roundService.RoundsObject.value == undefined)
+    {
+      return;
+    }
 
     this.StopTimer();
     this.StartTimer(this.roundService.RoundsObject.value.RoundDuration, 1000);

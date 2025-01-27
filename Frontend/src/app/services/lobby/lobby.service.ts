@@ -45,7 +45,6 @@ export class LobbyService
     this.roundDuration = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundDuration);
 
     this.gameApiService.ObserveLobbyEvent()
-      .pipe(filter((val) => isRoundAmountChanged(val) || isRoundDurationChanged(val)))
       .subscribe(this.OnLobbyEvent)
   }
   
@@ -76,7 +75,7 @@ export class LobbyService
     return firstValueFrom(this.lobbyApiService.StartGame(this.gameIdService.GameId.value));
   }
 
-  private OnLobbyEvent = (data: RoundAmountChanged | RoundDurationChanged) : void =>
+  private OnLobbyEvent = (data: RoundAmountChanged | RoundDurationChanged | GameStarted) : void =>
   {
     if (isRoundAmountChanged(data)) 
     {

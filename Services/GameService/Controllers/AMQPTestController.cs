@@ -38,9 +38,9 @@
         }
 
         [HttpPost(Name = "SendMessage")]
-        public async Task<string> SendMessage(string queue, string message, uint ttl)
+        public async Task<string> SendMessage(string queue, string message)
         {
-            await this.broker.SendMessageAsync(queue, Encoding.UTF8.GetBytes(message), ttl);
+            await this.broker.SendMessageAsync(queue, Encoding.UTF8.GetBytes(message));
             return $"{queue}: {message}";
         }
 

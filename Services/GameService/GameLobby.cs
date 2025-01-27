@@ -144,14 +144,12 @@
 
         private void ReceivedGameEndedEvent(object? sender, GameEndedEventArgs e)
         {
-            // TODO do ew want to send end result
             this.DistributeMessage(null, new GameEndedMessage(new GameEndedMessageBody(e.SearchedWord, e.DrawingRoundScore)));
             this.game=null;
         }
 
         private void ReceivedDrawingEndedEvent(object? sender, DrawingEndedEventArgs e)
         {
-            // TODO do we want to send intermediate result / ist this even the right message
             this.DistributeMessage(null, new NextRoundMessage(new NextRoundMessageBody(e.SearchedWord, e.Round, e.DrawingRoundScore)));
         }
 
@@ -409,12 +407,7 @@
         private void SendMessage<T>(string receiver, Message<T> message) where T : IMessageBody
         {
             var byteMessage = System.Text.Encoding.UTF8.GetBytes(message.SerializeToJson());
-
-            // TODO make configurable
-            double ttl = TimeSpan.FromMinutes(1).TotalMilliseconds;
-
-            var uintTTl = Convert.ToUInt32(ttl);
-            this.messageBroker.SendMessageAsync(receiver, byteMessage, uintTTl);
+            this.messageBroker.SendMessageAsync(receiver, byteMessage);
         }
 
         protected virtual void Dispose(bool disposing)

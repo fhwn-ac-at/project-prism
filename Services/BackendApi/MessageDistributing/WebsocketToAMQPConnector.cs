@@ -31,7 +31,7 @@
                 return;
             }
 
-            await this.broker.SendMessageAsync(this.userId, System.Text.Encoding.UTF8.GetBytes(message), Convert.ToUInt32(TimeSpan.FromMinutes(1).TotalMilliseconds));
+            await this.broker.SendMessageAsync(this.userId, System.Text.Encoding.UTF8.GetBytes(message));
         }
 
 

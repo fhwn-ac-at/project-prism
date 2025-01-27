@@ -24,6 +24,31 @@
             return this.Validate(json, out MessageType? _);
         }
 
+        public bool ValidateWithCheckTimestamp(string json, out MessageType? messageType, double maxTimeDifference)
+        {
+            if (!this.Validate(json, out messageType))
+            {
+                return false;
+            }
+
+            var header = this.deserializer.DeserializeHeader(json);
+
+            if (header == null)
+            {
+                return false;
+            }
+
+            var headerDiffMillis = Math.Abs(DateTime.Now.Subtract(header.Timestamp.ToLocalTime()).TotalMilliseconds);
+
+            if (headerDiffMillis<0||headerDiffMillis>maxTimeDifference)
+            {
+                this.logger?.LogDebug("Message to old! Message: {}", json);
+                return false;
+            }
+
+            return true;
+        }
+
         public bool Validate(string json, out MessageType? messageType)
         {
             messageType=null;

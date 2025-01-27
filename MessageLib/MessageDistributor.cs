@@ -8,14 +8,16 @@ namespace MessageLib
     using MessageLib.SharedObjects;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
     [Injectable(Lifetime = ServiceLifetime.Transient, TargetType = typeof(IMessageDistributor))]
     [Injectable(Lifetime = ServiceLifetime.Transient, TargetType = typeof(MessageDistributor))]
-    public class MessageDistributor(Validator validator, Deserializer deserializer, ILogger<MessageDistributor>? logger = null): IMessageDistributor
+    public class MessageDistributor(Validator validator, Deserializer deserializer, IOptions<ValidMessageOptions> messageOptions, ILogger<MessageDistributor>? logger = null): IMessageDistributor
     {
         private readonly ILogger<MessageDistributor>? logger = logger;
         private readonly Deserializer deserializer = deserializer;
         private readonly Validator validator = validator;
+        private readonly double maxMessageTimeout = messageOptions.Value.MaxMessageDifference;
 
         public event EventHandler<RoundAmountChangedMessageBody>? ReceivedRoundAmountChangedMessage;
         public event EventHandler<RoundDurationChangedMessageBody>? ReceivedRoundDurationChangedMessage;
@@ -51,25 +53,9 @@ namespace MessageLib
         {
             this.logger?.LogTrace("Got Message: {}", message);
 
-            if (!this.validator.Validate(message, out MessageType? messageType))
+            if (!this.validator.ValidateWithCheckTimestamp(message, out MessageType? messageType, this.maxMessageTimeout))
             {
                 this.logger?.LogInformation("Message not valid! Message: {}", message);
-                return false;
-            }
-
-            MessageHeader? header = this.deserializer.DeserializeHeader(message);
-
-            if (header==null)
-            {
-                this.logger?.LogError("No Header in valid Message message: {}", message);
-                return false;
-            }
-
-            var headerDiffMillis = DateTime.Now.Subtract(header.Timestamp.ToLocalTime()).TotalMilliseconds;
-
-            if (headerDiffMillis<0||headerDiffMillis>TimeSpan.FromSeconds(5).TotalMilliseconds)
-            {
-                this.logger?.LogWarning("Message to old! Message: {}", message);
                 return false;
             }
 

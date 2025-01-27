@@ -24,10 +24,10 @@
             return this.broker.ConnectToQueueAsync(name, "game", messageDistributor);
         }
 
-        public Task SendMessageAsync(string queue, ReadOnlyMemory<byte> bytes, uint ttl)
+        public Task SendMessageAsync(string queue, ReadOnlyMemory<byte> bytes)
         {
-            this.logger?.LogTrace("Sent to queue: {} with ttl: {}", queue, ttl);
-            return this.broker.SendMessageAsync("backendEx", queue, "backend", bytes, ttl);
+            this.logger?.LogTrace("Sent to queue: {}", queue);
+            return this.broker.SendMessageAsync("backendEx", queue, "backend", bytes);
         }
     }
 }

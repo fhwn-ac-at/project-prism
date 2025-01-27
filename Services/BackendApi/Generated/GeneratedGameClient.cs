@@ -241,15 +241,15 @@ namespace BackendApi.ApiClients
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> SendMessageAsync(string queue, string message, int? ttl)
+        public virtual System.Threading.Tasks.Task<string> SendMessageAsync(string queue, string message)
         {
-            return SendMessageAsync(queue, message, ttl, System.Threading.CancellationToken.None);
+            return SendMessageAsync(queue, message, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> SendMessageAsync(string queue, string message, int? ttl, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<string> SendMessageAsync(string queue, string message, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -273,10 +273,6 @@ namespace BackendApi.ApiClients
                     if (message != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("message")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(message, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (ttl != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ttl")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(ttl, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     urlBuilder_.Length--;
 

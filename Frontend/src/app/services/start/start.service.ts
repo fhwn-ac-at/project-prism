@@ -25,7 +25,7 @@ export class StartService
 
     this.playerDataService.PlayerData.next
     (
-      just({Username: userData.name, Id: userData.id, Score: 0})
+      {Username: userData.name, Id: userData.id, Score: 0}
     );
 
     this.lobbyUserTypeService.LobbyUserType.next(asOwner ? LobbyUserType.Owner : LobbyUserType.NonOwner);

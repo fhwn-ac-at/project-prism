@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { IsEqual, PlayerData } from '../player-data/PlayerData';
-import { filter, Observable, PartialObserver, Subject, Subscription } from 'rxjs';
+import { filter, Observable, PartialObserver, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { CurrentPlayersMessage } from './events/CurrentPlayersMessage';
 import { PlayerAddedMessage } from './events/PlayerAddedMessage';
 import { PlayerRemovedMessage } from './events/PlayerRemovedMessage';
@@ -13,6 +13,10 @@ import { isUserJoined } from '../../networking/dtos/shared/userJoined.guard';
 import { PlayerType } from '../player-data/PlayerType';
 import { isUserScore } from '../../networking/dtos/game/game-flow/userScore.guard';
 import { UserScore } from '../../networking/dtos/game/game-flow/userScore';
+import { Closed } from '../../networking/services/signal-r/events/Closed';
+import { Connected } from '../../networking/services/signal-r/events/Connected';
+import { Reconnecting } from '../../networking/services/signal-r/events/Reconnecting';
+import { PlayerDataService } from '../player-data/player-data.service';
 
 @Injectable({
   providedIn: null
@@ -21,7 +25,9 @@ export class ActivePlayersService
 {
     private currentPlayerData: PlayerData[] = [];
 
-    private eventSubject: Subject<CurrentPlayersMessage> = new Subject<CurrentPlayersMessage>();
+    private playerDataService: PlayerDataService = inject(PlayerDataService);
+
+    private eventSubject: ReplaySubject<CurrentPlayersMessage> = new ReplaySubject<CurrentPlayersMessage>(5);
 
     private gameApiService: GameApiService = inject(GameApiService);
 
@@ -34,10 +40,17 @@ export class ActivePlayersService
         }
       );
 
+      this.gameApiService.ObserveConnectionStatusEvent().subscribe
+      (
+        {
+          next: this.OnConnectionStatusEvent
+        }
+      )
+
       this.gameApiService.ObserveGameFlowEvent()
         .pipe((filter((val) => isUserScore(val))))
         .subscribe(this.OnScoreEvent);
-    }  
+    }
 
     public get CurrentPlayers(): PlayerData[]
     {
@@ -49,12 +62,12 @@ export class ActivePlayersService
       return this.eventSubject.asObservable();
     }
 
-    private OnScoreEvent(value: UserScore): void
+    private OnScoreEvent = (value: UserScore): void =>
     {
       this.SetScore(value.body.user.id, value.body.score);
     }
 
-    private OnUserConnectionEvent(value: UserDisconnected | UserJoined): void
+    private OnUserConnectionEvent = (value: UserDisconnected | UserJoined): void =>
     {
       if (isUserJoined(value))
       {
@@ -67,6 +80,29 @@ export class ActivePlayersService
         let discon = value as UserDisconnected;
 
         this.Remove(discon.body.user.id);
+      }
+    }
+
+    private OnConnectionStatusEvent = (value: Closed | Connected | Reconnecting) =>
+    {
+      if (this.playerDataService.PlayerData.value == undefined)
+      {
+        console.log("Received change of connection status event, but player data is not set!");
+        return;
+      }
+
+      if (value instanceof Reconnecting)
+      {
+        return;
+      }
+
+      if (value instanceof Closed)
+      {
+        this.Remove(this.playerDataService.PlayerData.value.Id);
+      }
+      else if (value instanceof Connected)
+      {
+       this.Add(this.playerDataService.PlayerData.value);
       }
     }
 

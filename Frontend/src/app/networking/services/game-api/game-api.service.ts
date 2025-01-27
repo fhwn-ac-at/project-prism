@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { SignalRService } from '../signal-r/signal-r.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { GameStarted } from '../../dtos/lobby/gameStarted';
 import { BuildRoundAmountChanged, RoundAmountChanged } from '../../dtos/lobby/roundAmountChanged';
 import { BuildRoundDurationChanged, RoundDurationChanged } from '../../dtos/lobby/roundDurationChanged';
@@ -31,7 +31,7 @@ import { Connected } from '../signal-r/events/Connected';
 import { Closed } from '../signal-r/events/Closed';
 import { Reconnecting } from '../signal-r/events/Reconnecting';
 import { isBackgroundColor } from '../../dtos/game/drawing/backgroundColor.guard';
-import { hasHeaderAndBody } from '../../dtos/shared/hasHeaderAndBody.guard';
+import { hasHeader } from '../../dtos/shared/hasHeaderAndBody.guard';
 import { isClear } from '../../dtos/game/drawing/clear.guard';
 import { isClosePath } from '../../dtos/game/drawing/closePath.guard';
 import { isDrawingSizeChanged } from '../../dtos/game/drawing/drawingSizeChanged.guard';
@@ -59,16 +59,16 @@ export class GameApiService
   private playerDataService: PlayerDataService = inject(PlayerDataService);
 
   // event subs
-  private lobbyEventSub: Subject<GameStarted | RoundAmountChanged | RoundDurationChanged> = new Subject();
-  private chatMessageEventSub: Subject<ChatMessage> = new Subject();
-  private userConnectionEventSub: Subject<UserDisconnected | UserJoined> = new Subject();
+  private lobbyEventSub: Subject<GameStarted | RoundAmountChanged | RoundDurationChanged> = new ReplaySubject(5);
+  private chatMessageEventSub: Subject<ChatMessage> = new ReplaySubject(5);
+  private userConnectionEventSub: Subject<UserDisconnected | UserJoined> = new ReplaySubject(5);
   private drawingEventSub: 
     Subject<BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo> 
-    = new Subject();
+    = new ReplaySubject(5);
   private gameFlowEventSub: 
     Subject<GameEnded | NextRound | SearchedWord | SelectWord | SetDrawer | SetNotDrawer | UserScore>
-     = new Subject();
-  private connectionEventSub: Subject<Closed | Connected | Reconnecting> = new Subject();
+     = new ReplaySubject(5);
+  private connectionEventSub: Subject<Closed | Connected | Reconnecting> = new ReplaySubject(5);
 
   private headerTypeToDecoderFunctionsMap: Map<string, (val: unknown) => void> = new Map
   (
@@ -179,6 +179,11 @@ export class GameApiService
     return this.userConnectionEventSub.asObservable();
   }
 
+  public ObserveConnectionStatusEvent(): Observable<Closed | Connected | Reconnecting>
+  {
+    return this.connectionEventSub.asObservable();
+  }
+
   public ObserveDrawingEvent(): 
     Observable<BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo>
   {
@@ -207,13 +212,13 @@ export class GameApiService
 
   public async SendChatMessage(message: string): Promise<void>
   {
-    if (this.playerDataService.PlayerData.value.isNone()) return Promise.reject(new Error("No userdata present!"));
+    if (this.playerDataService.PlayerData.value == undefined) return Promise.reject(new Error("No userdata present!"));
 
     const roundDurationChanged = BuildChatMessage(
       message, 
       {
-        id: this.playerDataService.PlayerData.value.value.Id, 
-        name: this.playerDataService.PlayerData.value.value.Username
+        id: this.playerDataService.PlayerData.value.Id, 
+        name: this.playerDataService.PlayerData.value.Username
       }
     );
 
@@ -270,18 +275,18 @@ export class GameApiService
   }
 
   // handlers
-  private OnDataReceived(data: unknown) 
+  private OnDataReceived = (data: any) =>
   {
-    if (!hasHeaderAndBody(data))
+    const dataAsJson: any = JSON.parse(data);
+
+    if (!hasHeader(dataAsJson))
     {
-      console.log("Received data without header and body: " + JSON.stringify(data));
+      console.log("Received data without header and body: " + dataAsJson);
       return;
     }
 
-    console.log(data.header.type);
-    console.log(this);
-    const decoderFunction: ((data: unknown) => void) | undefined = this.headerTypeToDecoderFunctionsMap.get(data.header.type);
-    console.log(decoderFunction);
+    const decoderFunction: ((dataAsJson: unknown) => void) | undefined = this.headerTypeToDecoderFunctionsMap
+      .get(dataAsJson.header.type);
 
     if (decoderFunction == undefined)
     {
@@ -289,10 +294,10 @@ export class GameApiService
       return;
     }
 
-    decoderFunction(data);
+    decoderFunction(dataAsJson);
   }
 
-  private OnConnectionEvent(onConnectionEvent: Connected | Closed | Reconnecting) 
+  private OnConnectionEvent = (onConnectionEvent: Connected | Closed | Reconnecting)  =>
   {
     this.connectionEventSub.next(onConnectionEvent);
   }

@@ -27,7 +27,7 @@ export class ChatMessagesService
 
     this.gameApi.ObserveChatMessageEvent().subscribe({next: (val: dto.ChatMessage) => 
     {
-      this.chatMessages.push({Username: val.body.user.name, Message: val.body.text, Color: "Black"});
+      this.AddChatMessage({Username: val.body.user.name, Message: val.body.text, Color: "Black"});
     }})
   }
 
@@ -43,11 +43,11 @@ export class ChatMessagesService
  
   public async AddAndSendChatMessage(message: string): Promise<void>
   {
-    if (this.playerDataService.PlayerData.value.isNone()) return Promise.reject(new Error("No player data!"));
+    if (this.playerDataService.PlayerData.value == undefined) return Promise.reject(new Error("No player data!"));
 
     await this.gameApi.SendChatMessage(message);
 
-    this.AddChatMessage({Username: this.playerDataService.PlayerData.value.value.Username, Message: message, Color: "Black"});
+    this.AddChatMessage({Username: this.playerDataService.PlayerData.value.Username, Message: message, Color: "Black"});
   }
 
   private AddChatMessage(message: ChatMessage): void

@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LobbyUserType } from '../../services/lobby-user-type/LobbyUserType';
 import { LobbyUserTypeService } from '../../services/lobby-user-type/lobby-user-type.service';
+import { ConfigService } from '../../services/config/config.service';
 
 @Component({
   selector: 'app-lobby-options',
@@ -22,7 +23,8 @@ import { LobbyUserTypeService } from '../../services/lobby-user-type/lobby-user-
 export class LobbyOptionsComponent 
 {
   private snackbar: MatSnackBar;
-  
+  private config: ConfigService = inject(ConfigService);
+
   public constructor
   (
     lS: LobbyUserTypeService,
@@ -37,15 +39,15 @@ export class LobbyOptionsComponent
     this.OptionsData = new FormGroup
     (
       {
-        roundsAmount: new FormControl(this.LobbyOptionsService.RoundAmount),
-        roundDuration: new FormControl(this.LobbyOptionsService.RoundDuration),
+        roundsAmount: new FormControl(this.config.configData.lobbyDefaults.roundAmount),
+        roundDuration: new FormControl(this.config.configData.lobbyDefaults.roundDuration),
       }
     );
 
-    this.LobbyOptionsService.RoundAmount.subscribe((val) => this.OptionsData
+    this.LobbyOptionsService.ObserveRoundAmount().subscribe((val) => this.OptionsData
     .setValue({roundsAmount: val, roundDuration: this.OptionsData.value.roundDuration}));
 
-    this.LobbyOptionsService.RoundDuration.subscribe((val) => this.OptionsData
+    this.LobbyOptionsService.ObserveRoundDuration().subscribe((val) => this.OptionsData
     .setValue({roundsAmount: this.OptionsData.value.roundsAmount, roundDuration: val}));
   }
 
@@ -70,13 +72,13 @@ export class LobbyOptionsComponent
   {
     if (this.OptionsData.controls["roundsAmount"].invalid) return;
     
-    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
+    this.LobbyOptionsService.SendRoundAmount(this.OptionsData.controls["roundsAmount"].value);
   }
 
   public OnDurationChanged(_: any) 
   {
-    if (this.OptionsData.controls["roundsAmount"].invalid) return;
+    if (this.OptionsData.controls["roundDuration"].invalid) return;
 
-    this.LobbyOptionsService.RoundAmount.next(this.OptionsData.controls["roundsAmount"].value);
+    this.LobbyOptionsService.SendRoundDuration(this.OptionsData.controls["roundDuration"].value);
   }
 }

@@ -6,7 +6,7 @@
     <mat-list class="active-players-list">
         @for (item of CurrentPlayers; track item)
         {
-            <mat-list-item >
+            <mat-list-item [ngClass]="{'me-user': PlayerDataService.PlayerData.value?.Id == item.Id}">
                 <h3 matListItemTitle class="username">
                     {{item.Username}}
                 </h3>

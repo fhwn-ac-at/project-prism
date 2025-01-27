@@ -17,5 +17,5 @@ export function IsPlayerData(obj: any): obj is PlayerData
 
 export function IsEqual(a: PlayerData, b: PlayerData): boolean
 {
-  return a.Username == b.Username && a.Score == b.Score && a.Id == b.Id;
+  return a.Id == b.Id;
 }

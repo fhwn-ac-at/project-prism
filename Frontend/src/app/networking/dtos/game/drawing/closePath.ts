@@ -15,7 +15,7 @@ export function BuildClosePath(): ClosePath
         header: 
         {
             type: "closePath", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

@@ -4,17 +4,18 @@
     using MessageLib.SharedObjects;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Newtonsoft.Json.Schema;
     using System;
 
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
-    public class Validator(Deserializer deserializer, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
+    public class Validator(Deserializer deserializer, IOptions<ValidatorOptions> validatorOptions, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
     {
         private readonly ILogger<Validator>? logger = logger;
-        private readonly ILoggerFactory? loggerFactory = loggerFactory;
         private readonly Deserializer deserializer = deserializer;
+        private readonly bool useNewtonsoft = validatorOptions.Value.useNewtonsoftJsonSchemaValidator;
 
         private readonly Dictionary<string, JSchema> knownSchemas = [];
         private readonly CustomJSchemaResolver resolver = new CustomJSchemaResolver(loggerFactory?.CreateLogger<CustomJSchemaResolver>());
@@ -22,6 +23,31 @@
         public bool Validate(string json)
         {
             return this.Validate(json, out MessageType? _);
+        }
+
+        public bool ValidateWithCheckTimestamp(string json, out MessageType? messageType, double maxTimeDifference)
+        {
+            if (!this.Validate(json, out messageType))
+            {
+                return false;
+            }
+
+            var header = this.deserializer.DeserializeHeader(json);
+
+            if (header == null)
+            {
+                return false;
+            }
+
+            var headerDiffMillis = Math.Abs(DateTime.Now.Subtract(header.Timestamp.ToLocalTime()).TotalMilliseconds);
+
+            if (headerDiffMillis<0||headerDiffMillis>maxTimeDifference)
+            {
+                this.logger?.LogDebug("Message to old! Message: {}", json);
+                return false;
+            }
+
+            return true;
         }
 
         public bool Validate(string json, out MessageType? messageType)
@@ -51,29 +77,57 @@
                     return false;
                 }
 
-                JSchema schema;
-                if (this.knownSchemas.TryGetValue(schemaPath, out JSchema? value))
+                if (this.useNewtonsoft)
                 {
-                    schema=value;
-                }
-                else
-                {
-                    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
-                    schema=JSchema.Parse(File.ReadAllText(filePath), this.resolver);
+                    JSchema schema;
+                    if (this.knownSchemas.TryGetValue(schemaPath, out JSchema? value))
+                    {
+                        schema=value;
+                    }
+                    else
+                    {
+                        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
+                        using (TextReader file = File.OpenText(filePath))
+                        using (JsonTextReader reader = new JsonTextReader(file))
+                        {
+                            schema = JSchema.Load(reader, this.resolver);
+                        }
+                    }
+
+                    bool valid = jsonObject.IsValid(schema, out IList<ValidationError> errors);
+
+                    if (errors.Count>0)
+                    {
+                        this.logger?.LogInformation("Message not valid! Message: {}", json);
+                        foreach (ValidationError error in errors)
+                        {
+                            this.logger?.LogInformation(error.Message);
+                        }
+                    }
+
+                    return valid;
                 }
 
-                bool valid = jsonObject.IsValid(schema, out IList<ValidationError> errors);
 
-                if (errors.Count>0)
+                string nFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
+                var schemaTask = NJsonSchema.JsonSchema.FromFileAsync(nFilePath);
+                schemaTask.Wait();
+
+                var nSchema = schemaTask.Result;
+
+                var nErrors = nSchema.Validate(json);
+
+                if (nErrors!= null && nErrors.Count>0)
                 {
                     this.logger?.LogInformation("Message not valid! Message: {}", json);
-                    foreach (ValidationError error in errors)
+                    foreach (NJsonSchema.Validation.ValidationError error in nErrors)
                     {
-                        this.logger?.LogInformation(error.Message);
+                        this.logger?.LogInformation(message: error.ToString());
                     }
+                    return false;
                 }
 
-                return valid;
+                return true;
             }
             catch (JsonReaderException ex)
             {

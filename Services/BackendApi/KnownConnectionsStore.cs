@@ -7,5 +7,6 @@
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
     public class KnownConnectionsStore : ConcurrentDictionary<string, WebsocketToAMQPConnector>
     {
+        public Guid ConnectionId { get; } = Guid.NewGuid();
     }
 }

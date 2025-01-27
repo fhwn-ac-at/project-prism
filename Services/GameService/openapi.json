@@ -99,14 +99,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "ttl",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
           }
         ],
         "responses": {

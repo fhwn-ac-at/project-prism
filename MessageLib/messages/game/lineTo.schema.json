@@ -6,7 +6,7 @@
       "header": {
         "allOf": [
             {
-                "$ref": "../global.definitions.schema.json#definitions/messsageHeader"
+                "$ref": "../global.definitions.schema.json#/definitions/messsageHeader"
             },
             {
                 "type": "object",
@@ -22,10 +22,10 @@
         "type": "object",
         "properties": {
             "point": {
-                "$ref": "../global.definitions.schema.json#definitions/relativePoint"
+                "$ref": "../global.definitions.schema.json#/definitions/relativePoint"
             },
             "color": {
-                "$ref": "../global.definitions.schema.json#definitions/hexColor"
+                "$ref": "../global.definitions.schema.json#/definitions/hexColor"
             }
         },
         "required": [

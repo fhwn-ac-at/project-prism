@@ -16,7 +16,7 @@ export function BuildDrawingSizeChanged(size: number): DrawingSizeChanged
         header: 
         {
             type: "drawingSizeChanged", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

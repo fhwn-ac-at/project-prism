@@ -11,7 +11,7 @@ internal class Program
     private static void Main(string[] args)
     {
         Deserializer deserialzier = new Deserializer();
-        Validator test = new Validator(deserialzier);
+        Validator test = new Validator(deserialzier, Options.Create(new ValidatorOptions { useNewtonsoftJsonSchemaValidator=false}));
 
         RoundDurationChangedMessage message = new RoundDurationChangedMessage(new RoundDurationChangedMessageBody(60));
 

@@ -17,7 +17,7 @@ export function BuildGameEnded(word: string, score: object): GameEnded
         header: 
         {
             type: "gameEnded", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

@@ -15,7 +15,7 @@ export function BuildSelectWord(word: string): SelectWord
         header: 
         {
             type: "selectWord", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

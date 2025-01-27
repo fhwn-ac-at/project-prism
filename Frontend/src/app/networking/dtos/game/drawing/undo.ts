@@ -15,7 +15,7 @@ export function BuildUndo(): Undo
         header: 
         {
             type: "undo", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

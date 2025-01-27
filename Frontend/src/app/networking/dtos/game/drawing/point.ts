@@ -21,7 +21,7 @@ export function BuildPoint(point: Position2d, radius: number, color: string): Po
         header: 
         {
             type: "point", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

@@ -17,7 +17,7 @@ export function BuildChatMessage(text: string, user: User): ChatMessage
         header: 
         {
             type: "chatMessage", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

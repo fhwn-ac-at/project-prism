@@ -18,7 +18,7 @@ export function BuildNextRound(round: number, word: string, score: object): Next
         header: 
         {
             type: "nextRound", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {  

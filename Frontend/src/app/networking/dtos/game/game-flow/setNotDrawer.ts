@@ -15,7 +15,7 @@ export function BuildSetNotDrawer(): SetNotDrawer
         header: 
         {
             type: "setNotDrawer", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

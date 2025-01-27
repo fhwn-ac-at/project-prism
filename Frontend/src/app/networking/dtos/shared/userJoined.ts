@@ -17,7 +17,7 @@ export function BuildUserUserJoined(user: User): UserJoined
         header: 
         {
             type: "userJoined", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

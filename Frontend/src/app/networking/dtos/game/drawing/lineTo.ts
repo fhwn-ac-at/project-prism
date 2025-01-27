@@ -20,7 +20,7 @@ export function BuildLineTo(point: Position2d, color: string): LineTo
         header: 
         {
             type: "lineTo", 
-            timestamp: DateTime.now()
+            timestamp: DateTime.now().toISO()
         }, 
         body: 
         {

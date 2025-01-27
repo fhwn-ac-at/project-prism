@@ -18,6 +18,7 @@
     {
         private readonly ILogger<AMQPBroker>? logger;
         private readonly IServiceProvider serviceProvider;
+        private readonly uint ttl;
 
         private readonly ConnectionFactory factory;
 
@@ -33,7 +34,7 @@
         public event EventHandler<string>? receivedMessage;
 
         // TODO handle errors from rabbit mq or network
-        public AMQPBroker(ILogger<AMQPBroker>? logger, IOptions<RabbitMQOptions>? options, IServiceProvider serviceProvider)
+        public AMQPBroker(ILogger<AMQPBroker>? logger, IOptions<RabbitMQOptions>? options, IOptions<AMQPMessageOptions> messageOptions, IServiceProvider serviceProvider)
         {
             ArgumentNullException.ThrowIfNull(options);
 
@@ -54,6 +55,7 @@
 
             this.logger=logger;
             this.serviceProvider=serviceProvider;
+            this.ttl=messageOptions.Value.TimeToLive;
             this.factory=new ConnectionFactory
             {
                 HostName=options.Value.Host,
@@ -109,7 +111,7 @@
         {
             return Task.Run(() =>
             {
-                this.logger?.LogDebug(@event.Exception.Message);
+                this.logger?.LogError(@event.Exception.Message);
             });
         }
 
@@ -227,7 +229,7 @@
             }
         }
 
-        public async Task SendMessageAsync(string exchange, string queue, string queuePrefix, ReadOnlyMemory<byte> bytes, uint ttl)
+        public async Task SendMessageAsync(string exchange, string queue, string queuePrefix, ReadOnlyMemory<byte> bytes)
         {
             this.logger?.LogTrace("Sending to exchange {} for queue {}", exchange, queue);
             var wasCreatedByObject = false;
@@ -264,7 +266,7 @@
             {
                 BasicProperties properties = new BasicProperties
                 {
-                    Expiration=ttl.ToString()
+                    Expiration=this.ttl.ToString()
                 };
 
                 try

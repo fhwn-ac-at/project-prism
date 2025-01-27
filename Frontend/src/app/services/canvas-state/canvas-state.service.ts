@@ -149,7 +149,7 @@ export class CanvasStateService
     }
   }
 
-  private OnDrawingEvent(value: BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo) 
+  private OnDrawingEvent = (value: BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo) =>
   {
     if (isClear(value))
     {

@@ -49,6 +49,8 @@ import { isUserScore } from '../../dtos/game/game-flow/userScore.guard';
 import { isChatMessage } from '../../dtos/shared/chatMessage.guard';
 import { isUserDisconnected } from '../../dtos/shared/userDisconnected.guard';
 import { isUserJoined } from '../../dtos/shared/userJoined.guard';
+import { GuessClose } from '../../dtos/game/game-flow/guessClose';
+import { isGuessClose } from '../../dtos/game/game-flow/guessClose.guard';
 
 @Injectable({
   providedIn: null
@@ -66,7 +68,7 @@ export class GameApiService
     Subject<BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo> 
     = new ReplaySubject(5);
   private gameFlowEventSub: 
-    Subject<GameEnded | NextRound | SearchedWord | SelectWord | SetDrawer | SetNotDrawer | UserScore>
+    Subject<GameEnded | NextRound | SearchedWord | SelectWord | SetDrawer | SetNotDrawer | UserScore | GuessClose>
      = new ReplaySubject(5);
   private connectionEventSub: Subject<Closed | Connected | Reconnecting> = new ReplaySubject(5);
 
@@ -119,6 +121,9 @@ export class GameApiService
       }],
       ["userScore", (val) => {
         if (!isUserScore(val)){this.HandleInvalidData(val); return;}  this.gameFlowEventSub.next(val); 
+      }],
+      ["guessClose", (val) => {
+        if (!isGuessClose(val)){this.HandleInvalidData(val); return;}  this.gameFlowEventSub.next(val); 
       }],
       // lobby
       ["gameStarted", (val) => {

@@ -18,12 +18,12 @@ export class PlayerTypeService
   {
         this.gameApiService.ObserveGameFlowEvent()
         .pipe(filter((val) => isSetDrawer(val) || isSetNotDrawer(val)))
-        .subscribe(this.OnPlayerTypeChanged)
+        .subscribe(this.OnPlayerType)
   }
 
   public PlayerType: BehaviorSubject<PlayerType> = new BehaviorSubject<PlayerType>(PlayerType.NotSet);
 
-  private OnPlayerTypeChanged(value: SetDrawer | SetNotDrawer) 
+  private OnPlayerType = (value: SetDrawer | SetNotDrawer) =>
   {
     const role = isSetDrawer(value) ? PlayerType.Drawer : PlayerType.Guesser;
 

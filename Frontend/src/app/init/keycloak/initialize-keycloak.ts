@@ -24,7 +24,7 @@ export function provideKeycloakAngular(): EnvironmentProviders
             (
               {
                 onInactivityTimeout: 'logout',
-                sessionTimeout: 60000
+                sessionTimeout: 300000
               }
             )
           ],

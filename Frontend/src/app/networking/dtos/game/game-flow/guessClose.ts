@@ -1,28 +1,28 @@
 import { DateTime } from "luxon";
 import { Header } from "../../shared/header";
 
-export interface GameEnded
+export interface GuessClose
 {
     header: Header,
     body: 
     {
-        word: string,
-        score: object    
+        guess: string,
+        distance: number
     }
 }
 
-export function BuildGameEnded(word: string, score: object): GameEnded
+export function BuildGuessClose(guess: string, distance: number)
 {
     return {
         header: 
         {
-            type: "gameEnded", 
+            type: "guessClose", 
             timestamp: DateTime.now()
         }, 
         body: 
         {
-            word: word,
-            score: score
+            guess: guess,
+            distance: distance
         }
-    };
+    }
 }

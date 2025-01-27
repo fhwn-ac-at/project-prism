@@ -13,6 +13,7 @@ import { GameIdComponent } from "../../components/game-id/game-id.component";
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
 import { isGameStarted } from '../../networking/dtos/lobby/gameStarted.guard';
 import { filter } from 'rxjs';
+import { GameRoundService } from '../../services/game-round/game-round.service';
 
 @Component({
   selector: 'app-lobby',

@@ -49,6 +49,9 @@ export class LobbyOptionsComponent
 
     this.LobbyOptionsService.ObserveRoundDuration().subscribe((val) => this.OptionsData
     .setValue({roundsAmount: this.OptionsData.value.roundsAmount, roundDuration: val}));
+
+    this.LobbyOptionsService.SendRoundAmount(this.config.configData.lobbyDefaults.roundAmount);
+    this.LobbyOptionsService.SendRoundDuration(this.config.configData.lobbyDefaults.roundDuration);
   }
 
   public LobbyUserTypeService: LobbyUserTypeService;

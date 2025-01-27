@@ -21,11 +21,6 @@ export class PickWordService
       .subscribe(this.OnSetDrawer);
   }
 
-  private OnSetDrawer(val: SetDrawer): void
-  {
-    this.wordsToPickSubject.next({Words: val.body.words});
-  }
-
   public ObserveWordsToPickEvent(): Observable<WordsToPickEvent>
   {
     return this.wordsToPickSubject.asObservable();
@@ -34,5 +29,10 @@ export class PickWordService
   public SendWordPicked(word: string): Promise<void>
   {
     return this.gameApiService.SendSelectedWord(word);
+  }
+
+  private OnSetDrawer = (val: SetDrawer): void =>
+  {
+    this.wordsToPickSubject.next({Words: val.body.words});
   }
 }

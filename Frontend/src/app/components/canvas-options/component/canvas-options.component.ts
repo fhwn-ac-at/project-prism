@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CanvasStateService } from "../../../services/canvas-state/canvas-state.service";
+import { StrokesContainer } from "../../../services/canvas-state/StrokesContainer";
 import {ColorPickerModule} from "ngx-color-picker";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatButtonModule} from "@angular/material/button";
@@ -8,6 +8,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CanDrawService } from '../../../services/can-draw/can-draw.service';
 import { PlayerTypeService } from '../../../services/player-type/player-type.service';
 import { PlayerType } from '../../../services/player-data/PlayerType';
+import { CanvasOptionsService } from '../../../services/canvas-options/canvas-options.service';
+import { StrokesService } from '../../../services/canvas-state/strokes.service';
 
 @Component({
   selector: 'app-canvas-options',
@@ -17,13 +19,13 @@ import { PlayerType } from '../../../services/player-data/PlayerType';
 })
 export class CanvasOptionsComponent
 {
-  private canvasState: CanvasStateService = inject(CanvasStateService);
-  private canDrawService: CanDrawService = inject(CanDrawService);
+  private strokes: StrokesService = inject(StrokesService);
+  private canvasOptions: CanvasOptionsService = inject(CanvasOptionsService);
 
   public constructor()
   {
-    this.Color = this.canvasState.StrokeColor.value;
-    this.StrokeSize = this.canvasState.StrokeWidth.value;
+    this.Color = this.canvasOptions.StrokeColor.value;
+    this.StrokeSize = this.canvasOptions.StrokeWidth.value;
   }
 
   public PlayerTypeService: PlayerTypeService = inject(PlayerTypeService);
@@ -35,25 +37,21 @@ export class CanvasOptionsComponent
 
   public OnSizeValueChanged(_: number) 
   {
-    this.canvasState.StrokeWidth.next(this.StrokeSize);
+    this.canvasOptions.StrokeWidth.next(this.StrokeSize);
   }
 
   public OnColorChanged(_: string) 
   {
-    this.canvasState.StrokeColor.next(this.Color);
+    this.canvasOptions.StrokeColor.next(this.Color);
   }
 
   public OnCanvasResetClicked(_: MouseEvent) 
   {
-    if(!this.canDrawService.CanUseCanvas()) return;
-
-    this.canvasState.ResetStrokes();
+    this.strokes.ResetStrokes();
   }
 
   public OnUndoButtonClicked(_: MouseEvent) 
   {
-    if(!this.canDrawService.CanUseCanvas()) return;
-
-    this.canvasState.Undo();
+    this.strokes.Undo();
   }
 }

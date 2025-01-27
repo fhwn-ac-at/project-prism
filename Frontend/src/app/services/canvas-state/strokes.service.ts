@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
 import { CanDrawService } from '../can-draw/can-draw.service';
-import { CanvasStateService } from './canvas-state.service';
+import { StrokesContainer } from './StrokesContainer';
 import { Position2d } from '../../../lib/Position2d';
 import { BackgroundColor } from '../../networking/dtos/game/drawing/backgroundColor';
 import { Clear } from '../../networking/dtos/game/drawing/clear';
@@ -15,22 +15,41 @@ import { MoveTo } from '../../networking/dtos/game/drawing/moveTo';
 import { Point } from '../../networking/dtos/game/drawing/point';
 import { Undo } from '../../networking/dtos/game/drawing/undo';
 import { isUndo } from '../../networking/dtos/game/drawing/undo.guard';
+import { CanvasOptionsService } from '../canvas-options/canvas-options.service';
+import { isLineTo } from '../../networking/dtos/game/drawing/lineTo.guard';
 import { StrokeVM } from './StrokeVM';
-import { BehaviorSubject, Observer, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { StrokesEvent } from './events/StrokesEvent';
+import { isMoveTo } from '../../networking/dtos/game/drawing/moveTo.guard';
 
 @Injectable({
   providedIn: null,
 })
-export class CanvasWrapperService 
+export class StrokesService 
 {
   private gameApi: GameApiService = inject(GameApiService);
+
+  private canvasOptions: CanvasOptionsService = inject(CanvasOptionsService);
+
   private canDraw: CanDrawService = inject(CanDrawService);
-  private canvasService: CanvasStateService = inject(CanvasStateService);
-  
+
+  private strokesContainer: StrokesContainer = new StrokesContainer();
+
+
+
   public constructor()
   {
     this.gameApi.ObserveDrawingEvent().subscribe(this.OnDrawingEvent);
+  }
+
+  public ObserveStrokesEvent(): Observable<StrokesEvent>
+  {
+    return this.strokesContainer.ObserveStrokesEvent();
+  }
+
+  public get Strokes(): StrokeVM[]
+  {
+    return this.strokesContainer.Strokes;
   }
 
   // stroke API
@@ -41,43 +60,49 @@ export class CanvasWrapperService
       return;
     }
 
-    this.canvasService.ResetStrokes();
+    this.strokesContainer.ResetStrokes();
 
     return this.gameApi.SendClear();
   }
 
-  public async StartStroke(startPos: Position2d)
+  public async StartStroke(startPos: Position2d, width: number, color: string)
   {
     if (!this.canDraw.IsDrawer())
     {
       return false;
     }
 
-    this.canvasService.StartStroke(startPos);
+    const started: boolean = this.strokesContainer.StartStroke(startPos, width, color);
+ 
+    if (!started) return;
 
     return this.gameApi.SendMoveTo(startPos);
   }
 
-  public async MoveStroke(pos: Position2d)
+  public async MoveStroke(pos: Position2d, color: string)
   {
     if (!this.canDraw.IsDrawer())
     {
       return;
     }
 
-    this.canvasService.MoveStroke(pos);
+    const moved: boolean = this.strokesContainer.MoveStroke(pos);
 
-    return this.gameApi.SendLineTo(pos, this.canvasService.StrokeColor.value);
+    if (!moved) return;
+
+    return this.gameApi.SendLineTo(pos, color);
   }
 
   public async EndStroke()
   {
     if (!this.canDraw.IsDrawer())
-      {
-        return false;
-      }
+    {
+      return false;
+    }
 
-    this.canvasService.EndStroke();
+    const ended = this.strokesContainer.EndStroke();
+
+    if(!ended) return;
 
     return this.gameApi.SendClosePath();
   }
@@ -89,7 +114,7 @@ export class CanvasWrapperService
       return;
     }
 
-    this.canvasService.Undo();
+    this.strokesContainer.Undo();
 
     return this.gameApi.SendUndo();
   }
@@ -98,22 +123,35 @@ export class CanvasWrapperService
   {
     if (isClear(value))
     {
-      this.canvasService.ResetStrokes();
+      this.strokesContainer.ResetStrokes();
     }
     else if (isClosePath(value))
     {
-      this.canvasService.EndStroke();
+      this.strokesContainer.EndStroke();
+    }
+    else if (isLineTo(value))
+    {
+      let v = value as LineTo;
+
+      this.strokesContainer.MoveStroke(v.body.point);
+    }
+    else if (isUndo(value))
+    {
+      this.strokesContainer.Undo();
+    }
+    else if (isMoveTo(value))
+    {
+      let v = value as MoveTo;
+
+      this.strokesContainer.StartStroke(v.body.point, this.canvasOptions.StrokeWidth.value, this.canvasOptions.StrokeColor.value)
     }
     else if (isDrawingSizeChanged(value))
     {
       let v = value as DrawingSizeChanged;
-      this.canvasService.StrokeWidth.next(v.body.size);
+      this.canvasOptions.StrokeWidth.next(v.body.size);
     }
-    else if (isUndo(value))
+    else
     {
-      this.canvasService.Undo();
-    }
-    else{
       console.log("Other data type in drawing event received:" + value);
     }
   }

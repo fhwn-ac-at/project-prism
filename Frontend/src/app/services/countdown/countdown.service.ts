@@ -35,7 +35,7 @@ export class CountdownService
     return this.timerSubscription != null;
   }
 
-  private StartTimer(startNumber: number, delayInMs: number): void
+  public StartTimer(startNumber: number, delayInMs: number): void
   {
     if (!Number.isInteger(startNumber) || startNumber < 0) 
     {

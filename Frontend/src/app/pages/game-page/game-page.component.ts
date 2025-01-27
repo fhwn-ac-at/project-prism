@@ -11,6 +11,10 @@ import { ShowScoresService } from '../../services/show-scores/show-scores.servic
 import { ShowScoresEvent } from '../../services/show-scores/events/ShowScoresEvent';
 import { ShowScoresComponent } from '../../components/show-scores/show-scores.component';
 import { timer } from 'rxjs';
+import { CountdownService } from '../../services/countdown/countdown.service';
+import { PlayerDataService } from '../../services/player-data/player-data.service';
+import { PlayerTypeService } from '../../services/player-type/player-type.service';
+import { PlayerType } from '../../services/player-data/PlayerType';
 
 @Component
 (
@@ -19,7 +23,6 @@ import { timer } from 'rxjs';
   imports: [DrawableCanvasComponent, TopBarComponent, ChatComponent, ActivePlayersComponent],
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.css',
-  providers: []
   }
 )
 export class GamePageComponent
@@ -34,7 +37,7 @@ export class GamePageComponent
       .subscribe(this.OnWordsToPick);
 
     this.showScoresService.ObserveShowScoresEvent()
-      .subscribe(this.OnShowScoresMessage);
+      .subscribe(this.OnShowScoresMessage);   
   }
 
   private OnWordsToPick = (event: WordsToPickEvent) =>

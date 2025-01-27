@@ -1,5 +1,5 @@
 import { inject, Injectable} from '@angular/core';
-import { BehaviorSubject, Observer, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Observer, Subject, Subscription } from 'rxjs';
 import { ConfigService } from "../config/config.service";
 import { StrokeVM } from './StrokeVM';
 import { Position2d } from '../../../lib/Position2d';
@@ -10,20 +10,11 @@ import { MovedEvent } from './events/MovedEvent';
 import { ClosedEvent } from './events/ClosedEvent';
 import { RemovedEvent } from './events/RemovedEvent';
 
-@Injectable(
+export class StrokesContainer 
 {
-  providedIn: null
-})
-export class CanvasStateService 
-{
-  // services
-  private configService: ConfigService = inject(ConfigService);
-
-  // stroke data
   private strokes: StrokeVM[] = [];
   private openStroke: StrokeVM | null = null;
 
-  // event subject
   private eventSubject: Subject<StrokesEvent> = new Subject<StrokesEvent>();
 
   public get Strokes(): StrokeVM[]
@@ -38,12 +29,10 @@ export class CanvasStateService
     return strokes;
   }
 
-  // event stuff
-  public StrokeWidth: BehaviorSubject<number> = new BehaviorSubject<number>(this.configService.configData.canvasOptions.strokeWidth);
-  public StrokeColor: BehaviorSubject<string> = new BehaviorSubject<string>(this.configService.configData.canvasOptions.strokeColor);
-  public SubscribeStrokesEvent(obs : Partial<Observer<StrokesEvent>>) : Subscription
+  // event
+  public ObserveStrokesEvent() : Observable<StrokesEvent>
   {
-    return this.eventSubject.subscribe(obs);
+    return this.eventSubject.asObservable();
   }
 
   // stroke API
@@ -54,14 +43,14 @@ export class CanvasStateService
     this.eventSubject.next(new ClearedEvent());
   }
 
-  public StartStroke(startPos: Position2d): boolean
+  public StartStroke(startPos: Position2d, width: number, color: string): boolean
   {
     if (this.openStroke != null) return false;
 
     this.openStroke = {
-      StrokeWidth: this.StrokeWidth.value,
+      StrokeWidth: width,
       PathData: [startPos],
-      Color: this.StrokeColor.value,
+      Color: color,
     }
 
     this.eventSubject.next(new StartedEvent(this.openStroke));

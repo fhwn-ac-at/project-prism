@@ -18,7 +18,8 @@ import { HttpClient } from "@angular/common/http";
 import { LobbyUserTypeService } from "../services/lobby-user-type/lobby-user-type.service";
 import { ShowScoresService } from "../services/show-scores/show-scores.service";
 import { LobbyService } from "../services/lobby/lobby.service";
-import { CanvasWrapperService } from "../services/canvas-state/canvas-wrapper";
+import { StrokesService } from "../services/canvas-state/strokes.service";
+import { CanvasOptionsService } from "../services/canvas-options/canvas-options.service";
 
 export const provideRootAppServices = () => 
 [
@@ -40,5 +41,6 @@ export const provideRootAppServices = () =>
   {provide: PlayerTypeService, useClass: PlayerTypeService},
   {provide: LobbyUserTypeService, useClass: LobbyUserTypeService},
   {provide: ShowScoresService, useClass: ShowScoresService},
-  {provide: CanvasWrapperService, useClass: CanvasWrapperService},
+  {provide: StrokesService, useClass: StrokesService},
+  {provide: CanvasOptionsService, useClass: CanvasOptionsService}
 ];

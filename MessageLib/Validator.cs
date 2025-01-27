@@ -4,17 +4,18 @@
     using MessageLib.SharedObjects;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Newtonsoft.Json.Schema;
     using System;
 
     [Injectable(Lifetime = ServiceLifetime.Singleton)]
-    public class Validator(Deserializer deserializer, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
+    public class Validator(Deserializer deserializer, IOptions<ValidatorOptions> validatorOptions, ILogger<Validator>? logger = null, ILoggerFactory? loggerFactory = null)
     {
         private readonly ILogger<Validator>? logger = logger;
         private readonly Deserializer deserializer = deserializer;
-        private readonly bool useNewtonsoft = false;
+        private readonly bool useNewtonsoft = validatorOptions.Value.useNewtonsoftJsonSchemaValidator;
 
         private readonly Dictionary<string, JSchema> knownSchemas = [];
         private readonly CustomJSchemaResolver resolver = new CustomJSchemaResolver(loggerFactory?.CreateLogger<CustomJSchemaResolver>());
@@ -86,8 +87,11 @@
                     else
                     {
                         string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "messages", schemaPath);
-                        string fileText = File.ReadAllText(filePath);
-                        schema=JSchema.Parse(fileText.Replace("json#/", "json#"), this.resolver);
+                        using (TextReader file = File.OpenText(filePath))
+                        using (JsonTextReader reader = new JsonTextReader(file))
+                        {
+                            schema = JSchema.Load(reader, this.resolver);
+                        }
                     }
 
                     bool valid = jsonObject.IsValid(schema, out IList<ValidationError> errors);

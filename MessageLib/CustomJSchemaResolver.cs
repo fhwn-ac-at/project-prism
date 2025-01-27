@@ -40,7 +40,7 @@
                 return null;
             }
 
-            string[] pathPices = reference.SubschemaId.OriginalString[1..].Split("/");
+            string[] pathPices = reference.SubschemaId.OriginalString[2..].Split("/");
 
             if (pathPices.Length<1)
             {

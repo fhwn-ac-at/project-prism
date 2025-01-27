@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, InputSignal, OnInit, untracked, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, InputSignal, OnChanges, OnInit, SimpleChanges, untracked, viewChild } from '@angular/core';
 import { CanvasStateService } from "../../../../services/canvas-state/canvas-state.service";
 import { StrokeManager } from '../StrokeManager';
 import { CanvasRenderer } from '../CanvasRenderer';
@@ -14,7 +14,7 @@ import { CanDrawService } from '../../../../services/can-draw/can-draw.service';
   templateUrl: './canvas.component.html',
   styleUrl: './canvas.component.css',
 })
-export class CanvasComponent implements OnInit
+export class CanvasComponent implements OnInit, OnChanges
 {
   // view
   private ctx!: CanvasRenderingContext2D;
@@ -42,6 +42,11 @@ export class CanvasComponent implements OnInit
     (
       {next: (_) => {CanvasRenderer.DrawCanvas(this.ctx, this.canvasState.Strokes)}}
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.Canvas().nativeElement.width = this.CanvasWidth();
+    this.Canvas().nativeElement.height = this.CanvasHeight();
   }
   
   // events

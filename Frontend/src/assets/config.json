@@ -13,7 +13,7 @@
     "lobbyDefaults":
     {
         "roundAmount": 3,
-        "roundDuration": 60
+        "roundDuration": 120
     },
     "api":
     {

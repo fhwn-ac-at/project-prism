@@ -7,6 +7,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { PickWordComponent } from '../../components/pick-word/pick-word.component';
 import { PickWordService } from '../../services/pick-word/pick-word.service';
 import { WordsToPickEvent } from '../../services/pick-word/events/WordsToPick';
+import { ResizeService } from '../../services/resize/resize.service';
 
 @Component
 (
@@ -21,13 +22,22 @@ import { WordsToPickEvent } from '../../services/pick-word/events/WordsToPick';
 export class GamePageComponent
 {
   private dialog: MatDialog = inject(MatDialog);
+  private resizeService = inject(ResizeService)
   private pickWordService: PickWordService;
+
+  public CalculatedCanvasWidth: number = 0;
+  public CalculatedCanvasHeight: number = 0;
 
   public constructor(pickWordService: PickWordService)
   {
     this.pickWordService = pickWordService;
 
     this.pickWordService.ObserveWordsToPickEvent().subscribe({next: this.OnWordsToPick})
+    this.resizeService.onResize$.subscribe((data) => {
+      console.log(data); 
+      this.CalculatedCanvasWidth=data.width*0.60 - ((data.width*0.60) *0.08); 
+      this.CalculatedCanvasHeight=data.height*0.80
+    });
   }
 
   private OnWordsToPick = (event: WordsToPickEvent) =>

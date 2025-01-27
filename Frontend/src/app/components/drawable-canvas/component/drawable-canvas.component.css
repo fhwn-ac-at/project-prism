@@ -6,14 +6,5 @@
     align-items: center;
     margin: auto 2% auto 2%;
     padding: 2%;
-}
-
-.canvas
-{
-    margin:auto;
-}
-
-.canvas-options
-{
-    margin-top:10%;
+    height: 100%;
 }

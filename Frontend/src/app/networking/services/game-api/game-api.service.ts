@@ -146,10 +146,8 @@ export class GameApiService
 
   public constructor()
   {
-    console.log(this.headerTypeToDecoderFunctionsMap);
     this.signalRService.DataReceivedEvent.subscribe(this.OnDataReceived);
     this.signalRService.ConnectionObservable.subscribe(this.OnConnectionEvent);
-    console.log(this.headerTypeToDecoderFunctionsMap);
   }
 
   public Start(userId: string): Promise<void>

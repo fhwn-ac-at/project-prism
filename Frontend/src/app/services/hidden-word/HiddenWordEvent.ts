@@ -1,11 +1,12 @@
-import {Maybe} from "@sweet-monads/maybe";
+import { WordPart } from "./WordPart";
+
 
 export class HiddenWordEvent
 {
-    public constructor(lettersOrNones: Maybe<string>[])
+    public constructor(lettersOrNones: WordPart[])
     {
         this.LettersOrNones = lettersOrNones;
     }
 
-    public LettersOrNones: Maybe<string>[];
+    public LettersOrNones: WordPart[];
 }

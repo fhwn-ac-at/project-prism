@@ -52,8 +52,8 @@
         private bool started;
         private string? drawerId;
 
-        private readonly CancellationTokenSource selectionTimerCancellationToken = new();
-        private readonly CancellationTokenSource drawingCancellationToken = new();
+        private CancellationTokenSource selectionTimerCancellationToken = new();
+        private CancellationTokenSource drawingCancellationToken = new();
 
         private readonly object startedLock = new object();
         private readonly object selectableWordsLock = new object();
@@ -154,6 +154,8 @@
                 {
                     this.drawingCancellationToken.Cancel();
                     this.selectionTimerCancellationToken.Cancel();
+                    this.drawingCancellationToken=new();
+                    this.selectionTimerCancellationToken=new();
                 }
             }
         }
@@ -246,6 +248,7 @@
                 if (this.HaveAllGuessed())
                 {
                     this.drawingCancellationToken.Cancel();
+                    this.drawingCancellationToken=new();
                 }
             }
 
@@ -262,6 +265,7 @@
                 }
 
                 this.selectionTimerCancellationToken.Cancel();
+                this.selectionTimerCancellationToken=new();
                 this.selectedWord=this.selectableWords.FirstOrDefault(item => item.Word==word);
 
                 if (selectedWord==null)

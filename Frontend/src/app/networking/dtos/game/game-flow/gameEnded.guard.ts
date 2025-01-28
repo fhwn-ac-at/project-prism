@@ -5,21 +5,52 @@
 import { isHeader } from "../../shared/header.guard";
 import { GameEnded } from "./gameEnded";
 
-export function isGameEnded(obj: unknown): obj is GameEnded {
+export function isGameEnded(obj: unknown): obj is GameEnded 
+{
     const typedObj = obj as GameEnded
-    return (
-        (   
-            typedObj !== null &&
-            typeof typedObj === "object" ||
-            typeof typedObj === "function"
-        ) &&
-        isHeader(typedObj["header"]) as boolean &&
+
+    if (!
+            (   
+                typedObj !== null &&
+                typeof typedObj === "object" ||
+                typeof typedObj === "function"
+            )
+        )
+    {
+        return false;
+    }
+
+    if (!isHeader(typedObj["header"]) as boolean)
+    {
+        return false;
+    } 
+
+    if 
+    (!
         (
             typeof typedObj.body === "object" ||
             typeof typedObj.body === "function"
-        ) &&
-        typeof typedObj.body.score === "number" &&
-        typeof typedObj.body.word === "string" &&
-        typedObj.header.type === "gameEnded"
+        )
     )
+    {
+        return false;
+    }
+
+    if
+    (! 
+        (
+            typeof typedObj.body.score === "object" &&
+            typeof typedObj.body.word === "string"
+        )
+    )
+    {
+        return false;
+    }
+
+    if (typedObj.header.type != "gameEnded")
+    {
+        return false;
+    }
+
+    return true;
 }

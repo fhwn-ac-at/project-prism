@@ -1,11 +1,13 @@
 import { Component, ElementRef, inject, input, InputSignal, OnChanges, OnInit, SimpleChanges, untracked, viewChild } from '@angular/core';
-import { CanvasStateService } from "../../../../services/canvas-state/canvas-state.service";
+import { StrokesContainer } from "../../../../services/canvas-state/StrokesContainer";
 import { StrokeManager } from '../StrokeManager';
 import { CanvasRenderer } from '../CanvasRenderer';
 import { MatCardModule } from '@angular/material/card';
 import { CountdownService } from '../../../../services/countdown/countdown.service';
 import { PlayerDataService } from '../../../../services/player-data/player-data.service';
 import { CanDrawService } from '../../../../services/can-draw/can-draw.service';
+import { StrokesService } from '../../../../services/canvas-state/strokes.service';
+import { CanvasOptionsService } from '../../../../services/canvas-options/canvas-options.service';
 
 @Component
 ({
@@ -21,8 +23,9 @@ export class CanvasComponent implements OnInit, OnChanges
   private strokeManager!: StrokeManager;
 
   // vm
-  private canvasState: CanvasStateService = inject(CanvasStateService);
+  private strokesService: StrokesService = inject(StrokesService);
   private canDraw: CanDrawService = inject(CanDrawService);
+  private canvasOptions: CanvasOptionsService = inject(CanvasOptionsService)
 
   // input
   public CanvasWidth: InputSignal<number> = input.required();
@@ -36,11 +39,11 @@ export class CanvasComponent implements OnInit, OnChanges
   {
     this.ctx = this.Canvas().nativeElement.getContext("2d")!;
     
-    this.strokeManager = new StrokeManager(this.canvasState,this.canDraw, this.ctx);
+    this.strokeManager = new StrokeManager(this.strokesService, this.canvasOptions, this.canDraw, this.ctx);
 
-    this.canvasState.SubscribeStrokesEvent
+    this.strokesService.ObserveStrokesEvent().subscribe
     (
-      {next: (_) => {CanvasRenderer.DrawCanvas(this.ctx, this.canvasState.Strokes)}}
+      (_) => CanvasRenderer.DrawCanvas(this.ctx, this.strokesService.Strokes)
     );
   }
 

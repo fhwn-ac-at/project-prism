@@ -20,8 +20,8 @@ export class SignalRService
 
   private signalRHub:signalR.HubConnection | undefined;
 
-  private dataReceivedEventSub: Subject<object> = new ReplaySubject<object>(5);
-  private connectionEventSub: Subject<Closed | Reconnecting | Connected> = new ReplaySubject(5);
+  private dataReceivedEventSub: Subject<object> = new Subject<object>();
+  private connectionEventSub: Subject<Closed | Reconnecting | Connected> = new Subject();
 
   public Initialize(lobbyId: string)
   {
@@ -50,6 +50,16 @@ export class SignalRService
   public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>
   {
     return this.connectionEventSub.asObservable();
+  }
+
+  public get ConnectionStatus() : signalR.HubConnectionState
+  {
+    if(this.signalRHub == undefined)
+    {
+      return signalR.HubConnectionState.Disconnected;
+    }
+
+    return this.signalRHub.state;
   }
 
   public get DataReceivedEvent(): Observable<object>
@@ -82,7 +92,7 @@ export class SignalRService
 
     let dataAsString: string = JSON.stringify(data);
 
-    console.log("Sending data over signal-r: " + dataAsString);
+    this.LogOrNot(data, "Sending data over signal-r: " + dataAsString);
 
     return this.signalRHub.send("Backend", dataAsString);
   }
@@ -96,7 +106,19 @@ export class SignalRService
 
   private OnDataReceived = (data: any): void => 
   {
-    console.log("Received data in signal-r-client: " + JSON.stringify(data)); 
-    this.dataReceivedEventSub.next(data)
+    let json: object = JSON.parse(data);
+
+    this.LogOrNot(json, "Received data in signal-r-client: " + JSON.stringify(json)); 
+    this.dataReceivedEventSub.next(json)
+  }
+
+  private LogOrNot(data: any, message: string)
+  {
+    if(data.header?.type == "lineTo")
+    {
+      return;
+    }
+
+    console.log(message); 
   }
 }

@@ -20,10 +20,6 @@ import { GameRoundService } from '../../services/game-round/game-round.service';
   imports: [ActivePlayersComponent, TopBarComponent, ChatComponent, LobbyOptionsComponent],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.css',
-  providers: 
-  [
-    {provide: LobbyService, useClass: LobbyService}
-  ]
 })
 export class LobbyComponent 
 {  

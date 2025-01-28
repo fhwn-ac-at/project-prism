@@ -27,7 +27,7 @@ export class ActivePlayersService
 
     private playerDataService: PlayerDataService = inject(PlayerDataService);
 
-    private eventSubject: ReplaySubject<CurrentPlayersMessage> = new ReplaySubject<CurrentPlayersMessage>(5);
+    private eventSubject: Subject<CurrentPlayersMessage> = new Subject<CurrentPlayersMessage>();
 
     private gameApiService: GameApiService = inject(GameApiService);
 
@@ -50,6 +50,11 @@ export class ActivePlayersService
       this.gameApiService.ObserveGameFlowEvent()
         .pipe((filter((val) => isUserScore(val))))
         .subscribe(this.OnScoreEvent);
+      
+      if (this.gameApiService.ConnectionStatus == "Connected" && this.playerDataService.PlayerData.value != undefined)
+      {
+        this.Add(this.playerDataService.PlayerData.value);
+      }
     }
 
     public get CurrentPlayers(): PlayerData[]
@@ -64,7 +69,7 @@ export class ActivePlayersService
 
     private OnScoreEvent = (value: UserScore): void =>
     {
-      this.SetScore(value.body.user.id, value.body.score);
+      this.AddToScore(value.body.user.id, value.body.score);
     }
 
     private OnUserConnectionEvent = (value: UserDisconnected | UserJoined): void =>
@@ -106,6 +111,27 @@ export class ActivePlayersService
       }
     }
 
+    public AddToScore(playerId: string, newScore: number): boolean
+    {
+      let found: boolean = false;
+
+      for(let i = 0; i < this.currentPlayerData.length; i++)
+      {
+        if (this.currentPlayerData[i].Id == playerId)
+        {
+          let oldScore = this.currentPlayerData[i].Score;
+
+          this.currentPlayerData[i].Score += newScore;
+
+          found = true;
+
+          this.eventSubject.next(new SetScoreMessage(playerId, oldScore, newScore));
+        }
+      }
+
+      return found;
+    }
+
     private Add(newData: PlayerData): boolean
     { 
       // if data already exists  
@@ -118,27 +144,6 @@ export class ActivePlayersService
       this.eventSubject.next(new PlayerAddedMessage(newData));
 
       return true;
-    }
-
-    private SetScore(playerId: string, newScore: number): boolean
-    {
-      let found: boolean = false;
-
-      for(let i = 0; i < this.currentPlayerData.length; i++)
-      {
-        if (this.currentPlayerData[i].Id == playerId)
-        {
-          let oldScore = this.currentPlayerData[i].Score;
-
-          this.currentPlayerData[i].Score = newScore;
-
-          found = true;
-
-          this.eventSubject.next(new SetScoreMessage(playerId, oldScore, newScore));
-        }
-      }
-
-      return found;
     }
 
     private Remove(userId: string): boolean

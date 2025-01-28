@@ -11,24 +11,9 @@ export class StringToWordPartsConverter
   
         for(let i = 0; i < word.length; i++)
         {
-          wp.push(new WordPart(word[i], false));
+          wp.push(new WordPart(word[i] != '_' ? word[i] : undefined));
         }
   
         return wp;
-    }
-
-    public static ConvertToPublicRepresentation(wordParts: WordPart[]) : Maybe<string>[]
-    {
-      return wordParts.map(wp => 
-      {
-        if (wp.IsRevealed)
-        {
-          return just<string>(wp.Char);
-        }
-        else
-        {
-          return none<string>();
-        }
-      });;
     }
 }

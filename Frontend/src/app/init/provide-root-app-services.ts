@@ -17,6 +17,9 @@ import { inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { LobbyUserTypeService } from "../services/lobby-user-type/lobby-user-type.service";
 import { ShowScoresService } from "../services/show-scores/show-scores.service";
+import { LobbyService } from "../services/lobby/lobby.service";
+import { StrokesService } from "../services/canvas-state/strokes.service";
+import { CanvasOptionsService } from "../services/canvas-options/canvas-options.service";
 
 export const provideRootAppServices = () => 
 [
@@ -31,10 +34,13 @@ export const provideRootAppServices = () =>
   {provide: PickWordService, useClass: PickWordService},
   {provide: SignalRService, useClass: SignalRService},
   {provide: LobbyApiService, useClass: LobbyApiService},
+  {provide: LobbyService, useClass: LobbyService},
   {provide: GameApiService, useClass: GameApiService},
   {provide: StartService, useClass: StartService},
   {provide: GameIdService, useClass: GameIdService},
   {provide: PlayerTypeService, useClass: PlayerTypeService},
   {provide: LobbyUserTypeService, useClass: LobbyUserTypeService},
   {provide: ShowScoresService, useClass: ShowScoresService},
+  {provide: StrokesService, useClass: StrokesService},
+  {provide: CanvasOptionsService, useClass: CanvasOptionsService}
 ];

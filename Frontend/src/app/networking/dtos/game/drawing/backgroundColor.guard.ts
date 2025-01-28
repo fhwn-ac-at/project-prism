@@ -17,6 +17,6 @@ export function isBackgroundColor(obj: unknown): obj is BackgroundColor {
             typeof typedObj["body"] === "object" ||
             typeof typedObj["body"] === "function") &&
         isHexColor(typedObj["body"]["color"]) as boolean
-        && typedObj.header.type === "bakgroundColor"
+        && typedObj.header.type === "backgroundColor"
     )
 }

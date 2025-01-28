@@ -7,6 +7,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { PickWordComponent } from '../../components/pick-word/pick-word.component';
 import { PickWordService } from '../../services/pick-word/pick-word.service';
 import { WordsToPickEvent } from '../../services/pick-word/events/WordsToPick';
+import { ResizeService } from '../../services/resize/resize.service';
 import { ShowScoresService } from '../../services/show-scores/show-scores.service';
 import { ShowScoresEvent } from '../../services/show-scores/events/ShowScoresEvent';
 import { ShowScoresComponent } from '../../components/show-scores/show-scores.component';
@@ -30,8 +31,12 @@ import { Router } from '@angular/router';
 export class GamePageComponent implements OnDestroy
 {
   private dialog: MatDialog = inject(MatDialog);
-  private pickWordService: PickWordService = inject(PickWordService);
-  private showScoresService: ShowScoresService = inject(ShowScoresService);
+  private resizeService = inject(ResizeService)
+  private pickWordService = inject(PickWordService);
+  private showScoresService = inject(ShowScoresService);
+
+  public CalculatedCanvasWidth: number = 0;
+  public CalculatedCanvasHeight: number = 0;
   private router: Router = inject(Router);
 
   // subs
@@ -43,6 +48,15 @@ export class GamePageComponent implements OnDestroy
     this.sub1 = this.pickWordService.ObserveWordsToPickEvent()
       .subscribe(this.OnWordsToPick);
 
+    this.pickWordService.ObserveWordsToPickEvent().subscribe({next: this.OnWordsToPick})
+    this.resizeService.onResize$.subscribe((data) => {
+      // 60vw - 4% padding and 4% margin of container with 60vw
+      this.CalculatedCanvasWidth=data.width*0.60 - ((data.width*0.60) *0.08); 
+      
+      // 80vh
+      this.CalculatedCanvasHeight=data.height*0.80
+    });
+    
     this.sub2 = this.showScoresService.ObserveShowScoresEvent()
       .subscribe(this.OnShowScoresMessage);   
   }

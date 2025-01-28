@@ -30,8 +30,8 @@
             }
         },
         "required": [
-            "text",
-            "user"
+          "score",
+          "user"
         ],
         "additionalProperties": false
       }

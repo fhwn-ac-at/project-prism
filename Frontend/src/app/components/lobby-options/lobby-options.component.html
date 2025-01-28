@@ -24,7 +24,7 @@
                 <input 
                     matInput 
                     [readonly]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner"
-                    (input)="OnRoundsAmountChanged($event)" type="number" formControlName="roundsAmount"
+                    (input)="OnRoundsAmountChanged($event)" type="number" formControlName="roundsAmount" max="50" min="1"
                 >
               </mat-form-field>
             
@@ -33,7 +33,7 @@
                 <input 
                     matInput 
                     [readonly]="LobbyUserTypeService.LobbyUserType.value != LobbyUserType.Owner" 
-                    (input)="OnDurationChanged($event)" type="number" formControlName="roundDuration"
+                    (input)="OnDurationChanged($event)" type="number" formControlName="roundDuration" max="500" min="30"
                 >
               </mat-form-field>
         </form>

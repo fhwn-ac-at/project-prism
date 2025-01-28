@@ -52,8 +52,8 @@
         private bool started;
         private string? drawerId;
 
-        private readonly CancellationTokenSource selectionTimerCancellationToken = new();
-        private readonly CancellationTokenSource drawingCancellationToken = new();
+        private CancellationTokenSource selectionTimerCancellationToken = new();
+        private CancellationTokenSource drawingCancellationToken = new();
 
         private readonly object startedLock = new object();
         private readonly object selectableWordsLock = new object();
@@ -154,6 +154,8 @@
                 {
                     this.drawingCancellationToken.Cancel();
                     this.selectionTimerCancellationToken.Cancel();
+                    this.drawingCancellationToken=new();
+                    this.selectionTimerCancellationToken=new();
                 }
             }
         }
@@ -246,6 +248,7 @@
                 if (this.HaveAllGuessed())
                 {
                     this.drawingCancellationToken.Cancel();
+                    this.drawingCancellationToken=new();
                 }
             }
 
@@ -262,6 +265,7 @@
                 }
 
                 this.selectionTimerCancellationToken.Cancel();
+                this.selectionTimerCancellationToken=new();
                 this.selectedWord=this.selectableWords.FirstOrDefault(item => item.Word==word);
 
                 if (selectedWord==null)
@@ -323,6 +327,7 @@
                     {
                         this.drawerId=this.users.Keys.ElementAt(this.users.Keys.Count-1-this.drawerCounter);
                     }
+                    this.users[this.drawerId].Guessed=true;
                 }
 
                 HashSet<int> uniqueIndices = [];
@@ -479,17 +484,17 @@
                 return;
             }
 
+            var drawerScore = this.CalculateDrawerScore();
+            this.drawingRoundScore.Add(this.drawerId, drawerScore);
+
             string searchedWord;
             lock (this.selectableWordsLock)
             {
                 searchedWord=this.selectedWord!.Word;
                 this.selectedWord=null;
-                this.hintedWord = null;
+                this.hintedWord=null;
                 this.hintIndices.Clear();
             }
-
-            var drawerScore = this.CalculateDrawerScore();
-            this.drawingRoundScore.Add(this.drawerId, drawerScore);
 
             lock (this.userLock)
             {
@@ -525,6 +530,7 @@
                     {
                         this.drawingRoundScore.Add(user.Key, 0);
                     }
+                    user.Value.Guessed=false;
                 }
             }
 

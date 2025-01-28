@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, InputSignal, OnDestroy, OnInit, untracked, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, InputSignal, OnChanges, OnDestroy, OnInit, SimpleChanges, untracked, viewChild } from '@angular/core';
 import { StrokesContainer } from "../../../../services/canvas-state/StrokesContainer";
 import { StrokeManager } from '../StrokeManager';
 import { CanvasRenderer } from '../CanvasRenderer';
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './canvas.component.html',
   styleUrl: './canvas.component.css',
 })
-export class CanvasComponent implements OnInit, OnDestroy
+export class CanvasComponent implements OnInit, OnChanges, OnDestroy
 {
   // view
   private ctx!: CanvasRenderingContext2D;
@@ -51,6 +51,13 @@ export class CanvasComponent implements OnInit, OnDestroy
     );
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.Canvas().nativeElement.width = this.CanvasWidth();
+    this.Canvas().nativeElement.height = this.CanvasHeight();
+
+    // TODO redraw
+  }
+  
   ngOnDestroy(): void 
   {
     this.sub1.unsubscribe();

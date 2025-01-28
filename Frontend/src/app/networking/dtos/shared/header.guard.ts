@@ -16,10 +16,17 @@ export function isHeader(obj: unknown): obj is Header {
         typeof typedObj["timestamp"] === "string" 
     );
 
-    if (isHeaderType) {
-        const timestamp = DateTime.fromISO(typedObj.timestamp);
-        return timestamp.isValid && timestamp.diffNow().toMillis() >= -5000;
+    if(!isHeaderType)
+    {
+        return false;
     }
 
-    return false;
+    return true;
+
+    // if (isHeaderType) {
+    //     const timestamp = DateTime.fromISO(typedObj.timestamp);
+    //     return timestamp.isValid && timestamp.diffNow().toMillis() >= -5000;
+    // }
+
+    // return false;
 }

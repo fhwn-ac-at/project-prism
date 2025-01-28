@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { PlayerData } from '../../services/player-data/PlayerData';
 import { MatButton } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-scores',
@@ -12,6 +13,8 @@ import { MatListModule } from '@angular/material/list';
 })
 export class ShowScoresComponent 
 {
+  private router: Router = inject(Router);
+
   public constructor()
   {
     const data = inject(MAT_DIALOG_DATA);
@@ -35,9 +38,11 @@ export class ShowScoresComponent
         return -1;
       }
     });
+
+    this.GameEnded = data.IsEnded;
   }
 
   public Word: string;
-
+  public GameEnded: boolean;
   public PlayerData: PlayerData[];
 }

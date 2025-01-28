@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { DrawableCanvasComponent } from '../../components/drawable-canvas/component/drawable-canvas.component';
 import { TopBarComponent } from '../../components/top-bar/top-bar.component';
 import { ChatComponent } from "../../components/chat/chat.component";
@@ -15,6 +15,8 @@ import { CountdownService } from '../../services/countdown/countdown.service';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import { PlayerTypeService } from '../../services/player-type/player-type.service';
 import { PlayerType } from '../../services/player-data/PlayerType';
+import { routes } from '../../init/app.routes';
+import { Router } from '@angular/router';
 
 @Component
 (
@@ -25,11 +27,12 @@ import { PlayerType } from '../../services/player-data/PlayerType';
   styleUrl: './game-page.component.css',
   }
 )
-export class GamePageComponent
+export class GamePageComponent implements OnDestroy
 {
   private dialog: MatDialog = inject(MatDialog);
   private pickWordService: PickWordService = inject(PickWordService);
   private showScoresService: ShowScoresService = inject(ShowScoresService);
+  private router: Router = inject(Router);
 
   public constructor()
   {
@@ -40,6 +43,12 @@ export class GamePageComponent
       .subscribe(this.OnShowScoresMessage);   
   }
 
+  ngOnDestroy(): void 
+  {
+    
+  }
+
+
   private OnWordsToPick = (event: WordsToPickEvent) =>
   {
     let dialogRef: MatDialogRef<PickWordComponent> = this.dialog.open
@@ -47,6 +56,11 @@ export class GamePageComponent
       PickWordComponent, 
       {data: {Words: event.Words.map((val) => val.word)}}
     );
+
+    dialogRef.afterOpened().subscribe(() => 
+    {
+      timer(10000).subscribe((_) => dialogRef.close());
+    });
 
     dialogRef
       .afterClosed()
@@ -58,12 +72,32 @@ export class GamePageComponent
     let dialogRef: MatDialogRef<ShowScoresComponent> = this.dialog.open
     (
       ShowScoresComponent, 
-      {data: {Word: val.Word, PlayerData: val.Scores}, width: "50vw", height: "70vh"}
+      {
+        data: 
+        {
+          Word: val.Word,
+          PlayerData: val.Scores,
+          IsEnded: val.IsEnded
+        },
+        width: "50vw",
+        height: "70vh"
+      }
     );
 
-   dialogRef.afterOpened().subscribe(() => 
-   {
-     timer(5000).subscribe((_) => dialogRef.close());
-   });   
+    dialogRef.afterOpened().subscribe(() => 
+      {
+         timer(5000).subscribe((_) => 
+         {
+           dialogRef.close();
+        });
+      }); 
+
+    dialogRef.afterClosed().subscribe(() => 
+    {
+      if (val.IsEnded)
+      {
+        this.router.navigate(["/lobby"]);
+      }
+    })
   }
 }

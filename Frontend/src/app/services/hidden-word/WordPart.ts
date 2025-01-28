@@ -1,17 +1,20 @@
 export class WordPart
 {
-    public constructor(char: string, isRevealed: boolean)
+    public constructor(char: string | undefined)
     {
-        if(char.length != 1)
+        if(char == undefined)
+        {
+            this.CharOrNone = char;
+        }
+        else if(char.length == 1)
+        {
+            this.CharOrNone = char;
+        }
+        else
         {
             throw Error("Must be of length 1!");
-        }
-
-        this.Char = char;
-        this.IsRevealed = isRevealed;
+        } 
     }
-
-    public Char: string;
     
-    public IsRevealed: boolean;
+    public CharOrNone: string | undefined;
 }

@@ -61,22 +61,22 @@ export class GameApiService
   private playerDataService: PlayerDataService = inject(PlayerDataService);
 
   // event subs
-  private lobbyEventSub: Subject<GameStarted | RoundAmountChanged | RoundDurationChanged> = new ReplaySubject(5);
-  private chatMessageEventSub: Subject<ChatMessage> = new ReplaySubject(5);
-  private userConnectionEventSub: Subject<UserDisconnected | UserJoined> = new ReplaySubject(5);
+  private lobbyEventSub: Subject<GameStarted | RoundAmountChanged | RoundDurationChanged> = new Subject();
+  private chatMessageEventSub: Subject<ChatMessage> = new Subject();
+  private userConnectionEventSub: Subject<UserDisconnected | UserJoined> = new Subject();
   private drawingEventSub: 
     Subject<BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo> 
-    = new ReplaySubject(5);
+    = new Subject();
   private gameFlowEventSub: 
     Subject<GameEnded | NextRound | SearchedWord | SelectWord | SetDrawer | SetNotDrawer | UserScore | GuessClose>
-     = new ReplaySubject(5);
-  private connectionEventSub: Subject<Closed | Connected | Reconnecting> = new ReplaySubject(5);
+     = new Subject();
+  private connectionEventSub: Subject<Closed | Connected | Reconnecting> = new Subject();
 
   private headerTypeToDecoderFunctionsMap: Map<string, (val: unknown) => void> = new Map
   (
     [
       // drawing
-      ["bakgroundColor", (val) => {
+      ["backgroundColor", (val) => {
          if (!isBackgroundColor(val)){this.HandleInvalidData(val); return;}  this.drawingEventSub.next(val); 
       }],
       ["clear", (val) => {
@@ -101,9 +101,16 @@ export class GameApiService
         if (!isUndo(val)){this.HandleInvalidData(val); return;}  this.drawingEventSub.next(val); 
       }],
       // game flow
-      ["gameEnded", (val) => {
-        if (!isGameEnded(val)){this.HandleInvalidData(val); return;}  this.gameFlowEventSub.next(val); 
-      }],
+      [
+        "gameEnded", (val) => {
+          if (!isGameEnded(val))
+          {
+            this.HandleInvalidData(val);
+            return;
+          }  
+          this.gameFlowEventSub.next(val); 
+        }
+      ],
       ["nextRound", (val) => {
         if (!isNextRound(val)){this.HandleInvalidData(val); return;}  this.gameFlowEventSub.next(val); 
       }],
@@ -153,6 +160,11 @@ export class GameApiService
   {
     this.signalRService.DataReceivedEvent.subscribe(this.OnDataReceived);
     this.signalRService.ConnectionObservable.subscribe(this.OnConnectionEvent);
+  }
+
+  public get ConnectionStatus(): signalR.HubConnectionState
+  {
+    return this.signalRService.ConnectionStatus;
   }
 
   public Start(userId: string): Promise<void>
@@ -278,13 +290,11 @@ export class GameApiService
   }
 
   // handlers
-  private OnDataReceived = (data: any) =>
+  private OnDataReceived = (dataAsJson: object) =>
   {
-    const dataAsJson: any = JSON.parse(data);
-
     if (!hasHeader(dataAsJson))
     {
-      console.log("Received data without header and body: " + dataAsJson);
+      console.log("Received data without header " + dataAsJson);
       return;
     }
 
@@ -293,7 +303,7 @@ export class GameApiService
 
     if (decoderFunction == undefined)
     {
-      console.log("received data without known header type: " + data.header.type);
+      console.log("Received data without known header type: " + dataAsJson.header.type);
       return;
     }
 
@@ -307,6 +317,6 @@ export class GameApiService
 
   private HandleInvalidData(data: unknown)
   {
-    console.log("Received invalid data with known header: " + data);
+    console.log("Received invalid data with known header: " + JSON.stringify(data));
   }
 }

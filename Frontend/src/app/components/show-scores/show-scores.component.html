@@ -1,8 +1,15 @@
-<h1 mat-dialog-title>Score</h1>
+<h1 mat-dialog-title>
+    @if (GameEnded)
+    {
+        Game has ended
+    }
+    @else 
+    {
+        Score
+    }
+</h1>
 
 <div mat-dialog-content>
-
-
     <mat-list>
       @for (item of PlayerData; track $index) 
       {
@@ -22,5 +29,12 @@
 <div mat-dialog-actions class="actions">
     <h1>The word was: {{ Word }}</h1>
 
-    <button mat-raised-button mat-dialog-close>Close</button>
+    @if (GameEnded)
+    {
+        <button mat-raised-button mat-dialog-close>Back to Lobby</button>
+    }
+    @else
+    {
+        <button mat-raised-button mat-dialog-close>Close</button>
+    }
 </div>

@@ -35,8 +35,6 @@ export class StrokesService
 
   private strokesContainer: StrokesContainer = new StrokesContainer();
 
-
-
   public constructor()
   {
     this.gameApi.ObserveDrawingEvent().subscribe(this.OnDrawingEvent);

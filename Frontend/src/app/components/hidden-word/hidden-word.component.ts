@@ -3,6 +3,7 @@ import { HiddenWordService } from '../../services/hidden-word/hidden-word.servic
 import { Maybe } from '@sweet-monads/maybe';
 import { NgFor, NgIf } from '@angular/common';
 import { MatCard } from '@angular/material/card';
+import { WordPart } from '../../services/hidden-word/WordPart';
 
 @Component({
   selector: 'app-hidden-word',
@@ -18,10 +19,12 @@ export class HiddenWordComponent
   {
     this.hiddenWordService = hiddenWordService;
 
-    this.hiddenWordService.SubscribeWordEvent(
-      {next: (event) => this.Word = event.LettersOrNones}
+    this.hiddenWordService.ObserveWordEvent()
+    .subscribe((event) => {
+      this.Word = event.LettersOrNones
+    }
     )
   }
 
-  public Word: Maybe<string>[] | undefined;
+  public Word: WordPart[] | undefined;
 }

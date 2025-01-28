@@ -8,9 +8,9 @@
 {
     <mat-card class="root-container">
         <ng-container class="word-part" *ngFor="let item of Word">
-           <ng-container class="word-part" *ngIf="item.isJust(); then ifIsJust; else ifIsNone"/>
-           <ng-template #ifIsJust><div class="word-part">{{item.value}}</div></ng-template>
-           <ng-template #ifIsNone><div class="word-part">?</div></ng-template>
+           <ng-container class="word-part" *ngIf="item.CharOrNone != undefined; then ifIsChar; else ifIsNone"/>
+           <ng-template #ifIsChar><div class="word-part">{{item.CharOrNone}}</div></ng-template>
+           <ng-template #ifIsNone><div class="word-part">_</div></ng-template>
         </ng-container>
     </mat-card>
 }

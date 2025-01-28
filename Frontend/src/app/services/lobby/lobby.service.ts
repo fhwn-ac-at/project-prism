@@ -60,11 +60,13 @@ export class LobbyService
 
   public async SendRoundAmount(roundAmount: number): Promise<void>
   {
+    this.roundAmount.next(roundAmount);
     return this.gameApiService.SendRoundAmount(roundAmount);
   }
 
   public async SendRoundDuration(duration: number): Promise<void>
   {
+    this.roundDuration.next(duration);
     return this.gameApiService.SendRoundDuration(duration);
   }
 

@@ -17,7 +17,7 @@ export class GameRoundService
   {
     this.gameApiSerive.ObserveGameFlowEvent()
       .pipe(filter(isNextRound))
-      .subscribe(() => this.OnNextRoundReceived);
+      .subscribe(this.OnNextRoundReceived);
   }
 
   public RoundsObject: BehaviorSubject<RoundData | undefined> = new BehaviorSubject<RoundData | undefined>(undefined);

@@ -5,6 +5,8 @@ import { GameApiService } from '../../networking/services/game-api/game-api.serv
 import { isSearchedWord } from '../../networking/dtos/game/game-flow/searchedWord.guard';
 import { SearchedWord } from '../../networking/dtos/game/game-flow/searchedWord';
 import { GameRoundService } from '../game-round/game-round.service';
+import { isNextRound } from '../../networking/dtos/game/game-flow/nextRound.guard';
+import { NextRound } from '../../networking/dtos/game/game-flow/nextRound';
 
 @Injectable({
   providedIn: null
@@ -23,6 +25,10 @@ export class CountdownService
     this.gameApiService.ObserveGameFlowEvent()
       .pipe(filter(isSearchedWord))
       .subscribe(this.OnSearchedWordEvent);
+    
+    this.gameApiService.ObserveGameFlowEvent()
+    .pipe(filter(isNextRound))
+    .subscribe(this.OnNextRound);
   }
 
   public ObserveTimerEvent(): Observable<CountdownEvent>
@@ -63,8 +69,12 @@ export class CountdownService
         next: (timeLeft) => 
         {
           // reset if this is last.
-          if(timeLeft == 0) this.timerSubscription = null;
-
+          if (timeLeft == 0) 
+          {
+            this.StopTimer();
+            return;
+          }
+ 
           this.timerSubject.next(new CountdownEvent(timeLeft));
         }
       }
@@ -80,6 +90,7 @@ export class CountdownService
 
     this.timerSubscription.unsubscribe();
     this.timerSubscription = null;
+    this.timerSubject.next(new CountdownEvent(0));
   }
 
   private OnSearchedWordEvent = (_: SearchedWord) =>
@@ -89,7 +100,16 @@ export class CountdownService
       return;
     }
 
-    this.StopTimer();
+    if (this.IsRunning())
+    {
+      return;
+    }
+
     this.StartTimer(this.roundService.RoundsObject.value.RoundDuration, 1000);
+  }
+
+  private OnNextRound = (_: NextRound) => 
+  {
+    this.StopTimer();
   }
 }

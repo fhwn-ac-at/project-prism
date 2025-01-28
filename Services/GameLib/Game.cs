@@ -327,6 +327,7 @@
                     {
                         this.drawerId=this.users.Keys.ElementAt(this.users.Keys.Count-1-this.drawerCounter);
                     }
+                    this.users[this.drawerId].Guessed=true;
                 }
 
                 HashSet<int> uniqueIndices = [];

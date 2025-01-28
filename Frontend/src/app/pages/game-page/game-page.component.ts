@@ -12,12 +12,8 @@ import { ShowScoresService } from '../../services/show-scores/show-scores.servic
 import { ShowScoresEvent } from '../../services/show-scores/events/ShowScoresEvent';
 import { ShowScoresComponent } from '../../components/show-scores/show-scores.component';
 import { Subscription, timer } from 'rxjs';
-import { CountdownService } from '../../services/countdown/countdown.service';
-import { PlayerDataService } from '../../services/player-data/player-data.service';
-import { PlayerTypeService } from '../../services/player-type/player-type.service';
-import { PlayerType } from '../../services/player-data/PlayerType';
-import { routes } from '../../init/app.routes';
 import { Router } from '@angular/router';
+import { environment } from '../../../environment/environment';
 
 @Component
 (
@@ -78,7 +74,7 @@ export class GamePageComponent implements OnDestroy
 
     dialogRef.afterOpened().subscribe(() => 
     {
-      timer(10000).subscribe((_) => dialogRef.close());
+      timer(environment.game.pickWordDialogDuration).subscribe((_) => dialogRef.close());
     });
 
     dialogRef
@@ -105,7 +101,7 @@ export class GamePageComponent implements OnDestroy
 
     dialogRef.afterOpened().subscribe(() => 
       {
-         timer(5000).subscribe((_) => 
+         timer(environment.game.showScoresDialogDuration).subscribe((_) => 
          {
            dialogRef.close();
         });

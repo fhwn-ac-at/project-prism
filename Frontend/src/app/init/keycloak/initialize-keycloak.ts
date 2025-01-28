@@ -1,7 +1,7 @@
-import { EnvironmentProviders, inject } from "@angular/core";
-import {provideKeycloak, createInterceptorCondition, IncludeBearerTokenCondition, AutoRefreshTokenService, UserActivityService, withAutoRefreshToken, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG} from "keycloak-angular";
-import { ConfigService } from "../../services/config/config.service";
-  
+import { EnvironmentProviders } from "@angular/core";
+import {provideKeycloak, withAutoRefreshToken, } from "keycloak-angular";
+import { environment } from "../../../environment/environment";
+
 export function provideKeycloakAngular(): EnvironmentProviders 
 {
   return provideKeycloak
@@ -9,9 +9,9 @@ export function provideKeycloakAngular(): EnvironmentProviders
       {
           config: 
           {
-            url: "http://localhost:8180",
-            realm: "prism",
-            clientId: "Frontend"
+            url: environment.keycloak.url,
+            realm: environment.keycloak.realm,
+            clientId: environment.keycloak.clientId
           },
           initOptions: 
           {
@@ -28,7 +28,6 @@ export function provideKeycloakAngular(): EnvironmentProviders
               }
             )
           ],
-          
       }
   )
 };

@@ -1,6 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
-import { PlayerDataService } from '../../services/player-data/player-data.service';
-import { PlayerType } from '../../services/player-data/PlayerType';
+import { Component, OnDestroy } from '@angular/core';
 import { LobbyService } from '../../services/lobby/lobby.service';
 import { MatCard } from '@angular/material/card';
 import { MatInput, MatLabel } from '@angular/material/input';
@@ -9,11 +7,10 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { LobbyUserType } from '../../services/lobby-user-type/LobbyUserType';
 import { LobbyUserTypeService } from '../../services/lobby-user-type/lobby-user-type.service';
-import { ConfigService } from '../../services/config/config.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-lobby-options',
@@ -24,7 +21,6 @@ import { Subscription } from 'rxjs';
 export class LobbyOptionsComponent implements OnDestroy
 {
   private snackbar: MatSnackBar;
-  private config: ConfigService = inject(ConfigService);
 
   private sub1: Subscription;
   private sub2: Subscription
@@ -43,8 +39,8 @@ export class LobbyOptionsComponent implements OnDestroy
     this.OptionsData = new FormGroup
     (
       {
-        roundsAmount: new FormControl(this.config.configData.lobbyDefaults.roundAmount),
-        roundDuration: new FormControl(this.config.configData.lobbyDefaults.roundDuration),
+        roundsAmount: new FormControl(environment.lobbyDefaults.roundAmount),
+        roundDuration: new FormControl(environment.lobbyDefaults.roundDuration),
       }
     );
 
@@ -54,8 +50,8 @@ export class LobbyOptionsComponent implements OnDestroy
     this.sub2 =this.LobbyOptionsService.ObserveRoundDuration().subscribe((val) => this.OptionsData
     .setValue({roundsAmount: this.OptionsData.value.roundsAmount, roundDuration: val}));
 
-    this.LobbyOptionsService.SendRoundAmount(this.config.configData.lobbyDefaults.roundAmount);
-    this.LobbyOptionsService.SendRoundDuration(this.config.configData.lobbyDefaults.roundDuration);
+    this.LobbyOptionsService.SendRoundAmount(environment.lobbyDefaults.roundAmount);
+    this.LobbyOptionsService.SendRoundDuration(environment.lobbyDefaults.roundDuration);
   }
 
   public LobbyUserTypeService: LobbyUserTypeService;

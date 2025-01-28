@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { ConfigService } from '../config/config.service';
 import { BehaviorSubject, filter, firstValueFrom, Observable, Subject } from 'rxjs';
 import { LobbyApiService } from '../../networking/services/lobby-api/lobby-api.service';
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
@@ -11,13 +10,13 @@ import { isRoundDurationChanged } from '../../networking/dtos/lobby/roundDuratio
 import { RoundAmountChanged } from '../../networking/dtos/lobby/roundAmountChanged';
 import { RoundDurationChanged } from '../../networking/dtos/lobby/roundDurationChanged';
 import { GameRoundService } from '../game-round/game-round.service';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: null
 })
 export class LobbyService 
 {
-  private configService: ConfigService;
   private lobbyApiService: LobbyApiService;
   private gameApiService: GameApiService;
   private gameIdService: GameIdService;
@@ -28,21 +27,19 @@ export class LobbyService
 
   public constructor
   (
-    configService: ConfigService,
     lobbyApi: LobbyApiService,
     gameApiService: GameApiService,
     gameIdService: GameIdService,
     roundsService: GameRoundService
   )
   {
-    this.configService = configService;
     this.lobbyApiService = lobbyApi;
     this.gameApiService = gameApiService;
     this.gameIdService = gameIdService;
     this.roundsService = roundsService;
     
-    this.roundAmount = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundAmount);
-    this.roundDuration = new BehaviorSubject<number>(this.configService.configData.lobbyDefaults.roundDuration);
+    this.roundAmount = new BehaviorSubject<number>(environment.lobbyDefaults.roundAmount);
+    this.roundDuration = new BehaviorSubject<number>(environment.lobbyDefaults.roundDuration);
 
     this.gameApiService.ObserveLobbyEvent()
       .subscribe(this.OnLobbyEvent)

@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: null,
 })
 export class ResizeService {
   private resizeSubject = new BehaviorSubject<{ width: number; height: number }>({

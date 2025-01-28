@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
 import { HiddenWordService } from '../../services/hidden-word/hidden-word.service';
-import { Maybe } from '@sweet-monads/maybe';
 import { NgFor, NgIf } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 import { WordPart } from '../../services/hidden-word/WordPart';

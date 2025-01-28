@@ -17,7 +17,7 @@ export const provideMiddleware = () =>
         ),
         {
             provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
-            useValue: [urlCondition] // <-- Note that multiple conditions might be added.
+            useValue: [urlCondition]
         },
         AutoRefreshTokenService,
         UserActivityService, 

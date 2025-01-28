@@ -1,6 +1,4 @@
-import { inject, Injectable} from '@angular/core';
 import { BehaviorSubject, Observable, Observer, Subject, Subscription } from 'rxjs';
-import { ConfigService } from "../config/config.service";
 import { StrokeVM } from './StrokeVM';
 import { Position2d } from '../../../lib/Position2d';
 import { StrokesEvent } from './events/StrokesEvent';

@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs';
 import { User } from '../../dtos/shared/User';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { isUser } from '../../dtos/shared/User.guard';
-import { ConfigService } from '../../../services/config/config.service';
+import { environment } from '../../../../environment/environment';
 
 @Injectable({
   providedIn: null
@@ -11,7 +11,6 @@ import { ConfigService } from '../../../services/config/config.service';
 export class LobbyApiService 
 {
   private httpClient: HttpClient = inject(HttpClient);
-  private configService: ConfigService = inject(ConfigService);
 
   public ConnectToLobby(lobbyId: string): Observable<User>
   {
@@ -19,9 +18,9 @@ export class LobbyApiService
     
     return this.httpClient.get
     (
-      this.configService.configData.api.base + 
-      this.configService.configData.api.lobby.base +
-      this.configService.configData.api.lobby.connect,
+      environment.api.base + 
+      environment.api.lobby.base +
+      environment.api.lobby.connect,
       {
         params: params, 
         responseType: 'json'
@@ -52,9 +51,9 @@ export class LobbyApiService
     
     return this.httpClient.get
     (
-      this.configService.configData.api.base + 
-      this.configService.configData.api.lobby.base +
-      this.configService.configData.api.lobby.startGame,
+      environment.api.base + 
+      environment.api.lobby.base +
+      environment.api.lobby.startGame,
       {
         params: params, 
         responseType: "text"

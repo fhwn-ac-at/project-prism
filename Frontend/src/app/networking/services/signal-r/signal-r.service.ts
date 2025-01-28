@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { ConfigService } from '../../../services/config/config.service';
 import * as signalR from '@microsoft/signalr';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { AngularSignalRHttpClient } from './signal-r-http-client';
@@ -8,17 +7,14 @@ import { KEYCLOAK_EVENT_SIGNAL } from 'keycloak-angular';
 import { Closed } from './events/Closed';
 import { Reconnecting } from './events/Reconnecting';
 import { Connected } from './events/Connected';
+import { environment } from '../../../../environment/environment';
 
 @Injectable({
   providedIn: null
 })
 export class SignalRService 
 {
-  private configService: ConfigService = inject(ConfigService);
   private httpClient: AngularSignalRHttpClient = inject(AngularSignalRHttpClient);
-  private config: ConfigService = inject(ConfigService);
-
-  private keycloakSignal = inject(Keycloak);
 
   private signalRHub:signalR.HubConnection | undefined;
 
@@ -27,7 +23,6 @@ export class SignalRService
 
   public Initialize(lobbyId: string)
   {
-    const test = this.keycloakSignal;
     const options : signalR.IHttpConnectionOptions = {
       // httpClient: this.httpClient,
     }
@@ -35,7 +30,7 @@ export class SignalRService
     this.signalRHub = new signalR.HubConnectionBuilder()
     .withUrl
     (
-      this.configService.configData.api.base + this.configService.configData.api.websocket + '/' + lobbyId,
+      environment.api.base + environment.api.websocket + '/' + lobbyId,
       options
     )
     .configureLogging(signalR.LogLevel.Information)
@@ -46,7 +41,7 @@ export class SignalRService
     this.signalRHub.onreconnecting((error?: Error) =>this.OnConnectionStatusChanged(new Reconnecting(error)));
     this.signalRHub.onreconnected((id?: string) => this.OnConnectionStatusChanged(new Connected(id)));
     
-    this.signalRHub.on(this.configService.configData.api.websocketListen, this.OnDataReceived);
+    this.signalRHub.on(environment.api.websocketListen, this.OnDataReceived);
   }
 
   public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>
@@ -96,7 +91,7 @@ export class SignalRService
 
     this.LogOrNot(data, "Sending data over signal-r: " + dataAsString);
 
-    return this.signalRHub.send(this.configService.configData.api.websocketSend, dataAsString);
+    return this.signalRHub.send(environment.api.websocketSend, dataAsString);
   }
 
   private OnConnectionStatusChanged = (event: Closed | Reconnecting | Connected): void =>

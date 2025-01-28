@@ -7,6 +7,8 @@ import { SearchedWord } from '../../networking/dtos/game/game-flow/searchedWord'
 import { GameRoundService } from '../game-round/game-round.service';
 import { isNextRound } from '../../networking/dtos/game/game-flow/nextRound.guard';
 import { NextRound } from '../../networking/dtos/game/game-flow/nextRound';
+import { isGameEnded } from '../../networking/dtos/game/game-flow/gameEnded.guard';
+import { GameEnded } from '../../networking/dtos/game/game-flow/gameEnded';
 
 @Injectable({
   providedIn: null
@@ -27,8 +29,8 @@ export class CountdownService
       .subscribe(this.OnSearchedWordEvent);
     
     this.gameApiService.ObserveGameFlowEvent()
-    .pipe(filter(isNextRound))
-    .subscribe(this.OnNextRound);
+    .pipe(filter((val) => isNextRound(val) || isGameEnded(val)))
+    .subscribe(this.OnNextRoundOrGameEnded);
   }
 
   public ObserveTimerEvent(): Observable<CountdownEvent>
@@ -108,7 +110,7 @@ export class CountdownService
     this.StartTimer(this.roundService.RoundsObject.value.RoundDuration, 1000);
   }
 
-  private OnNextRound = (_: NextRound) => 
+  private OnNextRoundOrGameEnded = (_: NextRound | GameEnded) => 
   {
     this.StopTimer();
   }

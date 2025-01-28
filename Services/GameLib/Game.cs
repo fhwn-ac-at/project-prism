@@ -484,17 +484,17 @@
                 return;
             }
 
+            var drawerScore = this.CalculateDrawerScore();
+            this.drawingRoundScore.Add(this.drawerId, drawerScore);
+
             string searchedWord;
             lock (this.selectableWordsLock)
             {
                 searchedWord=this.selectedWord!.Word;
                 this.selectedWord=null;
-                this.hintedWord = null;
+                this.hintedWord=null;
                 this.hintIndices.Clear();
             }
-
-            var drawerScore = this.CalculateDrawerScore();
-            this.drawingRoundScore.Add(this.drawerId, drawerScore);
 
             lock (this.userLock)
             {
@@ -530,6 +530,7 @@
                     {
                         this.drawingRoundScore.Add(user.Key, 0);
                     }
+                    user.Value.Guessed=false;
                 }
             }
 

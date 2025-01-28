@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ChatMessagesService } from '../../services/chat-messages/chat-messages.service';
 import { ChatMessage } from '../../services/chat-messages/ChatMessage';
 import { Event } from '../../../lib/observable/ObservableArray/events/Event';
@@ -10,8 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import {MatListModule} from "@angular/material/list"
 import { NgStyle } from '@angular/common';
-
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -19,9 +18,11 @@ import { NgStyle } from '@angular/common';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent 
+export class ChatComponent implements OnDestroy 
 {
   private chatMessagesService: ChatMessagesService;
+
+  private sub1: Subscription;
   
   public constructor(chatMessages: ChatMessagesService)
   {
@@ -29,12 +30,17 @@ export class ChatComponent
 
     this.ChatMessages = this.chatMessagesService.ChatMessages;
 
-    this.chatMessagesService.ObserveChatMessages().subscribe({next: this.OnChatMessagesChanged});
+    this.sub1 = this.chatMessagesService.ObserveChatMessages().subscribe({next: this.OnChatMessagesChanged});
   }
 
   public ChatMessageInputModel: string = "";
 
   public ChatMessages: ChatMessage[];
+
+  ngOnDestroy(): void 
+  {
+    this.sub1.unsubscribe();
+  }
 
   public OnKeyPressed(_: globalThis.Event) 
   {   

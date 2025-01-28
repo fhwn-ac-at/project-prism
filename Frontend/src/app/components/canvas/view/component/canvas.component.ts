@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, InputSignal, OnInit, untracked, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, InputSignal, OnDestroy, OnInit, untracked, viewChild } from '@angular/core';
 import { StrokesContainer } from "../../../../services/canvas-state/StrokesContainer";
 import { StrokeManager } from '../StrokeManager';
 import { CanvasRenderer } from '../CanvasRenderer';
@@ -8,6 +8,7 @@ import { PlayerDataService } from '../../../../services/player-data/player-data.
 import { CanDrawService } from '../../../../services/can-draw/can-draw.service';
 import { StrokesService } from '../../../../services/canvas-state/strokes.service';
 import { CanvasOptionsService } from '../../../../services/canvas-options/canvas-options.service';
+import { Subscription } from 'rxjs';
 
 @Component
 ({
@@ -16,7 +17,7 @@ import { CanvasOptionsService } from '../../../../services/canvas-options/canvas
   templateUrl: './canvas.component.html',
   styleUrl: './canvas.component.css',
 })
-export class CanvasComponent implements OnInit
+export class CanvasComponent implements OnInit, OnDestroy
 {
   // view
   private ctx!: CanvasRenderingContext2D;
@@ -27,6 +28,9 @@ export class CanvasComponent implements OnInit
   private canDraw: CanDrawService = inject(CanDrawService);
   private canvasOptions: CanvasOptionsService = inject(CanvasOptionsService)
 
+  // sub
+  private sub1!: Subscription;
+  
   // input
   public CanvasWidth: InputSignal<number> = input.required();
   public CanvasHeight: InputSignal<number> = input.required();
@@ -35,18 +39,23 @@ export class CanvasComponent implements OnInit
   public Canvas = viewChild.required<ElementRef<HTMLCanvasElement>>("drawingCanvas");
 
   // cd
-  public ngOnInit() 
+  ngOnInit() 
   {
     this.ctx = this.Canvas().nativeElement.getContext("2d")!;
     
     this.strokeManager = new StrokeManager(this.strokesService, this.canvasOptions, this.canDraw, this.ctx);
 
-    this.strokesService.ObserveStrokesEvent().subscribe
+    this.sub1 = this.strokesService.ObserveStrokesEvent().subscribe
     (
       (_) => CanvasRenderer.DrawCanvas(this.ctx, this.strokesService.Strokes)
     );
   }
-  
+
+  ngOnDestroy(): void 
+  {
+    this.sub1.unsubscribe();
+  }
+ 
   // events
   public OnMouseDown(event: MouseEvent) 
   {

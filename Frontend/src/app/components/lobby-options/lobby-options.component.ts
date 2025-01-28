@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import { PlayerType } from '../../services/player-data/PlayerType';
 import { LobbyService } from '../../services/lobby/lobby.service';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { LobbyUserType } from '../../services/lobby-user-type/LobbyUserType';
 import { LobbyUserTypeService } from '../../services/lobby-user-type/lobby-user-type.service';
 import { ConfigService } from '../../services/config/config.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lobby-options',
@@ -20,10 +21,13 @@ import { ConfigService } from '../../services/config/config.service';
   templateUrl: './lobby-options.component.html',
   styleUrl: './lobby-options.component.css'
 })
-export class LobbyOptionsComponent 
+export class LobbyOptionsComponent implements OnDestroy
 {
   private snackbar: MatSnackBar;
   private config: ConfigService = inject(ConfigService);
+
+  private sub1: Subscription;
+  private sub2: Subscription
 
   public constructor
   (
@@ -44,10 +48,10 @@ export class LobbyOptionsComponent
       }
     );
 
-    this.LobbyOptionsService.ObserveRoundAmount().subscribe((val) => this.OptionsData
+    this.sub1 = this.LobbyOptionsService.ObserveRoundAmount().subscribe((val) => this.OptionsData
     .setValue({roundsAmount: val, roundDuration: this.OptionsData.value.roundDuration}));
 
-    this.LobbyOptionsService.ObserveRoundDuration().subscribe((val) => this.OptionsData
+    this.sub2 =this.LobbyOptionsService.ObserveRoundDuration().subscribe((val) => this.OptionsData
     .setValue({roundsAmount: this.OptionsData.value.roundsAmount, roundDuration: val}));
 
     this.LobbyOptionsService.SendRoundAmount(this.config.configData.lobbyDefaults.roundAmount);
@@ -60,15 +64,17 @@ export class LobbyOptionsComponent
 
   public LobbyUserType: typeof LobbyUserType = LobbyUserType;
 
+  ngOnDestroy(): void 
+  {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+  }
+
   public async OnStartGameButtonClicked(_: MouseEvent) 
   {
     this.LobbyOptionsService
     .StartGame()
-    .then
-    (
-      () => { this.snackbar.open("Game started","", {duration: 2000}); },
-      (err) => { this.snackbar.open("Failed to start game: " + err, "", {duration: 2000}); }
-    );
+    .catch(((err) => { this.snackbar.open("Failed to start game: are enough players present?", "", {duration: 2000}); }))
   }
 
   public async OnRoundsAmountChanged(_: any) 

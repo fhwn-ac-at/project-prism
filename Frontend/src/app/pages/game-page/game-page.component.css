@@ -4,11 +4,6 @@
     flex-direction: column;
 }
 
-.top-bar
-{
-    margin: 0.5%;
-}
-
 .player-canvas-chat
 {
     display: flex;

@@ -24,6 +24,8 @@
             "connect": "/connect",
             "startGame": "/startGame"
         },
-        "websocket": "/ws"
+        "websocket": "/ws",
+        "websocketListen": "Frontend",
+        "websocketSend": "Backend"
     }
 }

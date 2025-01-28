@@ -10,7 +10,7 @@ import { WordsToPickEvent } from '../../services/pick-word/events/WordsToPick';
 import { ShowScoresService } from '../../services/show-scores/show-scores.service';
 import { ShowScoresEvent } from '../../services/show-scores/events/ShowScoresEvent';
 import { ShowScoresComponent } from '../../components/show-scores/show-scores.component';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { CountdownService } from '../../services/countdown/countdown.service';
 import { PlayerDataService } from '../../services/player-data/player-data.service';
 import { PlayerTypeService } from '../../services/player-type/player-type.service';
@@ -34,18 +34,24 @@ export class GamePageComponent implements OnDestroy
   private showScoresService: ShowScoresService = inject(ShowScoresService);
   private router: Router = inject(Router);
 
+  // subs
+  private sub1: Subscription;
+  private sub2: Subscription;
+  
   public constructor()
   {
-    this.pickWordService.ObserveWordsToPickEvent()
+    this.sub1 = this.pickWordService.ObserveWordsToPickEvent()
       .subscribe(this.OnWordsToPick);
 
-    this.showScoresService.ObserveShowScoresEvent()
+    this.sub2 = this.showScoresService.ObserveShowScoresEvent()
       .subscribe(this.OnShowScoresMessage);   
   }
 
   ngOnDestroy(): void 
   {
-    
+    this.sub1.unsubscribe();
+
+    this.sub2.unsubscribe();
   }
 
 

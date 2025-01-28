@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CountdownService } from '../../../../services/countdown/countdown.service';
 import { MatCard } from '@angular/material/card';
 import { NgIf } from '@angular/common';
@@ -8,6 +8,7 @@ import { CountdownRunningState } from '../CountdownState/CountdownRunningState';
 import { CountdownEvent } from '../../../../services/countdown/CountdownEvent';
 import { CountdownFinishedState } from '../CountdownState/CountdownFinishedState';
 import { InstanceofPipe } from "../../../../pipes/instanceof.pipe";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-countdown',
@@ -15,15 +16,16 @@ import { InstanceofPipe } from "../../../../pipes/instanceof.pipe";
   templateUrl: './countdown.component.html',
   styleUrl: './countdown.component.css'
 })
-export class CountdownComponent 
+export class CountdownComponent implements OnDestroy
 {
   private countDownService: CountdownService;
+  private sub1: Subscription;
 
   public constructor(countdownService: CountdownService)
   {
     this.countDownService = countdownService;
 
-    this.countDownService.ObserveTimerEvent().
+    this.sub1 = this.countDownService.ObserveTimerEvent().
     subscribe
     (
       {
@@ -40,6 +42,11 @@ export class CountdownComponent
   public readonly CdNotStarted = CountdownNotStartedState;
   public readonly CdRunning = CountdownRunningState;
   public readonly CdFinished = CountdownFinishedState;
+
+  ngOnDestroy(): void 
+  {
+    this.sub1.unsubscribe();
+  }
 
   private OnCountdownStateUpdated(event: CountdownEvent)
   {

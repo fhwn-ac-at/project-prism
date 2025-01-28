@@ -18,9 +18,19 @@ import { isUndo } from '../../networking/dtos/game/drawing/undo.guard';
 import { CanvasOptionsService } from '../canvas-options/canvas-options.service';
 import { isLineTo } from '../../networking/dtos/game/drawing/lineTo.guard';
 import { StrokeVM } from './StrokeVM';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { StrokesEvent } from './events/StrokesEvent';
 import { isMoveTo } from '../../networking/dtos/game/drawing/moveTo.guard';
+import { isSearchedWord } from '../../networking/dtos/game/game-flow/searchedWord.guard';
+import { SelectWord } from '../../networking/dtos/game/game-flow/selectWord';
+import { isNextRound } from '../../networking/dtos/game/game-flow/nextRound.guard';
+import { isGameEnded } from '../../networking/dtos/game/game-flow/gameEnded.guard';
+import { NextRound } from '../../networking/dtos/game/game-flow/nextRound';
+import { GameEnded } from '../../networking/dtos/game/game-flow/gameEnded';
+import { SetDrawer } from '../../networking/dtos/game/game-flow/setDrawer';
+import { SetNotDrawer } from '../../networking/dtos/game/game-flow/setNotDrawer';
+import { isSetDrawer } from '../../networking/dtos/game/game-flow/setDrawer.guard';
+import { isSetNotDrawer } from '../../networking/dtos/game/game-flow/setNotDrawer.guard';
 
 @Injectable({
   providedIn: null,
@@ -37,7 +47,12 @@ export class StrokesService
 
   public constructor()
   {
-    this.gameApi.ObserveDrawingEvent().subscribe(this.OnDrawingEvent);
+    this.gameApi.ObserveDrawingEvent()
+      .subscribe(this.OnDrawingEvent);
+
+    this.gameApi.ObserveGameFlowEvent()
+      .pipe(filter((val) => isSetDrawer(val) || isSetNotDrawer(val)))
+      .subscribe(this.OnNextRoundOrGameEnded);
   }
 
   public ObserveStrokesEvent(): Observable<StrokesEvent>
@@ -117,6 +132,11 @@ export class StrokesService
     return this.gameApi.SendUndo();
   }
   
+  private OnNextRoundOrGameEnded = (_: SetDrawer | SetNotDrawer) =>
+  {
+    this.strokesContainer.ResetStrokes();
+  }
+
   private OnDrawingEvent = (value: BackgroundColor | Clear | ClosePath | DrawingSizeChanged | LineTo | MoveTo | Point | Undo) =>
   {
     if (isClear(value))

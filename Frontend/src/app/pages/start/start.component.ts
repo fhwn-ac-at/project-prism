@@ -45,7 +45,7 @@ export class StartComponent
   {
     if (this.LobbyIDToJoinModel.invalid)
     {
-      this.snackbar.open("Username and/or lobby id are not valid!","",{duration:2000});
+      this.snackbar.open("Lobby id is not valid!","",{duration:2000});
       return;
     }
 

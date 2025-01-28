@@ -16,6 +16,8 @@ export class SignalRService
 {
   private configService: ConfigService = inject(ConfigService);
   private httpClient: AngularSignalRHttpClient = inject(AngularSignalRHttpClient);
+  private config: ConfigService = inject(ConfigService);
+
   private keycloakSignal = inject(Keycloak);
 
   private signalRHub:signalR.HubConnection | undefined;
@@ -44,7 +46,7 @@ export class SignalRService
     this.signalRHub.onreconnecting((error?: Error) =>this.OnConnectionStatusChanged(new Reconnecting(error)));
     this.signalRHub.onreconnected((id?: string) => this.OnConnectionStatusChanged(new Connected(id)));
     
-    this.signalRHub.on("Frontend", this.OnDataReceived);
+    this.signalRHub.on(this.configService.configData.api.websocketListen, this.OnDataReceived);
   }
 
   public get ConnectionObservable(): Observable<Closed | Reconnecting | Connected>
@@ -94,7 +96,7 @@ export class SignalRService
 
     this.LogOrNot(data, "Sending data over signal-r: " + dataAsString);
 
-    return this.signalRHub.send("Backend", dataAsString);
+    return this.signalRHub.send(this.configService.configData.api.websocketSend, dataAsString);
   }
 
   private OnConnectionStatusChanged = (event: Closed | Reconnecting | Connected): void =>
@@ -114,7 +116,7 @@ export class SignalRService
 
   private LogOrNot(data: any, message: string)
   {
-    if(data.header?.type == "lineTo")
+    if (data.header?.type == "lineTo")
     {
       return;
     }

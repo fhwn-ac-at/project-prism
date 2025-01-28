@@ -13,8 +13,6 @@ import { Route, Router } from '@angular/router';
 })
 export class ShowScoresComponent 
 {
-  private router: Router = inject(Router);
-
   public constructor()
   {
     const data = inject(MAT_DIALOG_DATA);

@@ -10,6 +10,7 @@ import { HiddenWordService } from '../../services/hidden-word/hidden-word.servic
 import { ActivePlayersService } from '../../services/current-players/active-players.service';
 import { LobbyApiService } from '../../networking/services/lobby-api/lobby-api.service';
 import { GameApiService } from '../../networking/services/game-api/game-api.service';
+import { PlayerTypeService } from '../../services/player-type/player-type.service';
 
 @Component({
   selector: 'app-test',
@@ -27,6 +28,7 @@ export class TestComponent
   private activePlayersService: ActivePlayersService = inject(ActivePlayersService);
   private apiService: LobbyApiService = inject(LobbyApiService);
   private gameService: GameApiService = inject(GameApiService);
+  private playerType: PlayerTypeService = inject(PlayerTypeService);
 
   public OnGamePageClicked(_: MouseEvent) 
   {
@@ -35,7 +37,11 @@ export class TestComponent
       { Username: "TestUser", Score: 0, Id: "testId"}
     );
 
+    this.playerType.PlayerType.next(PlayerType.Drawer);
+
     this.roundsService.Initialize(3, 10000);
+
+    this.countdownService.StartTimer(35, 1000);
   }
 
   public OnLobbyPageClicked(_: MouseEvent) 

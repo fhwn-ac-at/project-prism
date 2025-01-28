@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, InputSignal, OnChanges, OnDestroy, OnInit, SimpleChanges, untracked, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, input, InputSignal, OnChanges, OnDestroy, OnInit, SimpleChanges, untracked, viewChild } from '@angular/core';
 import { StrokesContainer } from "../../../../services/canvas-state/StrokesContainer";
 import { StrokeManager } from '../StrokeManager';
 import { CanvasRenderer } from '../CanvasRenderer';
@@ -8,7 +8,7 @@ import { PlayerDataService } from '../../../../services/player-data/player-data.
 import { CanDrawService } from '../../../../services/can-draw/can-draw.service';
 import { StrokesService } from '../../../../services/canvas-state/strokes.service';
 import { CanvasOptionsService } from '../../../../services/canvas-options/canvas-options.service';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 
 @Component
 ({
@@ -38,7 +38,6 @@ export class CanvasComponent implements OnInit, OnChanges, OnDestroy
   // view
   public Canvas = viewChild.required<ElementRef<HTMLCanvasElement>>("drawingCanvas");
 
-  // cd
   ngOnInit() 
   {
     this.ctx = this.Canvas().nativeElement.getContext("2d")!;
@@ -48,14 +47,17 @@ export class CanvasComponent implements OnInit, OnChanges, OnDestroy
     this.sub1 = this.strokesService.ObserveStrokesEvent().subscribe
     (
       (_) => CanvasRenderer.DrawCanvas(this.ctx, this.strokesService.Strokes)
-    );
+    ); 
+
+    CanvasRenderer.DrawCanvas(this.ctx, this.strokesService.Strokes);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(_: SimpleChanges): void 
+  {
     this.Canvas().nativeElement.width = this.CanvasWidth();
     this.Canvas().nativeElement.height = this.CanvasHeight();
 
-    // TODO redraw
+    timer(1).subscribe((_) => CanvasRenderer.DrawCanvas(this.ctx, this.strokesService.Strokes));
   }
   
   ngOnDestroy(): void 

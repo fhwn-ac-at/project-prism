@@ -48,13 +48,13 @@ export class GamePageComponent implements OnDestroy
     this.sub1 = this.pickWordService.ObserveWordsToPickEvent()
       .subscribe(this.OnWordsToPick);
 
-    this.pickWordService.ObserveWordsToPickEvent().subscribe({next: this.OnWordsToPick})
-    this.resizeService.onResize$.subscribe((data) => {
+    this.resizeService.onResize$.subscribe((data) => 
+    {
       // 60vw - 4% padding and 4% margin of container with 60vw
       this.CalculatedCanvasWidth=data.width*0.60 - ((data.width*0.60) *0.08); 
       
       // 80vh
-      this.CalculatedCanvasHeight=data.height*0.80
+      this.CalculatedCanvasHeight=data.height*0.80;
     });
     
     this.sub2 = this.showScoresService.ObserveShowScoresEvent()
@@ -67,7 +67,6 @@ export class GamePageComponent implements OnDestroy
 
     this.sub2.unsubscribe();
   }
-
 
   private OnWordsToPick = (event: WordsToPickEvent) =>
   {

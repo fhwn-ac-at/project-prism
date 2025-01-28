@@ -57,7 +57,7 @@ export class StartComponent
     }
     catch (e: any)
     {
-      this.snackbar.open("Something went wrong" + e,"",{duration:2000});
+      this.snackbar.open("Could not join game", "",{duration:2000});
     }
   }
 
@@ -71,7 +71,7 @@ export class StartComponent
     }
     catch (e: any)
     {
-      this.snackbar.open("Something went wrong" + e,"",{duration:2000});
+      this.snackbar.open("Could not create lobby","",{duration:2000});
     }
   }
 }

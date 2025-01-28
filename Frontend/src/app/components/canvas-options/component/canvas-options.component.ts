@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { StrokesContainer } from "../../../services/canvas-state/StrokesContainer";
 import {ColorPickerModule} from "ngx-color-picker";
 import {MatSliderModule} from "@angular/material/slider";
@@ -10,6 +10,7 @@ import { PlayerTypeService } from '../../../services/player-type/player-type.ser
 import { PlayerType } from '../../../services/player-data/PlayerType';
 import { CanvasOptionsService } from '../../../services/canvas-options/canvas-options.service';
 import { StrokesService } from '../../../services/canvas-state/strokes.service';
+import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-canvas-options',
@@ -17,15 +18,21 @@ import { StrokesService } from '../../../services/canvas-state/strokes.service';
   templateUrl: './canvas-options.component.html',
   styleUrl: './canvas-options.component.css',
 })
-export class CanvasOptionsComponent
+export class CanvasOptionsComponent implements OnDestroy
 {
   private strokes: StrokesService = inject(StrokesService);
-  private canvasOptions: CanvasOptionsService = inject(CanvasOptionsService);
+  public canvasOptions: CanvasOptionsService = inject(CanvasOptionsService);
+
+  private sub1: Subscription;
+  private sub2: Subscription;
 
   public constructor()
   {
     this.Color = this.canvasOptions.StrokeColor.value;
     this.StrokeSize = this.canvasOptions.StrokeWidth.value;
+
+    this.sub1 = this.canvasOptions.StrokeColor.subscribe((val) => {this.Color = val});
+    this.sub2 = this.canvasOptions.StrokeWidth.subscribe((val) => this.StrokeSize = val);
   }
 
   public PlayerTypeService: PlayerTypeService = inject(PlayerTypeService);
@@ -34,6 +41,12 @@ export class CanvasOptionsComponent
 
   public Color: string;
   public StrokeSize: number;
+
+  ngOnDestroy(): void 
+  {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+  }
 
   public OnSizeValueChanged(_: number) 
   {

@@ -4,8 +4,8 @@
     flex-direction: row;
     align-items: stretch;
     justify-content: stretch;
-    margin: auto;
-    padding: 5%;
+    margin: auto auto;
+    width: 100%;
 }
 
 .ColorPicker-Container
@@ -16,11 +16,6 @@
     align-items: center;
     margin: auto;
     height: auto;
-}
-
-label
-{
-    margin-bottom: 5%;
 }
 
 .ColorPicker

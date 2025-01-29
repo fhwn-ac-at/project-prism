@@ -176,14 +176,14 @@
             this.drawing.Clear();
         }
 
-        public bool GuessWord(string text, string key)
+        public GuessWordResponse GuessWord(string text, string key)
         {
             UserGameState? user;
             lock (this.userLock)
             {
                 if (!this.users.TryGetValue(key, out user))
                 {
-                    return false;
+                    return new GuessWordResponse { Guessed=false, Users = [] };
                 }
             }
 
@@ -191,7 +191,8 @@
             {
                 if (user.Guessed)
                 {
-                    return false;
+
+                    return new GuessWordResponse { Guessed=false, Users=this.users.Where(u => u.Value.Guessed).Select(u => u.Key) };
                 }
             }
 
@@ -201,7 +202,7 @@
             {
                 if (this.selectedWord==null)
                 {
-                    return false;
+                    return new GuessWordResponse { Guessed=false, Users=this.users.Select(u => u.Key) };
                 }
 
                 currentSelectedWord=this.selectedWord.Word;
@@ -232,7 +233,7 @@
                 {
                     if (user.Guessed)
                     {
-                        return false;
+                        return new GuessWordResponse { Guessed=false, Users=this.users.Where(u => u.Value.Guessed).Select(u => u.Key) };
                     }
 
                     user.Guessed=true;
@@ -250,9 +251,11 @@
                     this.drawingCancellationToken.Cancel();
                     this.drawingCancellationToken=new();
                 }
+
+                return new GuessWordResponse { Guessed=true, Users=this.users.Where(u => u.Value.Guessed).Select(u => u.Key) };
             }
 
-            return guessed;
+            return new GuessWordResponse { Guessed=false, Users=this.users.Select(u => u.Key) };
         }
 
         public bool SelectWord(string word)

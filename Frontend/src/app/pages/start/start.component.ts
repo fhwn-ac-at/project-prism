@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators }
  from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { StartService } from '../../services/start/start.service';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
+import { GameApiService } from '../../networking/services/game-api/game-api.service';
 
 @Component({
   selector: 'app-start',
@@ -27,11 +28,12 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './start.component.html',
   styleUrl: './start.component.css'
 })
-export class StartComponent 
+export class StartComponent implements OnInit
 {
   private snackbar: MatSnackBar;
 
   private startService: StartService = inject(StartService);
+  private gameApiService: GameApiService = inject(GameApiService);
   private router: Router = inject(Router);
 
   public constructor(snackbar: MatSnackBar)
@@ -40,6 +42,10 @@ export class StartComponent
   }
 
   public LobbyIDToJoinModel: FormControl = new FormControl("", [Validators.required, Validators.minLength(6)]);
+
+  ngOnInit(): void {
+    this.gameApiService.Stop();   
+  }
 
   public async OnJoinGameButtonClicked(_: MouseEvent) 
   {

@@ -306,7 +306,7 @@
                 return;
             }
 
-            this.game.SelectWord(message.Word);
+            this.game?.SelectWord(message.Word);
 // this.DistributeMessage(key, new SelectWordMessage(message));
         }
 
@@ -365,9 +365,23 @@
 
         private void ReceivedChatMessageMessage(string key, ChatMessageMessageBody message)
         {
-            if (this.game != null && this.game.GuessWord(message.Text, key))
+            if (this.game != null)
             {
-                this.logger?.LogDebug("User: {} has correctly guessed the word", key);
+                var response = this.game.GuessWord(message.Text, key);
+                if (response.Guessed)
+                {
+                    this.logger?.LogDebug("User: {} has correctly guessed the word", key);
+                    return;
+                }
+
+                foreach (var user in response.Users)
+                {
+                    if (user!=key)
+                    {
+                        this.SendMessage(user, new ChatMessageMessage(message));
+                    }
+                }
+
                 return;
             }
 

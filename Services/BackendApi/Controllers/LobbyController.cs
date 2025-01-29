@@ -48,10 +48,11 @@
                 Name=this.User.ExtractDisplayName()
             };
 
-            if (this.clientStore.TryGetValue(identifier, out KnownClientInfo? clientInfo) &&clientInfo.lobbyId == lobbyId)
+            if (this.clientStore.TryGetValue(identifier, out KnownClientInfo? clientInfo))
             {
-                this.logger?.LogInformation("Already connected to lobby. lobby: {} user: {}", lobbyId, identifier);
-                return user;
+                this.logger?.LogInformation("Already connected. user: {}", identifier);
+                //return this.BadRequest("Already connected.");
+                throw new BadHttpRequestException("Already connected");
             }
 
             try
@@ -64,7 +65,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError("The user could not be connected. Error message: {}", ex.Message);
+                this.logger?.LogError("The user could not be connected. Error message: {}", ex.Message);
                 throw new BadHttpRequestException("Could not connect user");
             }
 
